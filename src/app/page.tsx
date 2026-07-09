@@ -31,6 +31,33 @@ const contactItems = [
   { label: "Instagram", value: "@shotokan_karate_yqr" },
 ];
 
+const qrCodes = [
+  {
+    label: "WhatsApp",
+    description: "Register or ask about classes",
+    src: "/images/Whatsapp.PNG",
+    alt: "WhatsApp registration QR code for Shotokan Karate Regina",
+  },
+  {
+    label: "PayPal",
+    description: "Scan for payment",
+    src: "/images/Paypal.JPG",
+    alt: "PayPal QR code for Shotokan Karate Regina",
+  },
+  {
+    label: "Instagram",
+    description: "Follow training updates",
+    src: "/images/Instagram.JPG",
+    alt: "Instagram QR code for Shotokan Karate Regina",
+  },
+  {
+    label: "Google Review",
+    description: "Leave a review",
+    src: "/images/googleReview.PNG",
+    alt: "Google review QR code for Shotokan Karate Regina",
+  },
+];
+
 export default function Home() {
   return (
     <>
@@ -228,6 +255,41 @@ export default function Home() {
                   </p>
                 </article>
               ))}
+            </div>
+
+            <div className="mx-auto mt-12 max-w-6xl">
+              <div className="mb-6 flex flex-col gap-2 text-center">
+                <p className="text-xs font-black uppercase tracking-[0.24em] text-red-300">
+                  Scan to connect
+                </p>
+                <h3 className="text-2xl font-black uppercase text-white">
+                  Registration, payment, social, and reviews
+                </h3>
+              </div>
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                {qrCodes.map((code) => (
+                  <article
+                    className="rounded-lg border border-white/10 bg-black/55 p-5 text-center shadow-2xl shadow-black/25"
+                    key={code.label}
+                  >
+                    <div className="mx-auto flex aspect-square max-w-48 items-center justify-center overflow-hidden rounded-md bg-white p-3">
+                      <Image
+                        src={code.src}
+                        alt={code.alt}
+                        width={220}
+                        height={220}
+                        className="h-full w-full object-contain"
+                      />
+                    </div>
+                    <h4 className="mt-5 text-lg font-black uppercase tracking-[0.12em] text-white">
+                      {code.label}
+                    </h4>
+                    <p className="mt-2 text-sm font-semibold leading-6 text-stone-400">
+                      {code.description}
+                    </p>
+                  </article>
+                ))}
+              </div>
             </div>
             {/* Add email, website, or extra social links here if they become available. */}
           </div>
