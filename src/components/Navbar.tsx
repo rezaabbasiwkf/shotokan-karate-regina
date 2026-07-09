@@ -12,16 +12,7 @@ export function Navbar() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/76 backdrop-blur-xl">
       <nav className="section-shell flex min-h-20 items-center justify-between gap-6">
-        <a className="flex items-center gap-3" href="#home" aria-label="Home">
-          <span className="relative flex h-12 w-12 overflow-hidden rounded-full border border-red-400/40 bg-white">
-            <Image
-              src="/images/logo.PNG"
-              alt="Shotokan Karate Regina logo"
-              fill
-              className="object-cover"
-              sizes="48px"
-            />
-          </span>
+        <a className="flex items-center" href="#home" aria-label="Home">
           <span className="leading-tight">
             <span className="block text-sm font-black uppercase tracking-[0.2em] text-white">
               Shotokan

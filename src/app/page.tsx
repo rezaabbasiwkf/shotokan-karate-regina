@@ -69,7 +69,7 @@ export default function Home() {
             alt="Students training at Shotokan Karate Regina"
             fill
             priority
-            className="object-cover"
+            className="object-cover scale-105"
             sizes="100vw"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black via-black/82 to-black/35" />
