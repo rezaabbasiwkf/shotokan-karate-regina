@@ -50,13 +50,13 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/images/logo.PNG",
+        url: "/favicon-round.png",
         type: "image/png",
       },
     ],
     apple: [
       {
-        url: "/images/logo.PNG",
+        url: "/favicon-round.png",
         type: "image/png",
       },
     ],
