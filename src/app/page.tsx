@@ -211,23 +211,14 @@ export default function Home() {
                 traditional Shotokan karate.
               </SectionHeading>
             </div>
-            <div className="grid gap-5 sm:grid-cols-2">
-              <div className="relative min-h-72 overflow-hidden rounded-lg border border-white/10">
+            <div className="grid gap-5 sm:grid-cols-1">
+              <div className="relative min-h-[28rem] overflow-hidden rounded-lg border border-white/10">
                 <Image
                   src="/images/class.jpg"
                   alt="Shotokan Karate Regina group training session"
                   fill
                   className="object-cover"
-                  sizes="(min-width: 1024px) 25vw, 50vw"
-                />
-              </div>
-              <div className="flex min-h-72 items-center justify-center rounded-lg border border-red-500/20 bg-white p-8">
-                <Image
-                  src="/images/logo.PNG"
-                  alt="Shotokan Karate Regina club logo"
-                  width={220}
-                  height={478}
-                  className="h-full max-h-64 w-auto object-contain"
+                  sizes="(min-width: 1024px) 45vw, 100vw"
                 />
               </div>
             </div>
