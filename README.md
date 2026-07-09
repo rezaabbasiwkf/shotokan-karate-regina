@@ -46,3 +46,11 @@ Replace `FRIEND_USERNAME` and `REPO_NAME` with the GitHub account and repository
 5. Deploy.
 
 The project is built with the Next.js App Router, TypeScript, Tailwind CSS, and static-friendly content suitable for GitHub and Vercel deployment.
+
+## SEO and Google Indexing
+
+- Confirm the production domain used in the app metadata and Vercel deployment.
+- Deploy the site to Vercel and verify the live URLs for /, /sitemap.xml, and /robots.txt.
+- Add the site to Google Search Console and verify ownership with the recommended DNS TXT record if required.
+- Submit the sitemap and request indexing for the homepage.
+- If this is a real local class or business, create or update the Google Business Profile as appropriate.

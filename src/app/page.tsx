@@ -84,9 +84,7 @@ export default function Home() {
                 Shotokan Karate Regina
               </h1>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-stone-200 sm:text-xl">
-                Professional karate and self-defense classes designed to build
-                technical skill, physical fitness, confidence, focus,
-                discipline, and respect.
+                Traditional Shotokan Karate classes in Regina for students who want to build discipline, confidence, focus, fitness, and practical self-defense under the guidance of Coach Reza Abbasi.
               </p>
               <div className="mt-9 flex flex-col gap-4 sm:flex-row">
                 <ButtonLink href="#contact">Join a Class</ButtonLink>
@@ -104,8 +102,7 @@ export default function Home() {
               eyebrow="Traditional training"
               title="A disciplined, welcoming place to grow"
             >
-              Shotokan Karate Regina offers structured training for students of
-              all levels in a positive, safe, and motivating environment.
+              Shotokan Karate Regina offers structured traditional training for beginners and experienced practitioners in a positive, safe, and motivating environment.
             </SectionHeading>
 
             <div className="grid gap-5 md:grid-cols-3">
@@ -135,9 +132,7 @@ export default function Home() {
               eyebrow="Classes"
               title="Training for kids, teens, and adults"
             >
-              From first-time beginners to advanced practitioners, the program
-              supports students as they build strong fundamentals and personal
-              discipline.
+              From first-time beginners to advanced practitioners, the program supports students as they build strong fundamentals, technical skill, and personal discipline through Shotokan Karate.
             </SectionHeading>
 
             <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-5">
@@ -160,7 +155,7 @@ export default function Home() {
             <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-white/10 bg-stone-900 shadow-2xl shadow-black/40">
               <Image
                 src="/images/coach.JPG"
-                alt="Coach Reza Abbasi"
+                alt="Coach Reza Abbasi, Shotokan Karate instructor"
                 fill
                 className="object-cover"
                 sizes="(min-width: 1024px) 45vw, 100vw"
@@ -175,15 +170,10 @@ export default function Home() {
                 Coach Reza Abbasi
               </h2>
               <p className="mt-5 text-lg leading-8 text-stone-300">
-                Coach Abbasi is a 5th Dan Shotokan Karate instructor, official
-                Karate Federation referee, and certified Level 1 Karate coach
-                with more than 15 years of experience teaching and developing
-                martial artists.
+                Coach Reza Abbasi is a 5th Dan Shotokan Karate instructor, official Karate Federation referee, and certified Level 1 Karate coach with more than 15 years of experience teaching martial artists in Regina.
               </p>
               <p className="mt-4 text-lg leading-8 text-stone-300">
-                His mission is to teach karate as more than a sport: a way to
-                build confidence, discipline, respect, focus, and strong
-                character.
+                His teaching focuses on traditional Shotokan values, practical self-defense, and the personal growth that comes from steady training in discipline, confidence, respect, focus, and fitness.
               </p>
               <div className="mt-8 grid gap-3 sm:grid-cols-2">
                 {coachHighlights.map((highlight) => (
@@ -206,16 +196,14 @@ export default function Home() {
                 eyebrow="Training environment"
                 title="Focused practice, strong community"
               >
-                Students train in a setting built around technical progress,
-                motivation, practical self-defense, and the values of
-                traditional Shotokan karate.
+                Students train in a setting built around technical progress, motivation, practical self-defense, and the values of traditional Shotokan Karate.
               </SectionHeading>
             </div>
             <div className="grid gap-5 sm:grid-cols-1">
               <div className="relative min-h-[28rem] overflow-hidden rounded-lg border border-white/10">
                 <Image
                   src="/images/class.jpg"
-                  alt="Shotokan Karate Regina group training session"
+                  alt="Shotokan Karate students practicing in a traditional training session"
                   fill
                   className="object-cover"
                   sizes="(min-width: 1024px) 45vw, 100vw"
@@ -228,8 +216,7 @@ export default function Home() {
         <section id="contact" className="bg-stone-950 py-24">
           <div className="section-shell">
             <SectionHeading eyebrow="Register" title="Join a class in Regina">
-              Register through WhatsApp or contact the team for class details.
-              New students can start with a free first week.
+              Contact the Shotokan Karate Regina team to learn about classes, registration, and training opportunities in Regina.
             </SectionHeading>
 
             <div className="mx-auto grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
