@@ -27,7 +27,7 @@ const contactItems = [
   { label: "Family Discount", value: "$50 / person / month" },
   { label: "Trial Class", value: "First week free" },
   { label: "Coach Reza Abbasi", value: "306-570-3125" },
-  { label: "Maha Ebrahim", value: "Registration & Coordination, 306-519-5711" },
+  { label: "Moha Ebrahimi", value: "Registration & Coordination, 306-519-5711" },
   { label: "Instagram", value: "@shotokan_karate_yqr" },
 ];
 
