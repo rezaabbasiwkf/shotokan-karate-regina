@@ -3,7 +3,6 @@ import { ButtonLink } from "@/components/ButtonLink";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { SectionHeading } from "@/components/SectionHeading";
-import { StudentRegistrationForm } from "@/components/StudentRegistrationForm";
 
 const classFeatures = [
   "Beginner to advanced Shotokan training",
@@ -217,35 +216,27 @@ export default function Home() {
         <section id="contact" className="bg-stone-950 py-24">
           <div className="section-shell">
             <SectionHeading eyebrow="Register" title="Join a class in Regina">
-              Use this secure digital registration form to enroll in Shotokan Karate Regina and share the details needed for your first class.
+              Contact the Shotokan Karate Regina team to learn about classes, registration, and training opportunities in Regina.
             </SectionHeading>
 
-            <div className="mx-auto mt-10 grid max-w-6xl gap-6 lg:grid-cols-[0.95fr_1.05fr]">
-              <div className="rounded-3xl border border-white/10 bg-black/55 p-6 shadow-2xl shadow-black/25 sm:p-8">
-                <p className="text-xs font-black uppercase tracking-[0.28em] text-red-300">
-                  Registration details
-                </p>
-                <h3 className="mt-3 text-2xl font-black uppercase text-white">
-                  Start your karate journey
-                </h3>
-                <p className="mt-4 text-sm leading-7 text-stone-300 sm:text-base">
-                  The form includes personal information, background details, health and safety disclosures, expectations, consent statements, and signature fields so your registration is complete and ready for review.
-                </p>
-                <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                  {contactItems.map((item) => (
-                    <article className="rounded-2xl border border-white/10 bg-white/[0.035] p-4" key={item.label}>
-                      <p className="text-xs font-black uppercase tracking-[0.18em] text-red-300">
-                        {item.label}
-                      </p>
-                      <p className="mt-2 text-sm font-semibold leading-7 text-white">
-                        {item.value}
-                      </p>
-                    </article>
-                  ))}
-                </div>
-              </div>
+            <div className="mx-auto mt-8 grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {contactItems.map((item) => (
+                <article
+                  className="rounded-lg border border-white/10 bg-black/55 p-5"
+                  key={item.label}
+                >
+                  <p className="text-xs font-black uppercase tracking-[0.18em] text-red-300">
+                    {item.label}
+                  </p>
+                  <p className="mt-3 text-base font-semibold leading-7 text-white">
+                    {item.value}
+                  </p>
+                </article>
+              ))}
+            </div>
 
-              <StudentRegistrationForm />
+            <div className="mt-10 flex justify-center">
+              <ButtonLink href="/register">Join now</ButtonLink>
             </div>
           </div>
         </section>

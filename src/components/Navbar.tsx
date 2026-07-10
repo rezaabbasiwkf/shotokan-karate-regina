@@ -46,7 +46,7 @@ export function Navbar() {
 
         <a
           className="hidden rounded-md bg-red-600 px-5 py-3 text-xs font-black uppercase tracking-[0.18em] text-white transition hover:bg-red-500 sm:inline-flex"
-          href="#contact"
+          href="/register"
         >
           Join
         </a>
