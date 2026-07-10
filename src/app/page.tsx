@@ -80,8 +80,10 @@ export default function Home() {
               <p className="mb-5 inline-flex rounded-md border border-red-400/40 bg-red-950/45 px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-red-100">
                 Approved by Karate Canada
               </p>
-              <h1 className="text-balance text-5xl font-black uppercase leading-[0.95] text-white drop-shadow-2xl sm:text-6xl lg:text-7xl">
-                Shotokan Karate Regina
+              <h1 className="karate-display text-5xl font-black uppercase leading-[0.9] text-white sm:text-6xl lg:text-7xl">
+                <span className="block">Shotokan</span>
+                <span className="block">Karate</span>
+                <span className="block">Regina</span>
               </h1>
               <p className="mt-6 max-w-xl text-lg leading-8 text-stone-100 drop-shadow-xl sm:text-xl">
                 Traditional Shotokan Karate classes in Regina for students who want to build discipline, confidence, focus, fitness, and practical self-defense under the guidance of Coach Reza Abbasi.

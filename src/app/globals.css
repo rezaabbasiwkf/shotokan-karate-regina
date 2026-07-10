@@ -47,3 +47,11 @@ a {
 .text-balance {
   text-wrap: balance;
 }
+
+.karate-display {
+  font-family: Impact, "Arial Black", "Roboto Condensed", "Arial Narrow", Arial, Helvetica, sans-serif;
+  letter-spacing: 0.04em;
+  text-shadow:
+    0 2px 0 rgba(215, 25, 32, 0.55),
+    0 8px 24px rgba(0, 0, 0, 0.86);
+}
