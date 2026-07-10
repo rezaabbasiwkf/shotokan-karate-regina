@@ -47,11 +47,3 @@ a {
 .text-balance {
   text-wrap: balance;
 }
-
-.karate-display {
-  font-family: "Cormorant Garamond", "Merriweather", "Georgia", serif;
-  letter-spacing: 0.02em;
-  text-shadow:
-    0 2px 0 rgba(0, 0, 0, 0.35),
-    0 12px 30px rgba(0, 0, 0, 0.55);
-}
