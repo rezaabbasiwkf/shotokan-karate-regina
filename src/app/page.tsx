@@ -75,18 +75,18 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/15" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/15" />
 
-          <div className="section-shell relative z-10 flex min-h-[calc(92vh-5rem)] items-start pb-20 pt-14 sm:pt-20 lg:pt-24">
-            <div className="max-w-4xl">
+          <div className="section-shell relative z-10 flex min-h-[calc(92vh-5rem)] items-start justify-center pb-20 pt-28 text-center sm:pt-32 lg:pt-36">
+            <div className="mx-auto max-w-5xl">
               <p className="mb-5 inline-flex rounded-md border border-red-400/40 bg-red-950/45 px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-red-100">
                 Approved by Karate Canada
               </p>
               <h1 className="karate-display whitespace-nowrap text-[2.35rem] font-black uppercase leading-[0.95] text-white max-[380px]:whitespace-normal max-[380px]:text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
                 Shotokan Karate Regina
               </h1>
-              <p className="mt-6 max-w-xl text-lg leading-8 text-stone-100 drop-shadow-xl sm:text-xl">
+              <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-stone-100 drop-shadow-xl sm:text-xl">
                 Traditional Shotokan Karate classes in Regina for students who want to build discipline, confidence, focus, fitness, and practical self-defense under the guidance of Coach Reza Abbasi.
               </p>
-              <div className="mt-9 flex flex-col gap-4 sm:flex-row">
+              <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <ButtonLink href="#contact">Join a Class</ButtonLink>
                 <ButtonLink href="#coach" variant="secondary">
                   Meet the Coach
