@@ -5,7 +5,7 @@ const siteUrl = "https://shotokan-karate-regina.vercel.app";
 const siteName = "Shotokan Karate Regina";
 const pageTitle = "Shotokan Karate Regina | Coach Reza Abbasi";
 const pageDescription =
-  "Traditional Shotokan Karate classes in Regina taught by Coach Reza Abbasi, with a focus on discipline, confidence, respect, fitness, and practical self-defense.";
+  "Professional Shotokan Karate classes in Regina taught by Coach Reza Abbasi, with a focus on discipline, confidence, respect, fitness, and practical self-defense.";
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   keywords: [
     "Shotokan Karate Regina",
     "Shotokan Karate classes",
-    "Traditional karate training",
+    "Professional karate training",
     "Coach Reza Abbasi",
     "Karate coach Regina",
     "Karate training Regina",
