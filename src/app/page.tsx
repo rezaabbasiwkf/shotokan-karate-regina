@@ -72,15 +72,15 @@ export default function Home() {
             className="object-cover scale-105"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/82 to-black/35" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/15" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/15" />
 
           <div className="section-shell relative z-10 flex min-h-[calc(92vh-5rem)] items-center py-20">
             <div className="max-w-3xl">
               <p className="mb-5 inline-flex rounded-md border border-red-400/40 bg-red-950/45 px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-red-100">
                 Approved by Karate Canada
               </p>
-              <h1 className="text-balance text-5xl font-black uppercase leading-[0.95] text-white sm:text-7xl lg:text-8xl">
+              <h1 className="text-balance text-5xl font-black uppercase leading-[0.95] text-white sm:text-6xl lg:text-7xl">
                 Shotokan Karate Regina
               </h1>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-stone-200 sm:text-xl">
