@@ -5,7 +5,7 @@ const links = [
   { href: "#about", label: "About" },
   { href: "#classes", label: "Classes" },
   { href: "#coach", label: "Coach" },
-  { href: "#contact", label: "Contact" },
+  { href: "#contact", label: "Register" },
 ];
 
 export function Navbar() {
