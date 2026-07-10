@@ -75,15 +75,15 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/15" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/15" />
 
-          <div className="section-shell relative z-10 flex min-h-[calc(92vh-5rem)] items-center py-20">
-            <div className="max-w-3xl">
+          <div className="section-shell relative z-10 flex min-h-[calc(92vh-5rem)] items-start pb-20 pt-14 sm:pt-20 lg:pt-24">
+            <div className="max-w-2xl">
               <p className="mb-5 inline-flex rounded-md border border-red-400/40 bg-red-950/45 px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-red-100">
                 Approved by Karate Canada
               </p>
-              <h1 className="text-balance text-5xl font-black uppercase leading-[0.95] text-white sm:text-6xl lg:text-7xl">
+              <h1 className="text-balance text-5xl font-black uppercase leading-[0.95] text-white drop-shadow-2xl sm:text-6xl lg:text-7xl">
                 Shotokan Karate Regina
               </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-stone-200 sm:text-xl">
+              <p className="mt-6 max-w-xl text-lg leading-8 text-stone-100 drop-shadow-xl sm:text-xl">
                 Traditional Shotokan Karate classes in Regina for students who want to build discipline, confidence, focus, fitness, and practical self-defense under the guidance of Coach Reza Abbasi.
               </p>
               <div className="mt-9 flex flex-col gap-4 sm:flex-row">
