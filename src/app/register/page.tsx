@@ -1,8 +1,18 @@
 import Image from "next/image";
+import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { SectionHeading } from "@/components/SectionHeading";
 import { StudentRegistrationForm } from "@/components/StudentRegistrationForm";
+
+export const metadata: Metadata = {
+  title: "Register",
+  description:
+    "Register for Shotokan Karate Regina classes, access payment and contact QR codes, and submit your student enrollment form.",
+  alternates: {
+    canonical: "/register",
+  },
+};
 
 const contactItems = [
   { label: "Class Time", value: "Every Wednesday, 4:00 PM - 5:00 PM" },

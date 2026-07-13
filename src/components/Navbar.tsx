@@ -1,18 +1,19 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const links = [
-  { href: "#home", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#classes", label: "Classes" },
-  { href: "#coach", label: "Coach" },
-  { href: "#contact", label: "Register" },
+  { href: "/", label: "Home" },
+  { href: "/#about", label: "About" },
+  { href: "/#classes", label: "Classes" },
+  { href: "/#coach", label: "Coach" },
+  { href: "/register", label: "Register" },
 ];
 
 export function Navbar() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/76 backdrop-blur-xl">
       <nav className="section-shell flex min-h-20 items-center justify-between gap-6">
-        <a className="flex items-center gap-3" href="#home" aria-label="Home">
+        <Link className="flex items-center gap-3" href="/" aria-label="Home">
           <span className="relative flex h-12 w-12 overflow-hidden rounded-full border border-red-400/40 bg-white">
             <Image
               src="/images/logo.PNG"
@@ -30,26 +31,26 @@ export function Navbar() {
               Karate Regina
             </span>
           </span>
-        </a>
+        </Link>
 
         <div className="hidden items-center gap-7 md:flex">
           {links.map((link) => (
-            <a
+            <Link
               className="text-xs font-bold uppercase tracking-[0.18em] text-stone-300 transition hover:text-red-300"
               href={link.href}
               key={link.href}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </div>
 
-        <a
-          className="hidden rounded-md bg-red-600 px-5 py-3 text-xs font-black uppercase tracking-[0.18em] text-white transition hover:bg-red-500 sm:inline-flex"
+        <Link
+          className="inline-flex rounded-md bg-red-600 px-3 py-3 text-xs font-black uppercase tracking-[0.14em] text-white transition hover:bg-red-500 sm:px-5 sm:tracking-[0.18em]"
           href="/register"
         >
           Join
-        </a>
+        </Link>
       </nav>
     </header>
   );

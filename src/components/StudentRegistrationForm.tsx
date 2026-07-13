@@ -59,13 +59,12 @@ export function StudentRegistrationForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [message, setMessage] = useState<MessageState>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [recaptchaReady, setRecaptchaReady] = useState(false);
   const recaptchaRef = useRef<HTMLDivElement | null>(null);
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "";
+  const [recaptchaReady, setRecaptchaReady] = useState(() => !siteKey);
 
   useEffect(() => {
     if (!siteKey) {
-      setRecaptchaReady(true);
       return;
     }
 

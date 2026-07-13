@@ -13,25 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: `${siteUrl}/about`,
-      lastModified: baseDate,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${siteUrl}/classes`,
-      lastModified: baseDate,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${siteUrl}/coach`,
-      lastModified: baseDate,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${siteUrl}/contact`,
+      url: `${siteUrl}/register`,
       lastModified: baseDate,
       changeFrequency: "monthly",
       priority: 0.8,

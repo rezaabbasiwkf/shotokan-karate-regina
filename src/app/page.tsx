@@ -31,33 +31,6 @@ const contactItems = [
   { label: "Instagram", value: "@shotokan_karate_yqr" },
 ];
 
-const qrCodes = [
-  {
-    label: "WhatsApp",
-    description: "Register or ask about classes",
-    src: "/images/Whatsapp.PNG",
-    alt: "WhatsApp registration QR code for Shotokan Karate Regina",
-  },
-  {
-    label: "PayPal",
-    description: "Scan for payment",
-    src: "/images/Paypal.JPG",
-    alt: "PayPal QR code for Shotokan Karate Regina",
-  },
-  {
-    label: "Instagram",
-    description: "Follow training updates",
-    src: "/images/Instagram.JPG",
-    alt: "Instagram QR code for Shotokan Karate Regina",
-  },
-  {
-    label: "Google Review",
-    description: "Leave a review",
-    src: "/images/googleReview.PNG",
-    alt: "Google review QR code for Shotokan Karate Regina",
-  },
-];
-
 export default function Home() {
   return (
     <>
@@ -87,7 +60,7 @@ export default function Home() {
                 Professional Shotokan Karate classes in Regina for students who want to build discipline, confidence, focus, fitness, and practical self-defense under the guidance of Coach Reza Abbasi.
               </p>
               <div className="mt-9 flex flex-col gap-4 sm:flex-row">
-                <ButtonLink href="#contact">Join a Class</ButtonLink>
+                <ButtonLink href="/register">Join a Class</ButtonLink>
                 <ButtonLink href="#coach" variant="secondary">
                   Meet the Coach
                 </ButtonLink>
