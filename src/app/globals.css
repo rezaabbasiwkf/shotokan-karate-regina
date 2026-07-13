@@ -47,3 +47,8 @@ a {
 .text-balance {
   text-wrap: balance;
 }
+
+.hero-title {
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+  letter-spacing: 0.015em;
+}

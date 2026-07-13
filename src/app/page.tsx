@@ -57,30 +57,33 @@ export default function Home() {
     <>
       <Navbar />
       <main id="home">
-        <section className="relative min-h-[92vh] overflow-hidden pt-20">
+        <section className="relative min-h-[52rem] overflow-hidden pt-20 sm:min-h-[48rem] lg:min-h-[52rem]">
           <Image
-            src="/images/class.jpg"
-            alt="Students training at Shotokan Karate Regina"
+            src="/images/hero-group.jpg"
+            alt="Shotokan Karate Regina students and instructors"
             fill
             priority
-            className="object-cover scale-105"
+            className="object-cover object-center"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/15" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/15" />
+          <div className="absolute inset-x-0 top-20 h-48 bg-gradient-to-b from-black/60 via-black/20 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
 
-          <div className="section-shell relative z-10 flex min-h-[calc(92vh-5rem)] items-center py-20">
-            <div className="max-w-3xl">
-              <p className="mb-5 inline-flex rounded-md border border-red-400/40 bg-red-950/45 px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-red-100">
+          <div className="section-shell relative z-10 min-h-[calc(52rem-5rem)] sm:min-h-[calc(48rem-5rem)] lg:min-h-[calc(52rem-5rem)]">
+            <div className="absolute inset-x-5 top-9 text-center sm:top-12">
+              <p className="mb-4 inline-flex rounded-md border border-red-400/40 bg-red-950/50 px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-red-100 backdrop-blur-sm">
                 Approved by Karate Canada
               </p>
-              <h1 className="text-balance text-5xl font-black uppercase leading-[0.95] text-white sm:text-6xl lg:text-7xl">
-                Shotokan Karate Regina
+              <h1 className="hero-title mx-auto whitespace-nowrap text-[clamp(1.35rem,4.7vw,5.25rem)] font-bold leading-none text-white drop-shadow-[0_3px_12px_rgba(0,0,0,0.9)]">
+                SHOTOKAN Karate Regina
               </h1>
+            </div>
+
+            <div className="absolute inset-x-5 bottom-6 mx-auto max-w-3xl rounded-2xl border border-white/10 bg-black/35 p-5 text-center shadow-2xl shadow-black/30 backdrop-blur-[2px] sm:bottom-10 sm:p-7">
               <p className="mt-6 max-w-2xl text-lg leading-8 text-stone-200 sm:text-xl">
                 Professional Shotokan Karate classes in Regina for students who want to build discipline, confidence, focus, fitness, and practical self-defense under the guidance of Coach Reza Abbasi.
               </p>
-              <div className="mt-9 flex flex-col gap-4 sm:flex-row">
+              <div className="mt-6 flex flex-col justify-center gap-4 sm:flex-row">
                 <ButtonLink href="/register">Join a Class</ButtonLink>
                 <ButtonLink href="#coach" variant="secondary">
                   Meet the Coach
