@@ -59,7 +59,7 @@ export default function Home() {
       <main id="home">
         <section className="relative min-h-[52rem] overflow-hidden pt-20 sm:min-h-[48rem] lg:min-h-[52rem]">
           <Image
-            src="/images/hero-group.jpg"
+            src="/images/hero-group-straight.jpg"
             alt="Shotokan Karate Regina students and instructors"
             fill
             priority
