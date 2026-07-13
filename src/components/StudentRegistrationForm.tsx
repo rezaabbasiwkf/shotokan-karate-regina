@@ -55,6 +55,18 @@ type MessageState = {
   message: string;
 } | null;
 
+const normalizeAge = (value: string) => value
+  .trim()
+  .replace(/[۰-۹]/g, (digit) => String("۰۱۲۳۴۵۶۷۸۹".indexOf(digit)))
+  .replace(/[٠-٩]/g, (digit) => String("٠١٢٣٤٥٦٧٨٩".indexOf(digit)));
+
+const getAgeError = (value: string) => {
+  const normalized = normalizeAge(value);
+  if (!normalized || !/^\d+$/.test(normalized)) return "Please enter a valid age.";
+  const age = Number(normalized);
+  return age < 4 || age > 100 ? "Age must be between 4 and 100." : "";
+};
+
 export function StudentRegistrationForm() {
   const router = useRouter();
   const [formState, setFormState] = useState<FormState>(initialFormState);
@@ -112,13 +124,17 @@ export function StudentRegistrationForm() {
   ) => {
     const { name, value, type } = event.target;
     const checked = type === "checkbox" ? (event.target as HTMLInputElement).checked : undefined;
+    const nextValue = name === "age" ? normalizeAge(value) : value;
 
     setFormState((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === "checkbox" ? checked : nextValue,
     }));
 
-    if (errors[name]) {
+    if (name === "age") {
+      const ageError = getAgeError(nextValue);
+      setErrors((prev) => ({ ...prev, age: ageError }));
+    } else if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
@@ -156,10 +172,9 @@ export function StudentRegistrationForm() {
       }
     });
 
-    const numericAge = Number(formState.age);
-    if (Number.isNaN(numericAge) || numericAge < 1) {
-      nextErrors.age = "Please enter a valid age.";
-    }
+    const numericAge = Number(normalizeAge(formState.age));
+    const ageError = getAgeError(formState.age);
+    if (ageError) nextErrors.age = ageError;
 
     if (formState.age && numericAge < 18 && !formState.parentGuardianName.trim()) {
       nextErrors.parentGuardianName = "Parent or guardian name is required for applicants under 18.";
@@ -215,6 +230,23 @@ export function StudentRegistrationForm() {
     return Object.keys(nextErrors).length === 0;
   };
 
+  const isFormReady = [
+    formState.fullName, formState.dateOfBirth, formState.gender, formState.phoneNumber,
+    formState.emailAddress, formState.homeAddress, formState.emergencyContactName,
+    formState.emergencyContactPhone, formState.similarProgramsBefore, formState.motivation,
+    formState.heardAbout, formState.healthDetails, formState.medicationDetails, formState.goals,
+    formState.nextGoals, formState.attendRegularly, formState.participantName,
+    formState.participantSignature, formState.date,
+  ].every((value) => value.trim())
+    && !getAgeError(formState.age)
+    && (Number(normalizeAge(formState.age)) >= 18 || Boolean(formState.parentGuardianName.trim()))
+    && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.emailAddress)
+    && /^\+?[0-9\s().-]{7,15}$/.test(formState.phoneNumber)
+    && /^\+?[0-9\s().-]{7,15}$/.test(formState.emergencyContactPhone)
+    && formState.informationAccurate && formState.understandsRisks && formState.followsRules
+    && formState.authorizeEmergencyTreatment && formState.photoPermission && formState.feesNonRefundable
+    && formState.liabilityWaiver && (siteKey ? Boolean(formState.recaptchaToken) : formState.humanCheck);
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setMessage(null);
@@ -234,7 +266,7 @@ export function StudentRegistrationForm() {
         },
         body: JSON.stringify({
           ...formState,
-          age: Number(formState.age),
+          age: Number(normalizeAge(formState.age)),
         }),
       });
 
@@ -316,13 +348,13 @@ export function StudentRegistrationForm() {
             <label className="space-y-2 text-sm font-semibold text-stone-200">
               <span>Age</span>
               <input
-                type="number"
+                type="text"
                 name="age"
-                min="1"
-                max="120"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 value={formState.age}
                 onChange={handleChange}
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition focus:border-red-400"
+                className="w-full rounded-xl border border-white/10 bg-stone-900 px-4 py-3 text-sm text-white outline-none transition focus:border-red-400"
                 placeholder="Enter age"
               />
               {errors.age ? <p className="text-sm text-red-300">{errors.age}</p> : null}
@@ -333,13 +365,13 @@ export function StudentRegistrationForm() {
                 name="gender"
                 value={formState.gender}
                 onChange={handleChange}
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition focus:border-red-400"
+                className="w-full rounded-xl border border-white/10 bg-stone-900 px-4 py-3 text-sm text-white outline-none transition focus:border-red-400"
               >
-                <option value="">Select gender</option>
-                <option value="Female">Female</option>
-                <option value="Male">Male</option>
-                <option value="Non-binary">Non-binary</option>
-                <option value="Prefer not to say">Prefer not to say</option>
+                <option className="bg-stone-950 text-white" value="">Select gender</option>
+                <option className="bg-stone-950 text-white" value="Female">Female</option>
+                <option className="bg-stone-950 text-white" value="Male">Male</option>
+                <option className="bg-stone-950 text-white" value="Non-binary">Non-binary</option>
+                <option className="bg-stone-950 text-white" value="Prefer not to say">Prefer not to say</option>
               </select>
               {errors.gender ? <p className="text-sm text-red-300">{errors.gender}</p> : null}
             </label>
@@ -664,10 +696,10 @@ export function StudentRegistrationForm() {
         </p>
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || !isFormReady}
           className="inline-flex items-center justify-center rounded-full bg-red-600 px-6 py-3 text-sm font-black uppercase tracking-[0.24em] text-white transition hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-70"
         >
-          {isSubmitting ? "Submitting..." : "Submit registration"}
+          {isSubmitting ? "Submitting..." : "Continue to payment"}
         </button>
       </div>
     </form>

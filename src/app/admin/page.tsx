@@ -1,4 +1,5 @@
 import { getRegistrations } from "@/lib/registration-store";
+import { AdminRegistrationActions } from "@/components/AdminRegistrationActions";
 
 export const dynamic = "force-dynamic";
 
@@ -30,6 +31,8 @@ export default async function AdminPage() {
                   <th className="px-4 py-3 font-semibold">Email</th>
                   <th className="px-4 py-3 font-semibold">Phone</th>
                   <th className="px-4 py-3 font-semibold">Status</th>
+                  <th className="px-4 py-3 font-semibold">Payment reference</th>
+                  <th className="px-4 py-3 font-semibold">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/10 text-stone-200">
@@ -39,7 +42,9 @@ export default async function AdminPage() {
                     <td className="px-4 py-3">{String(entry.fullName || "—")}</td>
                     <td className="px-4 py-3">{String(entry.emailAddress || "—")}</td>
                     <td className="px-4 py-3">{String(entry.phoneNumber || "—")}</td>
-                    <td className="px-4 py-3">Received</td>
+                    <td className="px-4 py-3">{String(entry.paymentStatus || "Registration received")}</td>
+                    <td className="px-4 py-3">{String(entry.transactionReference || "—")}</td>
+                    <td className="px-4 py-3"><AdminRegistrationActions id={entry.id} paymentStatus={typeof entry.paymentStatus === "string" ? entry.paymentStatus : undefined} /></td>
                   </tr>
                 ))}
               </tbody>

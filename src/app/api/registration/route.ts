@@ -53,7 +53,6 @@ export async function POST(request: Request) {
     const requiredFields = [
       "fullName",
       "dateOfBirth",
-      "age",
       "gender",
       "phoneNumber",
       "emailAddress",
@@ -82,9 +81,25 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: `Missing required fields: ${missing.join(", ")}` }, { status: 400 });
     }
 
+    const age = typeof payload.age === "number"
+      ? payload.age
+      : Number(String(payload.age || "").trim());
+    if (!Number.isInteger(age)) {
+      return NextResponse.json({ error: "Please enter a valid age." }, { status: 400 });
+    }
+    if (age < 4 || age > 100) {
+      return NextResponse.json({ error: "Age must be between 4 and 100." }, { status: 400 });
+    }
+
+    const allowedGenders = ["Female", "Male", "Non-binary", "Prefer not to say"];
+    if (!allowedGenders.includes(String(payload.gender || ""))) {
+      return NextResponse.json({ error: "Please select a valid gender." }, { status: 400 });
+    }
+
     const normalizedPayload = Object.fromEntries(
       Object.entries(payload).map(([key, value]) => [key, normalizeField(value)]),
     );
+    normalizedPayload.age = age;
 
     const submission = await saveRegistration(normalizedPayload);
     return NextResponse.json({

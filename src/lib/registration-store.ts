@@ -39,7 +39,13 @@ export async function getRegistrations() {
   return JSON.parse(raw) as RegistrationSubmission[];
 }
 
-export async function confirmRegistrationPayment(id: string) {
+export async function getRegistration(id: string) {
+  await ensureStore();
+  const raw = await readFile(REGISTRATIONS_FILE, "utf8");
+  return (JSON.parse(raw) as RegistrationSubmission[]).find((item) => item.id === id) ?? null;
+}
+
+export async function submitPaymentConfirmation(id: string, transactionReference?: string) {
   await ensureStore();
   const raw = await readFile(REGISTRATIONS_FILE, "utf8");
   const registrations = JSON.parse(raw) as RegistrationSubmission[];
@@ -49,12 +55,27 @@ export async function confirmRegistrationPayment(id: string) {
     return null;
   }
 
-  if (!registration.paymentConfirmedAt) {
-    registration.paymentConfirmedAt = new Date().toISOString();
-    registration.paymentStatus = "payment-confirmed";
+  if (!registration.paymentConfirmationSubmittedAt) {
+    registration.paymentConfirmationSubmittedAt = new Date().toISOString();
+    registration.paymentStatus = "payment-confirmation-pending";
+    registration.transactionReference = transactionReference || "";
     await writeFile(REGISTRATIONS_FILE, JSON.stringify(registrations, null, 2), "utf8");
   }
 
+  return registration;
+}
+
+export async function confirmRegistrationPayment(id: string) {
+  await ensureStore();
+  const raw = await readFile(REGISTRATIONS_FILE, "utf8");
+  const registrations = JSON.parse(raw) as RegistrationSubmission[];
+  const registration = registrations.find((item) => item.id === id);
+
+  if (!registration) return null;
+
+  registration.paymentConfirmedAt = registration.paymentConfirmedAt || new Date().toISOString();
+  registration.paymentStatus = "completed";
+  await writeFile(REGISTRATIONS_FILE, JSON.stringify(registrations, null, 2), "utf8");
   return registration;
 }
 
