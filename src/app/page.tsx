@@ -31,6 +31,29 @@ const contactItems = [
   { label: "Instagram", value: "@shotokan_karate_yqr" },
 ];
 
+const coreValues = [
+  {
+    icon: "🥋",
+    title: "Traditional Shotokan Karate",
+    description: "Train according to authentic Shotokan Karate principles, emphasizing correct technique, discipline, respect, and continuous improvement.",
+  },
+  {
+    icon: "🛡",
+    title: "Practical Self-Defense",
+    description: "Develop practical self-defense skills, situational awareness, and confidence to respond effectively in real-life situations.",
+  },
+  {
+    icon: "🌟",
+    title: "Character Development",
+    description: "Build confidence, discipline, focus, leadership, respect, perseverance, and a strong mindset that extends beyond the dojo.",
+  },
+  {
+    icon: "💪",
+    title: "Health & Fitness",
+    description: "Improve strength, flexibility, coordination, endurance, balance, and overall physical and mental well-being through structured karate training.",
+  },
+];
+
 const socialQrCodes = [
   {
     label: "WhatsApp",
@@ -96,29 +119,58 @@ export default function Home() {
         <section id="about" className="bg-stone-950 py-24">
           <div className="section-shell">
             <SectionHeading
-              eyebrow="Professional training"
-              title="A disciplined, welcoming place to grow"
+              eyebrow="The Shotokan standard"
+              title="Why train with Shotokan Karate Regina?"
             >
-              Shotokan Karate Regina offers structured professional training for beginners and experienced practitioners in a positive, safe, and motivating environment.
+              At SHOTOKAN Karate Regina, we believe karate is more than learning techniques—it is a lifelong journey of discipline, confidence, respect, and personal growth. Under the leadership of Coach Reza Abbasi, students of all ages train in a professional, welcoming, and supportive environment.
             </SectionHeading>
 
-            <div className="grid gap-5 md:grid-cols-3">
-              {[
-                ["Discipline", "Students train with focus, respect, and steady effort."],
-                ["Confidence", "Classes help students develop strength inside and outside the dojo."],
-                ["Fitness", "Professional karate training builds coordination, conditioning, and resilience."],
-              ].map(([title, copy]) => (
+            <div className="grid gap-5 md:grid-cols-2">
+              {coreValues.map((value) => (
                 <article
-                  className="rounded-lg border border-white/10 bg-white/[0.045] p-7 shadow-2xl shadow-black/30"
-                  key={title}
+                  className="group rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] p-7 shadow-2xl shadow-black/25 transition duration-300 hover:-translate-y-1 hover:border-red-400/40 hover:shadow-red-950/20 sm:p-8"
+                  key={value.title}
                 >
-                  <div className="mb-5 h-1 w-14 rounded-full bg-red-500" />
-                  <h3 className="text-xl font-black uppercase text-white">
-                    {title}
+                  <div className="flex items-center gap-4">
+                    <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-red-400/25 bg-red-950/35 text-2xl shadow-lg shadow-black/20" aria-hidden="true">
+                      {value.icon}
+                    </span>
+                    <div className="h-px flex-1 bg-gradient-to-r from-red-500/55 to-transparent" />
+                  </div>
+                  <h3 className="mt-6 text-xl font-black uppercase text-white sm:text-2xl">
+                    {value.title}
                   </h3>
-                  <p className="mt-3 leading-7 text-stone-300">{copy}</p>
+                  <p className="mt-3 max-w-xl leading-7 text-stone-300">{value.description}</p>
                 </article>
               ))}
+            </div>
+
+            <div className="mt-16 border-y border-white/10 py-12 sm:py-14">
+              <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.28em] text-red-300">Leadership & experience</p>
+                  <h3 className="mt-3 text-3xl font-black uppercase text-white sm:text-4xl">Coach Reza Abbasi</h3>
+                </div>
+                <p className="max-w-xl leading-7 text-stone-300">Experienced instruction, recognized credentials, and a lifelong commitment to the standards of Shotokan Karate.</p>
+              </div>
+              <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+                {coachHighlights.map((highlight, index) => (
+                  <article className="rounded-xl border border-white/10 bg-black/35 p-5 transition hover:border-red-400/35 hover:bg-white/[0.045]" key={highlight}>
+                    <p className="text-2xl font-black text-red-300">0{index + 1}</p>
+                    <p className="mt-3 text-sm font-bold leading-6 text-stone-100">{highlight}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            <blockquote className="mx-auto mt-14 max-w-4xl border-l-2 border-red-500 px-6 py-3 text-center sm:px-10">
+              <p className="hero-title text-balance text-2xl font-bold leading-relaxed text-white sm:text-3xl">
+                “Training the body. Strengthening the mind. Building character for life.”
+              </p>
+            </blockquote>
+
+            <div className="mt-12 flex justify-center">
+              <ButtonLink href="/register">Start Your Karate Journey Today</ButtonLink>
             </div>
           </div>
         </section>
