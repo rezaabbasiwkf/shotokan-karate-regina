@@ -3,13 +3,17 @@ import { ButtonLink } from "@/components/ButtonLink";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { SectionHeading } from "@/components/SectionHeading";
+import { Gallery } from "@/components/Gallery";
+import { FaqAccordion } from "@/components/FaqAccordion";
+import { ContactForm } from "@/components/ContactForm";
 
-const classFeatures = [
-  "Beginner to advanced Shotokan training",
-  "Specialized competition training programs",
-  "Practical self-defense skills",
-  "Official belt testing through Karate Canada",
-  "Programs for kids, teens, and adults",
+const programs = [
+  ["Kids Karate", "Kids", "Build focus, coordination, confidence, and respectful karate fundamentals."],
+  ["Teen Karate", "Teens", "Develop technical skill, fitness, discipline, and a strong mindset."],
+  ["Adult Karate", "Adults", "Train for fitness, traditional Shotokan technique, and personal growth."],
+  ["Beginner Program", "New students", "Start with supportive instruction and strong fundamentals—no experience needed."],
+  ["Advanced Training", "Experienced students", "Refine technique, prepare for grading, and pursue higher-level goals."],
+  ["Practical Self-Defense", "All levels", "Build situational awareness and practical self-defense confidence."],
 ];
 
 const coachHighlights = [
@@ -175,26 +179,39 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="classes" className="bg-black py-24">
+        <section id="programs" className="bg-black py-24">
           <div className="section-shell">
             <SectionHeading
-              eyebrow="Classes"
-              title="Training for kids, teens, and adults"
+              eyebrow="Programs"
+              title="Training for every stage of the journey"
             >
               From first-time beginners to advanced practitioners, the program supports students as they build strong fundamentals, technical skill, and personal discipline through Shotokan Karate.
             </SectionHeading>
 
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-5">
-              {classFeatures.map((feature) => (
+            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {programs.map(([title, level, description]) => (
                 <article
-                  className="rounded-lg border border-red-500/20 bg-gradient-to-b from-stone-900 to-black p-6"
-                  key={feature}
+                  className="rounded-2xl border border-red-500/20 bg-gradient-to-b from-stone-900 to-black p-6 transition hover:-translate-y-1 hover:border-red-400/45"
+                  key={title}
                 >
-                  <p className="text-sm font-bold uppercase leading-6 tracking-[0.12em] text-stone-100">
-                    {feature}
-                  </p>
+                  <p className="text-xs font-black uppercase tracking-[0.2em] text-red-300">{level}</p>
+                  <h3 className="mt-3 text-xl font-black uppercase text-white">{title}</h3>
+                  <p className="mt-3 leading-7 text-stone-300">{description}</p>
+                  <ButtonLink href="/register" variant="secondary">Register</ButtonLink>
                 </article>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="schedule" className="bg-stone-950 py-24">
+          <div className="section-shell">
+            <SectionHeading eyebrow="Schedule" title="A clear weekly training schedule">Current class times and program information for Shotokan Karate Regina.</SectionHeading>
+            <div className="overflow-x-auto rounded-2xl border border-white/10 bg-black/45">
+              <table className="min-w-[720px] w-full text-left text-sm">
+                <thead className="bg-white/[0.06] text-xs font-black uppercase tracking-[0.14em] text-red-200"><tr><th className="px-5 py-4">Program</th><th className="px-5 py-4">Age / Level</th><th className="px-5 py-4">Day</th><th className="px-5 py-4">Time</th><th className="px-5 py-4">Location</th></tr></thead>
+                <tbody className="divide-y divide-white/10 text-stone-200"><tr><td className="px-5 py-5 font-bold text-white">Shotokan Karate</td><td className="px-5 py-5">Kids, teens & adults · all levels</td><td className="px-5 py-5">Wednesday</td><td className="px-5 py-5">4:00 PM – 5:00 PM</td><td className="px-5 py-5">1751 Broad Street, Regina, SK</td></tr></tbody>
+              </table>
             </div>
           </div>
         </section>
@@ -238,34 +255,26 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="bg-black py-24">
-          <div className="section-shell grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
-            <div>
-              <SectionHeading
-                eyebrow="Training environment"
-                title="Focused practice, strong community"
-              >
-                Students train in a setting built around technical progress, motivation, practical self-defense, and the values of professional Shotokan Karate.
-              </SectionHeading>
-            </div>
-            <div className="grid gap-5 sm:grid-cols-1">
-              <div className="relative min-h-[28rem] overflow-hidden rounded-lg border border-white/10">
-                <Image
-                  src="/images/class.jpg"
-                  alt="Shotokan Karate students practicing in a professional training session"
-                  fill
-                  className="object-cover"
-                  sizes="(min-width: 1024px) 45vw, 100vw"
-                />
-              </div>
-            </div>
+        <section id="gallery" className="bg-black py-24">
+          <div className="section-shell">
+            <SectionHeading eyebrow="Gallery" title="Life at the dojo">A glimpse of the Shotokan Karate Regina training community. Select a photograph to view it in full.</SectionHeading>
+            <Gallery />
           </div>
         </section>
 
+        <section id="reviews" className="bg-stone-950 py-24">
+          <div className="section-shell grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+            <div><SectionHeading eyebrow="Reviews" title="Your experience matters">We welcome genuine feedback from students and families. Scan the Google Review code to share your experience with the Shotokan Karate Regina community.</SectionHeading></div>
+            <div className="mx-auto w-full max-w-sm rounded-2xl border border-white/10 bg-black/45 p-6 text-center"><div className="mx-auto aspect-square max-w-56 rounded-xl bg-white p-3"><Image src="/images/googleReview.PNG" alt="Google Review QR code for Shotokan Karate Regina" width={360} height={360} className="h-full w-full object-contain" /></div><p className="mt-5 text-sm font-bold uppercase tracking-[0.14em] text-white">Leave a Google Review</p><p className="mt-2 text-sm leading-6 text-stone-400">Thank you for sharing genuine feedback.</p></div>
+          </div>
+        </section>
+
+        <section id="faq" className="bg-black py-24"><div className="section-shell"><SectionHeading eyebrow="FAQ" title="Questions before your first class?">Find practical answers about training, tuition, registration, and your first visit.</SectionHeading><FaqAccordion /></div></section>
+
         <section id="contact" className="bg-stone-950 py-24">
           <div className="section-shell">
-            <SectionHeading eyebrow="Register" title="Join a class in Regina">
-              Contact the Shotokan Karate Regina team to learn about classes, registration, and training opportunities in Regina.
+            <SectionHeading eyebrow="Contact" title="Talk to the Shotokan Karate Regina team">
+              Ask about classes, registration, or your first visit. Every contact option below works directly on mobile devices.
             </SectionHeading>
 
             <div className="mx-auto mt-8 grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -282,6 +291,11 @@ export default function Home() {
                   </p>
                 </article>
               ))}
+            </div>
+
+            <div className="mt-10 grid gap-5 lg:grid-cols-2">
+              <div className="rounded-2xl border border-white/10 bg-black/45 p-6 sm:p-8"><h3 className="text-2xl font-black uppercase text-white">Visit or contact us</h3><div className="mt-6 space-y-4 text-stone-300"><a className="block transition hover:text-red-300" href="https://maps.google.com/?q=1751+Broad+Street,+Regina,+SK" target="_blank" rel="noreferrer">1751 Broad Street, Regina, SK · Open in Google Maps</a><a className="block transition hover:text-red-300" href="tel:+13065703125">Coach Reza Abbasi · 306-570-3125</a><a className="block transition hover:text-red-300" href="mailto:info@shotokan-karate-regina.com">info@shotokan-karate-regina.com</a><a className="block transition hover:text-red-300" href="https://www.instagram.com/shotokan_karate_yqr" target="_blank" rel="noreferrer">Instagram · @shotokan_karate_yqr</a><p>Business hours: Wednesday, 4:00 PM – 5:00 PM</p></div></div>
+              <ContactForm />
             </div>
 
             <div className="mx-auto mt-14 max-w-4xl border-t border-white/10 pt-12">
