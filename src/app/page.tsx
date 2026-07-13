@@ -70,11 +70,11 @@ export default function Home() {
           <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
 
           <div className="section-shell relative z-10 min-h-[calc(52rem-5rem)] sm:min-h-[calc(48rem-5rem)] lg:min-h-[calc(52rem-5rem)]">
-            <div className="absolute inset-x-5 top-9 text-center sm:top-12">
+            <div className="absolute inset-x-5 top-14 text-center sm:top-16">
               <p className="mb-4 inline-flex rounded-md border border-red-400/40 bg-red-950/50 px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-red-100 backdrop-blur-sm">
                 Approved by Karate Canada
               </p>
-              <h1 className="hero-title mx-auto whitespace-nowrap text-[clamp(1.35rem,4.7vw,5.25rem)] font-bold leading-none text-white drop-shadow-[0_3px_12px_rgba(0,0,0,0.9)]">
+              <h1 className="hero-title mx-auto whitespace-nowrap text-[clamp(1.25rem,5.5vw,6.25rem)] font-bold leading-none text-white drop-shadow-[0_3px_12px_rgba(0,0,0,0.9)]">
                 SHOTOKAN Karate Regina
               </h1>
             </div>
