@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 
 declare global {
   interface Window {
@@ -55,6 +56,7 @@ type MessageState = {
 } | null;
 
 export function StudentRegistrationForm() {
+  const router = useRouter();
   const [formState, setFormState] = useState<FormState>(initialFormState);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [message, setMessage] = useState<MessageState>(null);
@@ -242,12 +244,7 @@ export function StudentRegistrationForm() {
         throw new Error(data.error || "Registration could not be completed.");
       }
 
-      setMessage({
-        type: "success",
-        message: data.message || "Registration received. We will be in touch shortly.",
-      });
-      setFormState(initialFormState);
-      setErrors({});
+      router.push(`/payment?registration=${encodeURIComponent(data.submission.id)}`);
     } catch (error) {
       setMessage({
         type: "error",

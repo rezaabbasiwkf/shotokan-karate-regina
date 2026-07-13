@@ -38,3 +38,37 @@ export async function getRegistrations() {
   const raw = await readFile(REGISTRATIONS_FILE, "utf8");
   return JSON.parse(raw) as RegistrationSubmission[];
 }
+
+export async function confirmRegistrationPayment(id: string) {
+  await ensureStore();
+  const raw = await readFile(REGISTRATIONS_FILE, "utf8");
+  const registrations = JSON.parse(raw) as RegistrationSubmission[];
+  const registration = registrations.find((item) => item.id === id);
+
+  if (!registration) {
+    return null;
+  }
+
+  if (!registration.paymentConfirmedAt) {
+    registration.paymentConfirmedAt = new Date().toISOString();
+    registration.paymentStatus = "payment-confirmed";
+    await writeFile(REGISTRATIONS_FILE, JSON.stringify(registrations, null, 2), "utf8");
+  }
+
+  return registration;
+}
+
+export async function markRegistrationConfirmationEmailSent(id: string) {
+  await ensureStore();
+  const raw = await readFile(REGISTRATIONS_FILE, "utf8");
+  const registrations = JSON.parse(raw) as RegistrationSubmission[];
+  const registration = registrations.find((item) => item.id === id);
+
+  if (!registration) {
+    return null;
+  }
+
+  registration.confirmationEmailSentAt = new Date().toISOString();
+  await writeFile(REGISTRATIONS_FILE, JSON.stringify(registrations, null, 2), "utf8");
+  return registration;
+}

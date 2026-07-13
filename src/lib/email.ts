@@ -1,11 +1,11 @@
-export async function sendRegistrationEmail(payload: Record<string, unknown>) {
+export async function sendPaymentConfirmationEmail(payload: Record<string, unknown>) {
   const apiKey = process.env.RESEND_API_KEY;
   const supportEmail = process.env.REGISTRATION_EMAIL || process.env.EMAIL_FROM || "info@shotokan-karate-regina.com";
   const fromEmail = process.env.RESEND_FROM || "Shotokan Karate Regina <onboarding@resend.dev>";
   const applicantEmail = String(payload.emailAddress || "");
 
   if (!apiKey) {
-    console.info("Resend email not configured. Registration saved locally only.");
+    console.info("Resend email not configured. Payment confirmation saved locally only.");
     return { sent: false, reason: "missing-resend-config" };
   }
 
@@ -23,10 +23,10 @@ export async function sendRegistrationEmail(payload: Record<string, unknown>) {
     body: JSON.stringify({
       from: fromEmail,
       to: [supportEmail],
-      subject: "New student registration received",
+      subject: "Student payment confirmation received",
       html: `
-        <h2>New student registration submitted</h2>
-        <p>A new registration form was completed on the website.</p>
+        <h2>Student registration and payment confirmation</h2>
+        <p>A student has completed the registration form and confirmed their tuition payment.</p>
         <ul>${formattedFields}</ul>
       `,
     }),
@@ -46,11 +46,11 @@ export async function sendRegistrationEmail(payload: Record<string, unknown>) {
       body: JSON.stringify({
         from: fromEmail,
         to: [applicantEmail],
-        subject: "Your Shotokan Karate registration has been received",
+        subject: "Your Shotokan Karate registration is complete",
         html: `
-          <h2>Thank you for registering</h2>
-          <p>Your student registration has been received and is being reviewed by the Shotokan Karate Regina team.</p>
-          <p>We will contact you shortly with the next steps.</p>
+          <h2>Thank you for registering with Shotokan Karate Regina</h2>
+          <p>We have received your registration and payment confirmation.</p>
+          <p>Your next step is to attend your first class on Wednesday from 4:00 PM to 5:00 PM at 1751 Broad Street, Regina. Please contact Coach Reza Abbasi at 306-570-3125 if you have any questions.</p>
         `,
       }),
     });

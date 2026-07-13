@@ -45,6 +45,18 @@ Replace `FRIEND_USERNAME` and `REPO_NAME` with the GitHub account and repository
 4. Keep the default Next.js settings.
 5. Deploy.
 
+### Registration confirmation email
+
+To send the final enrollment email after a student confirms payment, add these environment variables in Vercel (and in `.env.local` for local testing):
+
+```bash
+RESEND_API_KEY=your_resend_api_key
+RESEND_FROM="Shotokan Karate Regina <verified-sender@your-domain.com>"
+REGISTRATION_EMAIL=club-inbox@your-domain.com
+```
+
+The PayPal screen uses the provided PayPal QR code. After the payer confirms completion, the site records that confirmation and sends the final registration email. For automatic, provider-verified payment status, a PayPal API/webhook integration and its credentials would be required.
+
 The project is built with the Next.js App Router, TypeScript, Tailwind CSS, and static-friendly content suitable for GitHub and Vercel deployment.
 
 ## SEO and Google Indexing

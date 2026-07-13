@@ -31,6 +31,27 @@ const contactItems = [
   { label: "Instagram", value: "@shotokan_karate_yqr" },
 ];
 
+const socialQrCodes = [
+  {
+    label: "WhatsApp",
+    description: "Ask about classes or registration",
+    src: "/images/Whatsapp.PNG",
+    alt: "WhatsApp QR code for Shotokan Karate Regina",
+  },
+  {
+    label: "Instagram",
+    description: "Follow training updates",
+    src: "/images/Instagram.JPG",
+    alt: "Instagram QR code for Shotokan Karate Regina",
+  },
+  {
+    label: "Google Review",
+    description: "Share your experience",
+    src: "/images/googleReview.PNG",
+    alt: "Google Review QR code for Shotokan Karate Regina",
+  },
+];
+
 export default function Home() {
   return (
     <>
@@ -206,6 +227,26 @@ export default function Home() {
                   </p>
                 </article>
               ))}
+            </div>
+
+            <div className="mx-auto mt-14 max-w-4xl border-t border-white/10 pt-12">
+              <h3 className="text-center text-2xl font-black uppercase text-white sm:text-3xl">
+                Stay connected
+              </h3>
+              <p className="mx-auto mt-3 max-w-2xl text-center leading-7 text-stone-300">
+                Scan a code to message us, follow class updates, or leave a review.
+              </p>
+              <div className="mt-8 grid gap-5 sm:grid-cols-3">
+                {socialQrCodes.map((code) => (
+                  <article className="rounded-2xl border border-white/10 bg-black/55 p-5 text-center shadow-xl shadow-black/20" key={code.label}>
+                    <div className="mx-auto flex aspect-square w-full max-w-52 items-center justify-center rounded-xl bg-white p-3">
+                      <Image src={code.src} alt={code.alt} width={320} height={320} className="h-full w-full object-contain" />
+                    </div>
+                    <h4 className="mt-5 text-sm font-black uppercase tracking-[0.16em] text-white">{code.label}</h4>
+                    <p className="mt-2 text-sm leading-6 text-stone-400">{code.description}</p>
+                  </article>
+                ))}
+              </div>
             </div>
 
             <div className="mt-10 flex justify-center">

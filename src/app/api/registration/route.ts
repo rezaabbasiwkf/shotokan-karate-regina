@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { saveRegistration, getRegistrations } from "@/lib/registration-store";
-import { sendRegistrationEmail } from "@/lib/email";
 
 function normalizeField(value: unknown) {
   if (typeof value === "string") {
@@ -88,10 +87,8 @@ export async function POST(request: Request) {
     );
 
     const submission = await saveRegistration(normalizedPayload);
-    await sendRegistrationEmail(normalizedPayload);
-
     return NextResponse.json({
-      message: "Registration received successfully.",
+      message: "Registration received. Continue to payment.",
       submission,
     });
   } catch (error) {
