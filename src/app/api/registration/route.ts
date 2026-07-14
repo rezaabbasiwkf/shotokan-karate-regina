@@ -23,8 +23,7 @@ export async function POST(request: Request) {
     }
 
     const requiredFields = [
-      "firstName",
-      "lastName",
+      "fullName",
       "program",
       "gender",
       "phoneNumber",
@@ -87,7 +86,6 @@ export async function POST(request: Request) {
       Object.entries(payload).map(([key, value]) => [key, normalizeField(value)]),
     );
     normalizedPayload.age = age;
-    normalizedPayload.fullName = `${String(payload.firstName).trim()} ${String(payload.lastName).trim()}`;
     normalizedPayload.paymentStatus = "pending-payment";
 
     const submission = await saveRegistration(normalizedPayload);
