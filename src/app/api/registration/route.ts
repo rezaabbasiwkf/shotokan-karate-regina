@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { saveRegistration, getRegistrations } from "@/lib/registration-store";
+import { sendRegistrationNotification } from "@/lib/email";
 
 function normalizeField(value: unknown) {
   if (typeof value === "string") {
@@ -34,6 +35,13 @@ export async function POST(request: Request) {
       "emergencyContactName",
       "emergencyContactPhone",
       "similarProgramsBefore",
+      "motivation",
+      "heardAbout",
+      "medicalCondition",
+      "medication",
+      "goals",
+      "nextGoals",
+      "attendRegularly",
     ];
 
     const missing = requiredFields.filter((field) => {
@@ -49,7 +57,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Please enter a valid Canadian postal code." }, { status: 400 });
     }
 
-    if (!payload.acceptsTerms || !payload.acceptsWaiver) {
+    if (!payload.acceptsTerms || !payload.acceptsWaiver || !payload.informationAccurate || !payload.understandsRisks || !payload.followsRules || !payload.authorizeEmergencyTreatment || !payload.feesNonRefundable) {
       return NextResponse.json({ error: "Please accept the registration terms and waiver." }, { status: 400 });
     }
 
@@ -59,8 +67,8 @@ export async function POST(request: Request) {
     if (!Number.isInteger(age)) {
       return NextResponse.json({ error: "Please enter a valid age." }, { status: 400 });
     }
-    if (age < 4 || age > 100) {
-      return NextResponse.json({ error: "Age must be between 4 and 100." }, { status: 400 });
+    if (age < 16 || age > 100) {
+      return NextResponse.json({ error: age < 16 ? "Participants must be at least 16 years old." : "Please enter a valid age." }, { status: 400 });
     }
 
     const allowedGenders = ["Female", "Male", "Non-binary", "Prefer not to say"];
@@ -80,8 +88,14 @@ export async function POST(request: Request) {
     );
     normalizedPayload.age = age;
     normalizedPayload.fullName = `${String(payload.firstName).trim()} ${String(payload.lastName).trim()}`;
+    normalizedPayload.paymentStatus = "pending-payment";
 
     const submission = await saveRegistration(normalizedPayload);
+    try {
+      await sendRegistrationNotification(submission);
+    } catch (emailError) {
+      console.error("Registration notification email failed", emailError);
+    }
     return NextResponse.json({
       message: "Registration received. Continue to payment.",
       submission,

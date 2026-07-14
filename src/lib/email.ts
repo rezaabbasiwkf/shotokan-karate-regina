@@ -1,6 +1,6 @@
 export async function sendPaymentConfirmationEmail(payload: Record<string, unknown>) {
   const apiKey = process.env.RESEND_API_KEY;
-  const supportEmail = process.env.REGISTRATION_EMAIL || process.env.EMAIL_FROM || "info@shotokan-karate-regina.com";
+  const supportEmail = process.env.REGISTRATION_EMAIL || "reza.abbasi.wkf@gmail.com";
   const fromEmail = process.env.RESEND_FROM || "Shotokan Karate Regina <onboarding@resend.dev>";
   const applicantEmail = String(payload.emailAddress || "");
 
@@ -56,5 +56,16 @@ export async function sendPaymentConfirmationEmail(payload: Record<string, unkno
     });
   }
 
+  return { sent: true };
+}
+
+export async function sendRegistrationNotification(payload: Record<string, unknown>) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return { sent: false, reason: "missing-resend-config" };
+  const from = process.env.RESEND_FROM || "Shotokan Karate Regina <onboarding@resend.dev>";
+  const recipient = process.env.REGISTRATION_EMAIL || "reza.abbasi.wkf@gmail.com";
+  const fields = Object.entries(payload).filter(([, value]) => value !== "" && value !== false && value !== null).map(([key, value]) => `<li><strong>${key.replace(/([A-Z])/g, " $1")}</strong>: ${String(value)}</li>`).join("");
+  const response = await fetch("https://api.resend.com/emails", { method: "POST", headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" }, body: JSON.stringify({ from, to: [recipient], subject: `New Student Registration – ${String(payload.fullName || "Participant")} – ${String(payload.id || "Pending")}`, html: `<h2>New Student Registration</h2><p>Payment status: Pending Payment</p><ul>${fields}</ul>` }) });
+  if (!response.ok) throw new Error(`Registration email delivery failed: ${response.status}`);
   return { sent: true };
 }

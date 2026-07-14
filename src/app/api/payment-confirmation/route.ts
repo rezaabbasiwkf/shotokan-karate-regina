@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { submitPaymentConfirmation } from "@/lib/registration-store";
+import { sendRegistrationNotification } from "@/lib/email";
 
 export async function POST(request: Request) {
   try {
@@ -13,6 +14,8 @@ export async function POST(request: Request) {
     if (!registration) {
       return NextResponse.json({ error: "Registration not found. Please submit the form again." }, { status: 404 });
     }
+
+    try { await sendRegistrationNotification({ ...registration, notificationType: "Payment confirmation submitted" }); } catch (emailError) { console.error("Payment notification email failed", emailError); }
 
     return NextResponse.json({ message: "Payment confirmation received. The club will verify it and email your final registration details." });
   } catch (error) {
