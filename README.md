@@ -55,6 +55,12 @@ RESEND_FROM="Shotokan Karate Regina <verified-sender@your-domain.com>"
 REGISTRATION_EMAIL=club-inbox@your-domain.com
 ```
 
+To enable Google Places address suggestions on the registration form, add a browser-restricted Google Maps JavaScript API key with the Places API enabled:
+
+```bash
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_key
+```
+
 The PayPal screen uses the provided PayPal QR code. After the payer confirms completion, the site records that confirmation and sends the final registration email. For automatic, provider-verified payment status, a PayPal API/webhook integration and its credentials would be required.
 
 The project is built with the Next.js App Router, TypeScript, Tailwind CSS, and static-friendly content suitable for GitHub and Vercel deployment.

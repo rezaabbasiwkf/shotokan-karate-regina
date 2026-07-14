@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { AddressAutocomplete } from "@/components/AddressAutocomplete";
 
 declare global {
   interface Window {
@@ -23,6 +24,10 @@ const initialFormState = {
   phoneNumber: "",
   emailAddress: "",
   homeAddress: "",
+  addressCity: "",
+  addressProvince: "",
+  postalCode: "",
+  addressCountry: "Canada",
   emergencyContactName: "",
   emergencyContactPhone: "",
   parentGuardianName: "",
@@ -134,6 +139,8 @@ export function StudentRegistrationForm() {
     if (name === "age") {
       const ageError = getAgeError(nextValue);
       setErrors((prev) => ({ ...prev, age: ageError }));
+    } else if (name === "similarProgramsBefore") {
+      setErrors((prev) => ({ ...prev, similarProgramsBefore: nextValue ? "" : "Please select whether you have participated in a similar program before." }));
     } else if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -149,10 +156,8 @@ export function StudentRegistrationForm() {
       ["gender", "Gender"],
       ["phoneNumber", "Phone number"],
       ["emailAddress", "Email address"],
-      ["homeAddress", "Home address"],
       ["emergencyContactName", "Emergency contact name"],
       ["emergencyContactPhone", "Emergency contact phone number"],
-      ["similarProgramsBefore", "Whether you have participated in similar programs"],
       ["motivation", "What motivated you to join"],
       ["heardAbout", "How you heard about us"],
       ["healthDetails", "Health and safety details"],
@@ -171,6 +176,10 @@ export function StudentRegistrationForm() {
         nextErrors[fieldName] = `${label} is required.`;
       }
     });
+
+    if (!formState.homeAddress.trim()) nextErrors.homeAddress = "Please enter your street address.";
+    if (!/^[ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ][ -]?\d[ABCEGHJKLMNPRSTVWXYZ]\d$/i.test(formState.postalCode.trim())) nextErrors.postalCode = "Please enter a valid Canadian postal code.";
+    if (!formState.similarProgramsBefore) nextErrors.similarProgramsBefore = "Please select whether you have participated in a similar program before.";
 
     const numericAge = Number(normalizeAge(formState.age));
     const ageError = getAgeError(formState.age);
@@ -232,7 +241,7 @@ export function StudentRegistrationForm() {
 
   const isFormReady = [
     formState.fullName, formState.dateOfBirth, formState.gender, formState.phoneNumber,
-    formState.emailAddress, formState.homeAddress, formState.emergencyContactName,
+    formState.emailAddress, formState.homeAddress, formState.postalCode, formState.emergencyContactName,
     formState.emergencyContactPhone, formState.similarProgramsBefore, formState.motivation,
     formState.heardAbout, formState.healthDetails, formState.medicationDetails, formState.goals,
     formState.nextGoals, formState.attendRegularly, formState.participantName,
@@ -243,6 +252,7 @@ export function StudentRegistrationForm() {
     && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.emailAddress)
     && /^\+?[0-9\s().-]{7,15}$/.test(formState.phoneNumber)
     && /^\+?[0-9\s().-]{7,15}$/.test(formState.emergencyContactPhone)
+    && /^[ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ][ -]?\d[ABCEGHJKLMNPRSTVWXYZ]\d$/i.test(formState.postalCode.trim())
     && formState.informationAccurate && formState.understandsRisks && formState.followsRules
     && formState.authorizeEmergencyTreatment && formState.photoPermission && formState.feesNonRefundable
     && formState.liabilityWaiver && (siteKey ? Boolean(formState.recaptchaToken) : formState.humanCheck);
@@ -399,16 +409,14 @@ export function StudentRegistrationForm() {
               {errors.emailAddress ? <p className="text-sm text-red-300">{errors.emailAddress}</p> : null}
             </label>
             <label className="space-y-2 text-sm font-semibold text-stone-200 md:col-span-2">
-              <span>Home address</span>
-              <input
-                name="homeAddress"
-                value={formState.homeAddress}
-                onChange={handleChange}
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition focus:border-red-400"
-                placeholder="Street, city, province, postal code"
-              />
+              <span>Street address</span>
+              <AddressAutocomplete value={formState.homeAddress} hasError={Boolean(errors.homeAddress)} onChange={(homeAddress) => { setFormState((prev) => ({ ...prev, homeAddress })); setErrors((prev) => ({ ...prev, homeAddress: homeAddress.trim() ? "" : "Please enter your street address." })); }} onSelect={(address) => { setFormState((prev) => ({ ...prev, homeAddress: address.street, addressCity: address.city, addressProvince: address.province, postalCode: address.postalCode, addressCountry: address.country })); setErrors((prev) => ({ ...prev, homeAddress: "", postalCode: /^[ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ][ -]?\d[ABCEGHJKLMNPRSTVWXYZ]\d$/i.test(address.postalCode) ? "" : "Please enter a valid Canadian postal code." })); }} />
               {errors.homeAddress ? <p className="text-sm text-red-300">{errors.homeAddress}</p> : null}
             </label>
+            <label className="space-y-2 text-sm font-semibold text-stone-200"><span>City</span><input name="addressCity" value={formState.addressCity} onChange={handleChange} className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition focus:border-red-400" placeholder="City" autoComplete="address-level2" /></label>
+            <label className="space-y-2 text-sm font-semibold text-stone-200"><span>Province</span><input name="addressProvince" value={formState.addressProvince} onChange={handleChange} className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition focus:border-red-400" placeholder="Province" autoComplete="address-level1" /></label>
+            <label className="space-y-2 text-sm font-semibold text-stone-200"><span>Postal code</span><input name="postalCode" value={formState.postalCode} onChange={handleChange} className={`w-full rounded-xl border bg-white/5 px-4 py-3 text-sm text-white outline-none transition focus:border-red-400 ${errors.postalCode ? "border-red-400" : "border-white/10"}`} placeholder="S4P 3Y2" autoComplete="postal-code" />{errors.postalCode ? <p className="text-sm text-red-300">{errors.postalCode}</p> : null}</label>
+            <label className="space-y-2 text-sm font-semibold text-stone-200"><span>Country</span><input name="addressCountry" value={formState.addressCountry} onChange={handleChange} className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition focus:border-red-400" placeholder="Country" autoComplete="country-name" /></label>
             <label className="space-y-2 text-sm font-semibold text-stone-200">
               <span>Emergency contact name</span>
               <input
@@ -454,13 +462,13 @@ export function StudentRegistrationForm() {
                 name="similarProgramsBefore"
                 value={formState.similarProgramsBefore}
                 onChange={handleChange}
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition focus:border-red-400"
+                className={`w-full rounded-xl border bg-white px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-400/30 ${errors.similarProgramsBefore ? "border-red-400" : "border-stone-300"}`}
               >
-                <option value="">Select one</option>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
+                <option className="bg-white text-stone-900" value="">Select one</option>
+                <option className="bg-white text-stone-900" value="Yes">Yes</option>
+                <option className="bg-white text-stone-900" value="No">No</option>
               </select>
-              {errors.similarProgramsBefore ? <p className="text-sm text-red-300">{errors.similarProgramsBefore}</p> : null}
+              {errors.similarProgramsBefore ? <p className="flex items-center gap-2 text-sm text-red-300"><span aria-hidden="true">⚠</span>{errors.similarProgramsBefore}</p> : null}
             </label>
             <label className="space-y-2 text-sm font-semibold text-stone-200">
               <span>What motivated you to join this program?</span>

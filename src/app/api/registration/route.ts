@@ -81,6 +81,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: `Missing required fields: ${missing.join(", ")}` }, { status: 400 });
     }
 
+    if (!/^[ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ][ -]?\d[ABCEGHJKLMNPRSTVWXYZ]\d$/i.test(String(payload.postalCode || "").trim())) {
+      return NextResponse.json({ error: "Please enter a valid Canadian postal code." }, { status: 400 });
+    }
+
     const age = typeof payload.age === "number"
       ? payload.age
       : Number(String(payload.age || "").trim());
