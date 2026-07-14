@@ -101,7 +101,32 @@ export default function Home() {
 
         <section id="contact" className="bg-black py-24"><div className="section-shell"><SectionHeading eyebrow="Contact" title="Talk to SHOTOKAN Karate Regina">Ask about professional karate classes, athlete development, registration, or your first visit.</SectionHeading><div className="mx-auto grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-4">{contactItems.map(([label, value]) => <article className="rounded-lg border border-white/10 bg-stone-950 p-5" key={label}><p className="text-xs font-black uppercase tracking-[0.18em] text-red-300">{label}</p><p className="mt-3 font-semibold leading-7 text-white">{value}</p></article>)}</div><div className="mt-10 grid gap-5 lg:grid-cols-2"><div className="rounded-2xl border border-white/10 bg-stone-950 p-6 sm:p-8"><h3 className="text-2xl font-black uppercase text-white">Visit or contact us</h3><div className="mt-6 space-y-4 text-stone-300"><a className="block hover:text-red-300" href="https://maps.google.com/?q=1751+Broad+Street,+Regina,+SK" target="_blank" rel="noreferrer">1751 Broad Street, Regina, SK · Open in Google Maps</a><a className="block hover:text-red-300" href="tel:+13065703125">Coach Reza Abbasi · 306-570-3125</a><a className="block hover:text-red-300" href="mailto:info@shotokan-karate-regina.com">info@shotokan-karate-regina.com</a><a className="block hover:text-red-300" href="https://www.instagram.com/shotokan_karate_yqr" target="_blank" rel="noreferrer">Instagram · @shotokan_karate_yqr</a></div></div><ContactForm /></div></div></section>
 
-        <section id="self-defense" className="bg-stone-950 py-16"><div className="section-shell"><div className="mx-auto grid max-w-5xl items-center gap-8 rounded-2xl border border-white/10 bg-black/40 p-6 sm:p-8 lg:grid-cols-[0.35fr_0.65fr]"><div className="relative mx-auto aspect-[3/4] w-full max-w-56 overflow-hidden rounded-xl grayscale-[25%]"><Image src="/images/self-defense.JPG" alt="Practical self-defense training" fill className="object-cover" sizes="224px" /></div><div><p className="text-xs font-black uppercase tracking-[0.2em] text-stone-400">Complementary training option</p><h2 className="mt-3 text-3xl font-black text-white">Practical Self-Defense</h2><p className="mt-4 leading-7 text-stone-300">In addition to our professional Shotokan Karate program, we also offer practical self-defense training designed to improve confidence, awareness, and personal safety.</p><div className="mt-6"><ButtonLink href="/self-defense" variant="secondary">Learn More</ButtonLink></div></div></div></div></section>
+        <section id="self-defense" className="bg-stone-950 py-16">
+          <div className="section-shell">
+            <article className="mx-auto max-w-5xl overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-stone-900 to-black shadow-2xl shadow-black/30">
+              <header className="bg-black px-6 py-4 text-center">
+                <div className="relative mx-auto h-16 w-16"><Image src="/favicon-round.png" alt="SHOTOKAN Karate Regina logo" fill className="object-contain" sizes="64px" /></div>
+              </header>
+              <div className="h-0.5 bg-gradient-to-r from-transparent via-red-500 to-transparent" />
+              <div className="grid items-center gap-6 p-6 sm:p-7 md:grid-cols-[15rem_1fr]">
+                <div className="relative mx-auto aspect-[4/3] w-full max-w-60 overflow-hidden rounded-xl border border-red-400/25 shadow-xl shadow-black/40">
+                  <Image src="/images/coach.JPG" alt="Coach Reza Abbasi demonstrating karate" fill className="object-cover object-center" sizes="240px" />
+                </div>
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.2em] text-red-300">Specialized Training</p>
+                  <h2 className="hero-title mt-2 text-3xl font-bold text-white sm:text-4xl">Practical Self-Defense</h2>
+                  <p className="mt-3 text-[0.9375rem] leading-6 text-stone-300">Practical private self-defense training designed to improve awareness, confidence, decision-making, and personal safety in real-world situations.</p>
+                  <p className="mt-3 text-[0.9375rem] leading-6 text-stone-300">Training is delivered in a safe and professionally structured environment under the guidance of <strong className="text-white">Coach Reza Abbasi</strong>.</p>
+                  <h3 className="mt-5 text-sm font-black uppercase tracking-[0.16em] text-white">Key Benefits</h3>
+                  <ul className="mt-3 grid gap-x-6 gap-y-2 text-sm text-stone-300 sm:grid-cols-2">
+                    {["Private and personalized instruction", "Practical self-defense techniques", "Situational awareness", "Confidence under pressure", "Safe and controlled training", "Improved fitness and mental resilience"].map((benefit) => <li className="flex gap-2" key={benefit}><span className="text-red-400" aria-hidden="true">•</span><span>{benefit}</span></li>)}
+                  </ul>
+                  <div className="mt-6 flex flex-col gap-3 sm:flex-row"><ButtonLink href="/self-defense">Learn More</ButtonLink><ButtonLink href="tel:+13065703125" variant="secondary">Contact Coach Reza</ButtonLink></div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
 
         <section className="relative overflow-hidden bg-red-950/30 py-24 text-center"><div className="section-shell"><p className="text-xs font-black uppercase tracking-[0.28em] text-red-300">Registration</p><h2 className="hero-title mx-auto mt-4 max-w-4xl text-4xl font-bold text-white sm:text-6xl">Begin Professional Shotokan Karate Training</h2><p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-stone-300">Join Shotokan Karate Regina and build skill, discipline, confidence, and athletic potential through professional coaching.</p><div className="mt-8"><ButtonLink href="/register">Register Now</ButtonLink></div></div></section>
       </main>
