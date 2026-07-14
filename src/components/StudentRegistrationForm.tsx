@@ -6,7 +6,7 @@ import { AddressAutocomplete } from "@/components/AddressAutocomplete";
 
 const initialState = {
   fullName: "", dateOfBirth: "", gender: "", phoneNumber: "", emailAddress: "", homeAddress: "",
-  emergencyContactName: "", emergencyContactPhone: "", parentGuardianName: "", parentGuardianContact: "",
+  emergencyContactName: "", emergencyContactPhone: "", parentGuardianName: "", parentGuardianPhone: "", parentGuardianEmail: "",
   similarProgramsBefore: "", heardAbout: "", heardAboutOther: "", medicalCondition: "", medicalDetails: "", attendRegularly: "",
   informationAccurate: false, understandsRisks: false, followsRules: false, authorizeEmergencyTreatment: false,
   photoPermission: false, feesNonRefundable: false, acceptsWaiver: false, participantSignature: "", parentGuardianSignature: "", website: "",
@@ -17,7 +17,7 @@ type Errors = Record<string, string>;
 
 const labels: Record<string, string> = {
   fullName: "Full Name", dateOfBirth: "Date of Birth", gender: "Gender", phoneNumber: "Phone Number", emailAddress: "Email Address", homeAddress: "Home Address",
-  emergencyContactName: "Emergency Contact Name", emergencyContactPhone: "Emergency Contact Phone", parentGuardianName: "Parent/Guardian Name", parentGuardianContact: "Parent/Guardian Phone or Email",
+  emergencyContactName: "Emergency Contact Name", emergencyContactPhone: "Emergency Contact Phone", parentGuardianName: "Parent/Guardian Name", parentGuardianPhone: "Parent/Guardian Phone", parentGuardianEmail: "Parent/Guardian Email",
   similarProgramsBefore: "Previous Program", heardAbout: "How You Heard About Us", heardAboutOther: "Referral Details", medicalCondition: "Medical Conditions", medicalDetails: "Medical Details", attendRegularly: "Attendance Commitment",
   informationAccurate: "Information Accuracy", understandsRisks: "Risk Acknowledgment", followsRules: "Safety Guidelines", authorizeEmergencyTreatment: "Emergency Authorization", feesNonRefundable: "Refund Policy", acceptsWaiver: "Liability Waiver", participantSignature: "Electronic Signature", parentGuardianSignature: "Parent/Guardian Signature", registrationService: "Registration Service",
 };
@@ -70,7 +70,8 @@ export function StudentRegistrationForm() {
       if (!form.emergencyContactName.trim()) next.emergencyContactName = "Please enter an emergency contact name.";
       if (!phonePattern.test(form.emergencyContactPhone.trim())) next.emergencyContactPhone = "Please enter a valid emergency contact phone number.";
       if (under18 && !form.parentGuardianName.trim()) next.parentGuardianName = "Please enter a parent or guardian name.";
-      if (under18 && !form.parentGuardianContact.trim()) next.parentGuardianContact = "Please enter a parent or guardian phone number or email.";
+      if (under18 && !phonePattern.test(form.parentGuardianPhone.trim())) next.parentGuardianPhone = "Please enter a valid parent or guardian phone number.";
+      if (under18 && !emailPattern.test(form.parentGuardianEmail.trim())) next.parentGuardianEmail = "Please enter a valid parent or guardian email address.";
       if (!form.similarProgramsBefore) next.similarProgramsBefore = "Please select whether you have participated in a similar program before.";
       if (!form.heardAbout) next.heardAbout = "Please select how you heard about us.";
       if (form.heardAbout === "Other" && !form.heardAboutOther.trim()) next.heardAboutOther = "Please provide details.";
@@ -106,7 +107,7 @@ export function StudentRegistrationForm() {
     if (!validate(3)) return;
     setIsSubmitting(true);
     try {
-      const response = await fetch("/api/registration", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
+      const response = await fetch("/api/registrations", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
       const result = await response.json().catch(() => ({}));
       if (!response.ok || !result.success) {
         setErrors(result.fieldErrors || { registrationService: result.message || result.error || "The registration service is temporarily unavailable." });
@@ -141,7 +142,7 @@ export function StudentRegistrationForm() {
       <label className="text-sm font-semibold text-stone-200 md:col-span-2">Home address<AddressAutocomplete value={form.homeAddress} hasError={Boolean(errors.homeAddress)} onChange={(homeAddress) => { setForm((previous) => ({ ...previous, homeAddress })); setErrors((previous) => ({ ...previous, homeAddress: "", registrationService: "" })); }} onSelect={(address) => { setForm((previous) => ({ ...previous, homeAddress: address.formattedAddress })); setErrors((previous) => ({ ...previous, homeAddress: "" })); }} />{error("homeAddress")}</label>
       <label className="text-sm font-semibold text-stone-200">Emergency contact name<input name="emergencyContactName" value={form.emergencyContactName} onChange={update} aria-invalid={Boolean(errors.emergencyContactName)} className={`mt-2 ${inputClass("emergencyContactName")}`} />{error("emergencyContactName")}</label>
       <label className="text-sm font-semibold text-stone-200">Emergency contact phone<input name="emergencyContactPhone" value={form.emergencyContactPhone} onChange={update} inputMode="tel" aria-invalid={Boolean(errors.emergencyContactPhone)} className={`mt-2 ${inputClass("emergencyContactPhone")}`} />{error("emergencyContactPhone")}</label>
-      {under18 ? <><label className="text-sm font-semibold text-stone-200">Parent/guardian name<input name="parentGuardianName" value={form.parentGuardianName} onChange={update} aria-invalid={Boolean(errors.parentGuardianName)} className={`mt-2 ${inputClass("parentGuardianName")}`} />{error("parentGuardianName")}</label><label className="text-sm font-semibold text-stone-200">Parent/guardian phone or email<input name="parentGuardianContact" value={form.parentGuardianContact} onChange={update} aria-invalid={Boolean(errors.parentGuardianContact)} className={`mt-2 ${inputClass("parentGuardianContact")}`} />{error("parentGuardianContact")}</label></> : null}
+      {under18 ? <><label className="text-sm font-semibold text-stone-200">Parent/guardian full name<input name="parentGuardianName" value={form.parentGuardianName} onChange={update} aria-invalid={Boolean(errors.parentGuardianName)} className={`mt-2 ${inputClass("parentGuardianName")}`} />{error("parentGuardianName")}</label><label className="text-sm font-semibold text-stone-200">Parent/guardian phone number<input name="parentGuardianPhone" value={form.parentGuardianPhone} onChange={update} inputMode="tel" aria-invalid={Boolean(errors.parentGuardianPhone)} className={`mt-2 ${inputClass("parentGuardianPhone")}`} />{error("parentGuardianPhone")}</label><label className="text-sm font-semibold text-stone-200 md:col-span-2">Parent/guardian email address<input name="parentGuardianEmail" type="email" value={form.parentGuardianEmail} onChange={update} aria-invalid={Boolean(errors.parentGuardianEmail)} className={`mt-2 ${inputClass("parentGuardianEmail")}`} />{error("parentGuardianEmail")}</label></> : null}
       <label className="text-sm font-semibold text-stone-200">Have you participated in a similar program before?<select name="similarProgramsBefore" value={form.similarProgramsBefore} onChange={update} aria-invalid={Boolean(errors.similarProgramsBefore)} className={`mt-2 ${selectClass("similarProgramsBefore")}`}><option value="">Select one</option><option>Yes</option><option>No</option></select>{error("similarProgramsBefore")}</label>
       <label className="text-sm font-semibold text-stone-200">How did you hear about us?<select name="heardAbout" value={form.heardAbout} onChange={update} aria-invalid={Boolean(errors.heardAbout)} className={`mt-2 ${selectClass("heardAbout")}`}><option value="">Select one</option>{["Google Search", "Instagram", "Facebook", "WhatsApp", "Friend or Family", "Current Student", "Community Event", "Other"].map((item) => <option key={item}>{item}</option>)}</select>{error("heardAbout")}</label>
       {form.heardAbout === "Other" ? <label className="text-sm font-semibold text-stone-200 md:col-span-2">Please tell us more<input name="heardAboutOther" value={form.heardAboutOther} onChange={update} aria-invalid={Boolean(errors.heardAboutOther)} className={`mt-2 ${inputClass("heardAboutOther")}`} />{error("heardAboutOther")}</label> : null}

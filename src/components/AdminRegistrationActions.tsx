@@ -27,12 +27,12 @@ export function AdminRegistrationActions({ id, paymentStatus }: { id: string; pa
 
   return (
     <div className="flex min-w-52 flex-col gap-2">
-      {paymentStatus === "payment-confirmation-pending" ? (
+      {paymentStatus === "Pending Verification" ? (
         <button type="button" onClick={() => runAction("confirm")} disabled={isWorking} className="rounded-md bg-emerald-600 px-3 py-2 text-xs font-bold text-white disabled:opacity-60">
           {isWorking ? "Updating..." : "Verify payment & email"}
         </button>
       ) : null}
-      {paymentStatus === "completed" ? (
+      {paymentStatus === "Confirmed" ? (
         <button type="button" onClick={() => runAction("resend")} disabled={isWorking} className="rounded-md border border-white/20 px-3 py-2 text-xs font-bold text-white disabled:opacity-60">
           {isWorking ? "Sending..." : "Resend confirmation"}
         </button>

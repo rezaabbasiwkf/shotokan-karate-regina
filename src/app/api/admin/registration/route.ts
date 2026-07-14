@@ -12,9 +12,9 @@ export async function POST(request: Request) {
       : await getRegistration(registrationId);
     if (!registration) return NextResponse.json({ error: "Registration not found." }, { status: 404 });
 
-    await sendPaymentConfirmationEmail(registration);
-    await markRegistrationConfirmationEmailSent(registrationId);
-    return NextResponse.json({ message: action === "confirm" ? "Payment verified and confirmation email sent." : "Confirmation email resent." });
+    const email = await sendPaymentConfirmationEmail(registration);
+    if (email.sent) await markRegistrationConfirmationEmailSent(registrationId);
+    return NextResponse.json({ message: email.sent ? action === "confirm" ? "Payment verified and confirmation email sent." : "Confirmation email resent." : action === "confirm" ? "Payment verified. Email delivery is not configured yet." : "Email delivery is not configured yet." });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "The registration update could not be completed." }, { status: 500 });

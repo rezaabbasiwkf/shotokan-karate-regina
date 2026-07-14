@@ -9,6 +9,9 @@ export async function POST(request: Request) {
     if (!registrationId) {
       return NextResponse.json({ error: "A registration reference is required." }, { status: 400 });
     }
+    if (!transactionReference?.trim()) {
+      return NextResponse.json({ error: "Please enter the transaction reference from your PayPal receipt." }, { status: 400 });
+    }
 
     const registration = await submitPaymentConfirmation(registrationId, transactionReference?.trim());
     if (!registration) {
@@ -17,7 +20,7 @@ export async function POST(request: Request) {
 
     try { await sendPaymentReceivedNotification(registration); } catch (emailError) { console.error("Payment notification email failed", emailError); }
 
-    return NextResponse.json({ message: "Payment confirmation received. The club will verify it and email your final registration details." });
+    return NextResponse.json({ message: "Payment confirmation received. Your payment status is Pending Verification. The club will verify it and email your final registration details." });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Payment confirmation could not be completed." }, { status: 500 });

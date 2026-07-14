@@ -45,16 +45,17 @@ Replace `FRIEND_USERNAME` and `REPO_NAME` with the GitHub account and repository
 4. Keep the default Next.js settings.
 5. Deploy.
 
-### Registration confirmation email
+### Registration storage, administration, and email
 
 To send the final enrollment email after a student confirms payment, add these environment variables in Vercel (and in `.env.local` for local testing):
 
 ```bash
 RESEND_API_KEY=your_resend_api_key
 RESEND_FROM="Shotokan Karate Regina <verified-sender@your-domain.com>"
-REGISTRATION_EMAIL=club-inbox@your-domain.com
+REGISTRATION_EMAIL=reza.abbasi.wkf@gmail.com
 KV_REST_API_URL=your_vercel_kv_rest_url
 KV_REST_API_TOKEN=your_vercel_kv_rest_token
+ADMIN_DASHBOARD_PASSWORD=choose_a_long_unique_password
 ```
 
 To enable Google Places address suggestions on the registration form, add a browser-restricted Google Maps JavaScript API key with the Places API enabled:
@@ -63,7 +64,9 @@ To enable Google Places address suggestions on the registration form, add a brow
 NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_key
 ```
 
-The PayPal screen uses the provided PayPal QR code. After the payer confirms completion, the site records that confirmation and sends the final registration email. For automatic, provider-verified payment status, a PayPal API/webhook integration and its credentials would be required.
+The registration records are stored in Vercel KV when its variables are present; local development uses `data/registrations.json`. Public visitors cannot list records through the registration API. The `/admin` dashboard and its API require HTTP Basic authentication using `ADMIN_DASHBOARD_PASSWORD`.
+
+The PayPal screen uses the provided PayPal QR code. A PayPal transaction reference is required when the payer submits payment. That changes the record to `Pending Verification`; only the protected administrator dashboard can mark it `Confirmed` and send the final email. For automatic, provider-verified payment status or receipt-file uploads, a PayPal API/webhook and private object storage would be required.
 
 The project is built with the Next.js App Router, TypeScript, Tailwind CSS, and static-friendly content suitable for GitHub and Vercel deployment.
 

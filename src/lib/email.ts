@@ -85,7 +85,7 @@ export async function sendPaymentReceivedNotification(payload: Record<string, un
   if (!apiKey) return { sent: false, reason: "missing-resend-config" };
   const from = process.env.RESEND_FROM || "Shotokan Karate Regina <onboarding@resend.dev>";
   const recipient = process.env.REGISTRATION_EMAIL || "reza.abbasi.wkf@gmail.com";
-  const response = await fetch("https://api.resend.com/emails", { method: "POST", headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" }, body: JSON.stringify({ from, to: [recipient], subject: `Payment Received – ${String(payload.fullName || "Student")} – ${String(payload.id || "")}`, html: `<h2>Payment confirmation submitted</h2><p>Reference: ${String(payload.id || "")}</p><p>Student: ${String(payload.fullName || "")}</p><p>Status: Pending Verification</p><p>Transaction reference: ${String(payload.transactionReference || "Not provided")}</p>` }) });
+  const response = await fetch("https://api.resend.com/emails", { method: "POST", headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" }, body: JSON.stringify({ from, to: [recipient], subject: `Payment Submitted – ${String(payload.fullName || "Student")} – ${String(payload.id || "")}`, html: `<h2>Payment confirmation submitted</h2><p>Reference: ${String(payload.id || "")}</p><p>Student: ${String(payload.fullName || "")}</p><p>Status: Pending Verification</p><p>Transaction reference: ${String(payload.transactionReference || "Not provided")}</p>` }) });
   if (!response.ok) throw new Error(`Payment notification email delivery failed: ${response.status}`);
   return { sent: true };
 }
