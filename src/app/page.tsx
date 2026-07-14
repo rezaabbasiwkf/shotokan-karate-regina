@@ -8,12 +8,10 @@ import { FaqAccordion } from "@/components/FaqAccordion";
 import { ContactForm } from "@/components/ContactForm";
 
 const programs = [
-  ["Kids Karate", "Kids", "Build focus, coordination, confidence, and respectful karate fundamentals."],
-  ["Teen Karate", "Teens", "Develop technical skill, fitness, discipline, and a strong mindset."],
-  ["Adult Karate", "Adults", "Train for fitness, traditional Shotokan technique, and personal growth."],
-  ["Beginner Program", "New students", "Start with supportive instruction and strong fundamentals—no experience needed."],
-  ["Advanced Training", "Experienced students", "Refine technique, prepare for grading, and pursue higher-level goals."],
-  ["Practical Self-Defense", "All levels", "Build situational awareness and practical self-defense confidence."],
+  { title: "Kids Karate", audience: "Ages 5+", icon: "◉", description: "Build focus, coordination, confidence, and respectful Shotokan fundamentals." },
+  { title: "Teen Karate", audience: "Teens", icon: "◆", description: "Develop technique, fitness, discipline, and a strong, confident mindset." },
+  { title: "Adult Karate", audience: "Adults", icon: "◈", description: "Train for fitness, traditional technique, practical self-defense, and personal growth." },
+  { title: "Competitive Athlete Development", audience: "Competitive pathway", icon: "★", description: "Advanced coaching for athletes pursuing tournament readiness and higher-level competition." },
 ];
 
 const coachHighlights = [
@@ -188,19 +186,19 @@ export default function Home() {
               From first-time beginners to advanced practitioners, the program supports students as they build strong fundamentals, technical skill, and personal discipline through Shotokan Karate.
             </SectionHeading>
 
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {programs.map(([title, level, description]) => (
+            <div className="grid gap-7 md:grid-cols-2 xl:gap-8">
+              {programs.map(({ title, audience, icon, description }) => (
                 <article
-                  className="rounded-2xl border border-red-500/20 bg-gradient-to-b from-stone-900 to-black p-6 transition hover:-translate-y-1 hover:border-red-400/45"
+                  className="flex min-h-64 flex-col rounded-2xl border border-red-500/20 bg-gradient-to-b from-stone-900 to-black p-7 transition duration-300 hover:-translate-y-1 hover:border-red-400/45 hover:shadow-xl hover:shadow-red-950/20 sm:p-8"
                   key={title}
                 >
-                  <p className="text-xs font-black uppercase tracking-[0.2em] text-red-300">{level}</p>
-                  <h3 className="mt-3 text-xl font-black uppercase text-white">{title}</h3>
-                  <p className="mt-3 leading-7 text-stone-300">{description}</p>
-                  <div className="mt-5 flex flex-wrap gap-3"><ButtonLink href="/register" variant="secondary">Register</ButtonLink><a href="#schedule" className="inline-flex min-h-12 items-center text-sm font-bold uppercase tracking-[0.12em] text-red-200 hover:text-red-100">View schedule</a></div>
+                  <div className="flex items-start justify-between gap-4"><div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-red-400/30 bg-red-500/10 text-xl text-red-200" aria-hidden="true">{icon}</div><p className="pt-1 text-right text-xs font-black uppercase tracking-[0.18em] text-red-300">{audience}</p></div>
+                  <h3 className="hero-title mt-7 text-3xl font-bold leading-tight text-white">{title}</h3>
+                  <p className="mt-4 max-w-xl leading-7 text-stone-300">{description}</p>
                 </article>
               ))}
             </div>
+            <div className="mt-12 flex flex-col justify-center gap-4 sm:flex-row"><ButtonLink href="/register">Register Now</ButtonLink><ButtonLink href="#schedule" variant="secondary">View Class Schedule</ButtonLink></div>
           </div>
         </section>
 
