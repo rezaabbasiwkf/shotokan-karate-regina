@@ -22,11 +22,12 @@ const coreValues = [
 ];
 
 const coachHighlights = [
-  "5th Dan Shotokan Karate instructor",
-  "Certified Level 1 Karate coach",
-  "Official Karate Federation referee",
-  "15+ years of coaching experience",
-  "Gold Medalist at the 2015 World Championship",
+  "🥋 5th Dan Shotokan Karate Instructor",
+  "🏅 Official Kumite Coach – Saskatchewan Provincial Karate Team",
+  "🎓 Certified Level 1 Karate Coach",
+  "⚖️ Official Karate Federation Referee",
+  "👨‍🏫 15+ Years of Professional Coaching Experience",
+  "🥇 Gold Medalist – 2015 World Championship",
 ];
 
 const contactItems = [
@@ -108,7 +109,28 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="coach" className="bg-stone-950 py-24"><div className="section-shell grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]"><div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-white/10 shadow-2xl"><Image src="/images/coach.JPG" alt="Coach Reza Abbasi, professional Shotokan Karate instructor" fill className="object-cover" sizes="(min-width: 1024px) 45vw, 100vw" /></div><div><p className="text-xs font-black uppercase tracking-[0.28em] text-red-300">Professional instruction</p><h2 className="hero-title mt-4 text-4xl font-bold text-white sm:text-6xl">Coach Reza Abbasi</h2><p className="mt-5 text-lg leading-8 text-stone-300">Coach Reza Abbasi is a 5th Dan Shotokan Karate instructor, official Karate Federation referee, and certified Level 1 Karate coach with more than 15 years of experience. His coaching develops strong fundamentals, Kata and Kumite excellence, character, and competition-ready athletes.</p><div className="mt-8 grid gap-3 sm:grid-cols-2">{coachHighlights.map((highlight) => <div className="rounded-md border border-white/10 bg-white/[0.045] px-4 py-3 text-sm font-bold text-stone-100" key={highlight}>{highlight}</div>)}</div></div></div></section>
+        <section id="coach" className="relative overflow-hidden bg-stone-950 py-24">
+          <div className="absolute inset-0 opacity-60 [background-image:linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.025)_50%,transparent_100%),radial-gradient(circle_at_15%_35%,rgba(215,25,32,0.16),transparent_28rem)]" />
+          <div className="section-shell relative">
+            <div className="grid items-center gap-10 lg:grid-cols-[0.72fr_1.28fr]">
+              <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-2xl border border-red-400/25 shadow-2xl shadow-black/50">
+                <Image src="/images/athlete-development.jpg" alt="Coach Reza Abbasi, professional Shotokan Karate instructor and Saskatchewan Provincial Team Kumite coach" fill className="object-cover object-center" sizes="(min-width: 1024px) 34vw, (min-width: 640px) 384px, 100vw" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
+              </div>
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.28em] text-red-300">Professional Instruction</p>
+                <h2 className="hero-title mt-3 text-4xl font-bold text-white sm:text-6xl">Coach Reza Abbasi</h2>
+                <div className="mt-5 space-y-4 text-base leading-7 text-stone-300 sm:text-lg sm:leading-8">
+                  <p><strong className="text-white">Coach Reza Abbasi</strong> is a <strong className="text-white">5th Dan Shotokan Karate Instructor</strong>, <strong className="text-white">Certified Level 1 Karate Coach</strong>, <strong className="text-white">Official Karate Federation Referee</strong>, and an <strong className="text-white">Official Kumite Coach of the Saskatchewan Provincial Karate Team</strong>. With more than <strong className="text-white">15 years of coaching experience</strong>, he has dedicated his career to developing athletes through professional Shotokan Karate instruction, technical excellence in Kata and Kumite, character development, and high-performance competition training.</p>
+                  <p>Coach Reza Abbasi works with students of all ages and skill levels, guiding them from their first class to advanced competition while helping dedicated athletes prepare for provincial, national, and international events.</p>
+                </div>
+              </div>
+            </div>
+            <div className="mt-10 grid auto-rows-fr gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {coachHighlights.map((highlight) => <article className="flex min-h-48 flex-col items-center rounded-2xl border border-red-500/25 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 text-center shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-red-400/45 hover:shadow-2xl hover:shadow-red-950/20" key={highlight}><div className="relative h-12 w-12 shrink-0"><Image src="/favicon-round.png" alt="" fill className="object-contain" sizes="48px" /></div><div className="mt-3 h-0.5 w-12 bg-red-500" /><h3 className="mt-4 text-base font-bold leading-6 text-white sm:text-lg">{highlight}</h3></article>)}
+            </div>
+          </div>
+        </section>
 
         <section id="schedule" className="bg-black py-24"><div className="section-shell"><SectionHeading eyebrow="Class schedule" title="Professional Shotokan Karate Training">Current class times for kids, teens, and adults at all levels.</SectionHeading><div className="overflow-x-auto rounded-2xl border border-white/10 bg-stone-950"><table className="w-full min-w-[720px] text-left text-sm"><thead className="bg-white/[0.06] text-xs font-black uppercase tracking-[0.14em] text-red-200"><tr><th className="px-5 py-4">Program</th><th className="px-5 py-4">Age / Level</th><th className="px-5 py-4">Day</th><th className="px-5 py-4">Time</th><th className="px-5 py-4">Location</th></tr></thead><tbody className="text-stone-200"><tr><td className="px-5 py-5 font-bold text-white">Shotokan Karate</td><td className="px-5 py-5">Kids, teens & adults · all levels</td><td className="px-5 py-5">Wednesday</td><td className="px-5 py-5">4:00 PM – 5:00 PM</td><td className="px-5 py-5">1751 Broad Street, Regina, SK</td></tr></tbody></table></div></div></section>
 
