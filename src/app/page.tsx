@@ -15,10 +15,10 @@ const karatePrograms = [
 ];
 
 const coreValues = [
-  ["Professional Shotokan Karate", "Authentic Shotokan principles, precise technique, discipline, respect, and continuous improvement."],
-  ["Olympic-Style Karate", "Modern sport-karate development grounded in strong fundamentals and professional coaching."],
-  ["Kata", "Develop technical precision, balance, power, rhythm, focus, and confident performance."],
-  ["Kumite", "Build timing, distance, movement, strategy, control, and competition-ready decision-making."],
+  ["Professional Shotokan Karate", "Authentic Shotokan principles, precise technique, discipline, respect, and continuous improvement.", "professional-shotokan.png"],
+  ["Olympic-Style Karate", "Modern sport-karate development grounded in strong fundamentals and professional coaching.", "olympic-style-karate.png"],
+  ["Kata", "Develop technical precision, balance, power, rhythm, focus, and confident performance.", "kata.png"],
+  ["Kumite", "Build timing, distance, movement, strategy, control, and competition-ready decision-making.", "kumite.png"],
 ];
 
 const coachHighlights = [
@@ -72,8 +72,8 @@ export default function Home() {
         <section id="about" className="bg-stone-950 py-24">
           <div className="section-shell">
             <SectionHeading eyebrow="The Shotokan standard" title="Why Choose SHOTOKAN Karate Regina">Our primary mission is developing skilled karate practitioners through professional, supportive instruction in authentic Shotokan Karate.</SectionHeading>
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-              {coreValues.map(([title, description]) => <article className="flex min-h-56 flex-col rounded-2xl border border-red-500/25 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-red-400/45 hover:shadow-2xl hover:shadow-red-950/20" key={title}><div className="relative mx-auto h-12 w-12 shrink-0"><Image src="/favicon-round.png" alt="SHOTOKAN Karate Regina logo" fill className="object-contain" sizes="48px" /></div><h3 className="hero-title mt-4 text-2xl font-bold leading-tight text-white lg:text-[1.65rem]">{title}</h3><p className="mt-3 max-w-xl text-[0.9375rem] leading-6 text-stone-300">{description}</p></article>)}
+            <div className="grid auto-rows-fr gap-5 md:grid-cols-2 lg:grid-cols-4">
+              {coreValues.map(([title, description, illustration]) => <article className="flex min-h-56 flex-col rounded-2xl border border-red-500/25 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-red-400/45 hover:shadow-2xl hover:shadow-red-950/20" key={title}><div className="relative mx-auto h-20 w-20 shrink-0 overflow-hidden rounded-xl"><Image src={`/images/feature-cards/${illustration}`} alt="" fill className="object-cover" sizes="80px" /></div><h3 className="hero-title mt-4 text-2xl font-bold leading-tight text-white lg:text-[1.65rem]">{title}</h3><p className="mt-3 max-w-xl text-[0.9375rem] leading-6 text-stone-300">{description}</p></article>)}
             </div>
             <blockquote className="mx-auto mt-14 max-w-4xl border-l-2 border-red-500 px-6 py-3 text-center"><p className="hero-title text-balance text-2xl font-bold leading-relaxed text-white sm:text-3xl">“Training the body. Strengthening the mind. Building character for life.”</p></blockquote>
           </div>
