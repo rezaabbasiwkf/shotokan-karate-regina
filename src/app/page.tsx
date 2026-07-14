@@ -22,12 +22,19 @@ const coreValues = [
 ];
 
 const coachHighlights = [
-  "🥋 5th Dan Shotokan Karate Instructor",
-  "🏅 Official Kumite Coach – Saskatchewan Provincial Karate Team",
-  "🎓 Certified Level 1 Karate Coach",
-  "⚖️ Official Karate Federation Referee",
-  "👨‍🏫 15+ Years of Professional Coaching Experience",
-  "🥇 Gold Medalist – 2015 World Championship",
+  ["🥋", "5th Dan Shotokan Karate Instructor"],
+  ["🏅", "Official Kumite Coach – Saskatchewan Provincial Karate Team"],
+  ["🎓", "Certified Level 1 Karate Coach"],
+  ["⚖️", "Official Karate Federation Referee"],
+  ["👨‍🏫", "15+ Years of Professional Coaching Experience"],
+  ["🥇", "Gold Medalist – 2015 World Championship"],
+];
+
+const athleteHighlights = [
+  ["Advanced Kata", "advanced-kata.png"], ["Advanced Kumite", "advanced-kumite.png"],
+  ["Competition Strategy", "competition-strategy.png"], ["Athletic Conditioning", "athletic-conditioning.png"],
+  ["Performance Analysis", "performance-analysis.png"], ["Competition Rules", "competition-rules.png"],
+  ["Mental Preparation", "mental-preparation.png"], ["Individual Athlete Coaching", "individual-coaching.png"],
 ];
 
 const contactItems = [
@@ -100,8 +107,8 @@ export default function Home() {
               </div>
               <div className="lg:order-1">
                 <p className="max-w-4xl leading-7 text-stone-300">Dedicated athletes receive professional competition-focused Shotokan Karate coaching designed to develop technical excellence, competitive performance, athletic discipline, and the skills required to succeed at provincial, national, and international levels.</p>
-                <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                  {["Advanced Kata", "Advanced Kumite", "Competition Strategy", "Athletic Conditioning", "Performance Analysis", "Competition Rules", "Mental Preparation", "Individual Athlete Coaching"].map((item) => <article className="flex min-h-28 flex-col items-center justify-center rounded-2xl border border-red-500/25 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-3 text-center shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-red-400/45 hover:shadow-2xl hover:shadow-red-950/20" key={item}><div className="relative h-8 w-8 shrink-0"><Image src="/favicon-round.png" alt="" fill className="object-contain" sizes="32px" /></div><h3 className="mt-2 text-xs font-bold leading-4 text-stone-100 sm:text-sm">{item}</h3></article>)}
+                <div className="mt-6 grid auto-rows-fr gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                  {athleteHighlights.map(([item, illustration]) => <article className="flex min-h-40 flex-col items-center justify-center rounded-2xl border border-red-500/25 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-3 text-center shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-red-400/45 hover:shadow-2xl hover:shadow-red-950/20" key={item}><div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl"><Image src={`/images/athlete-cards/${illustration}`} alt="" fill className="object-cover" sizes="80px" /></div><h3 className="mt-3 text-sm font-bold leading-5 text-stone-100">{item}</h3></article>)}
                 </div>
                 <div className="mt-6"><ButtonLink href="/register">Begin the Athlete Pathway</ButtonLink></div>
               </div>
@@ -114,7 +121,7 @@ export default function Home() {
           <div className="section-shell relative">
             <div className="grid items-center gap-10 lg:grid-cols-[0.72fr_1.28fr]">
               <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-2xl border border-red-400/25 shadow-2xl shadow-black/50">
-                <Image src="/images/athlete-development.jpg" alt="Coach Reza Abbasi, professional Shotokan Karate instructor and Saskatchewan Provincial Team Kumite coach" fill className="object-cover object-center" sizes="(min-width: 1024px) 34vw, (min-width: 640px) 384px, 100vw" />
+                <Image src="/images/coach-reza-portrait.jpg" alt="Coach Reza Abbasi, professional Shotokan Karate instructor and Saskatchewan Provincial Team Kumite coach" fill className="object-cover object-center" sizes="(min-width: 1024px) 34vw, (min-width: 640px) 384px, 100vw" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
               </div>
               <div>
@@ -127,7 +134,7 @@ export default function Home() {
               </div>
             </div>
             <div className="mt-10 grid auto-rows-fr gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {coachHighlights.map((highlight) => <article className="flex min-h-48 flex-col items-center rounded-2xl border border-red-500/25 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 text-center shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-red-400/45 hover:shadow-2xl hover:shadow-red-950/20" key={highlight}><div className="relative h-12 w-12 shrink-0"><Image src="/favicon-round.png" alt="" fill className="object-contain" sizes="48px" /></div><div className="mt-3 h-0.5 w-12 bg-red-500" /><h3 className="mt-4 text-base font-bold leading-6 text-white sm:text-lg">{highlight}</h3></article>)}
+              {coachHighlights.map(([icon, highlight]) => <article className="flex min-h-36 flex-col items-center justify-center rounded-2xl border border-red-500/25 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-4 text-center shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-red-400/45 hover:shadow-2xl hover:shadow-red-950/20" key={highlight}><span className="text-3xl" aria-hidden="true">{icon}</span><h3 className="mt-3 text-base font-bold leading-6 text-white">{highlight}</h3></article>)}
             </div>
           </div>
         </section>
