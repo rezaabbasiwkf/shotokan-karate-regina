@@ -52,7 +52,7 @@ export default function Home() {
             <div className="absolute inset-x-5 top-0 text-center">
               <p className="mb-3 inline-flex rounded-md border border-red-400/40 bg-red-950/60 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.22em] text-red-100 backdrop-blur-sm">Professional · Competition-Focused · Olympic-Style</p>
               <h1 className="hero-title mx-auto text-[clamp(2.2rem,6.9vw,6.4rem)] font-bold leading-[0.95] text-white drop-shadow-[0_3px_12px_rgba(0,0,0,0.9)]">SHOTOKAN Karate Regina</h1>
-              <p className="hero-title mx-auto mt-4 max-w-4xl text-xl font-bold text-red-100 sm:text-[1.85rem]">Professional Shotokan Karate Training in Regina</p>
+              <p className="hero-title mx-auto mt-4 max-w-4xl text-[1.5rem] font-bold text-red-100 sm:text-[2.2rem]">Professional Shotokan Karate Training in Regina</p>
             </div>
             <div className="absolute inset-x-4 bottom-2 mx-auto w-fit max-w-[calc(100%-2rem)] rounded-xl border border-white/10 bg-gradient-to-br from-black/75 via-black/55 to-black/25 p-4 text-center shadow-xl shadow-black/30 backdrop-blur-[2px] sm:inset-x-6 sm:bottom-3 sm:max-w-[calc(100%-3rem)] sm:p-5">
               <p className="mx-auto max-w-xl text-xs font-normal leading-5 text-stone-100 sm:text-sm sm:leading-6 lg:max-w-none lg:whitespace-nowrap lg:text-[0.8125rem]">Professional coaching in Shotokan Karate, Kata, Kumite, and competition training for students of every level—from first class to high-performance athlete.</p>
