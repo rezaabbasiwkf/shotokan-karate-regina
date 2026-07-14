@@ -53,6 +53,8 @@ To send the final enrollment email after a student confirms payment, add these e
 RESEND_API_KEY=your_resend_api_key
 RESEND_FROM="Shotokan Karate Regina <verified-sender@your-domain.com>"
 REGISTRATION_EMAIL=club-inbox@your-domain.com
+KV_REST_API_URL=your_vercel_kv_rest_url
+KV_REST_API_TOKEN=your_vercel_kv_rest_token
 ```
 
 To enable Google Places address suggestions on the registration form, add a browser-restricted Google Maps JavaScript API key with the Places API enabled:

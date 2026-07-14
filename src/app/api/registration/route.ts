@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { saveRegistration, getRegistrations } from "@/lib/registration-store";
-import { sendRegistrationNotification } from "@/lib/email";
+import { sendRegistrationNotification, sendRegistrationReceivedEmail } from "@/lib/email";
 
 function normalizeField(value: unknown) {
   if (typeof value === "string") {
@@ -91,6 +91,7 @@ export async function POST(request: Request) {
     const submission = await saveRegistration(normalizedPayload);
     try {
       await sendRegistrationNotification(submission);
+      await sendRegistrationReceivedEmail(submission);
     } catch (emailError) {
       console.error("Registration notification email failed", emailError);
     }
@@ -100,7 +101,8 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: "Registration could not be completed." }, { status: 500 });
+    const message = error instanceof Error && error.message.includes("Registration storage service") ? error.message : "The registration service is temporarily unavailable. Please try again.";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 

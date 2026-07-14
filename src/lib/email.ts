@@ -69,3 +69,23 @@ export async function sendRegistrationNotification(payload: Record<string, unkno
   if (!response.ok) throw new Error(`Registration email delivery failed: ${response.status}`);
   return { sent: true };
 }
+
+export async function sendRegistrationReceivedEmail(payload: Record<string, unknown>) {
+  const apiKey = process.env.RESEND_API_KEY;
+  const email = String(payload.emailAddress || "");
+  if (!apiKey || !email) return { sent: false, reason: "missing-email-config" };
+  const from = process.env.RESEND_FROM || "Shotokan Karate Regina <onboarding@resend.dev>";
+  const response = await fetch("https://api.resend.com/emails", { method: "POST", headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" }, body: JSON.stringify({ from, to: [email], subject: "Registration Received – SHOTOKAN Karate Regina", html: `<h2>Registration received</h2><p>Thank you, ${String(payload.fullName || "student")}. Your registration reference is <strong>${String(payload.id || "")}</strong>.</p><p>Please continue to the payment page to complete your tuition payment. Once payment is verified, we will send your final confirmation and next steps.</p>` }) });
+  if (!response.ok) throw new Error(`Student registration email delivery failed: ${response.status}`);
+  return { sent: true };
+}
+
+export async function sendPaymentReceivedNotification(payload: Record<string, unknown>) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return { sent: false, reason: "missing-resend-config" };
+  const from = process.env.RESEND_FROM || "Shotokan Karate Regina <onboarding@resend.dev>";
+  const recipient = process.env.REGISTRATION_EMAIL || "reza.abbasi.wkf@gmail.com";
+  const response = await fetch("https://api.resend.com/emails", { method: "POST", headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" }, body: JSON.stringify({ from, to: [recipient], subject: `Payment Received – ${String(payload.fullName || "Student")} – ${String(payload.id || "")}`, html: `<h2>Payment confirmation submitted</h2><p>Reference: ${String(payload.id || "")}</p><p>Student: ${String(payload.fullName || "")}</p><p>Status: Pending Verification</p><p>Transaction reference: ${String(payload.transactionReference || "Not provided")}</p>` }) });
+  if (!response.ok) throw new Error(`Payment notification email delivery failed: ${response.status}`);
+  return { sent: true };
+}
