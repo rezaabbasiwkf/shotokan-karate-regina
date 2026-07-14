@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-type Address = { street: string; city: string; province: string; postalCode: string; country: string };
+type Address = { street: string; city: string; province: string; postalCode: string; country: string; formattedAddress: string };
 type Suggestion = { description: string; place_id: string };
 type AddressComponent = { long_name: string; types: string[] };
 type PlaceResult = { formatted_address?: string; address_components?: AddressComponent[] };
@@ -48,7 +48,7 @@ export function AddressAutocomplete({ value, onChange, onSelect, hasError }: { v
     service.getDetails({ placeId: suggestion.place_id, fields: ["formatted_address", "address_components"] }, (place) => {
       const components = place?.address_components || []; const part = (type: string) => components.find((item) => item.types.includes(type))?.long_name || "";
       const street = [part("street_number"), part("route")].filter(Boolean).join(" ") || place?.formatted_address || suggestion.description;
-      onSelect({ street, city: part("locality") || part("postal_town"), province: part("administrative_area_level_1"), postalCode: part("postal_code"), country: part("country") || "Canada" }); setSuggestions([]);
+      onSelect({ street, city: part("locality") || part("postal_town"), province: part("administrative_area_level_1"), postalCode: part("postal_code"), country: part("country") || "Canada", formattedAddress: place?.formatted_address || suggestion.description }); setSuggestions([]);
     });
   };
   return <div className="relative z-20" ref={root}>

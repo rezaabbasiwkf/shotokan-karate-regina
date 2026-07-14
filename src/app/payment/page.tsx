@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { PaymentConfirmation } from "@/components/PaymentConfirmation";
+import { getRegistration } from "@/lib/registration-store";
 
 export const metadata: Metadata = {
   title: "Payment",
@@ -12,14 +13,19 @@ export const metadata: Metadata = {
 export default async function PaymentPage({
   searchParams,
 }: {
-  searchParams: Promise<{ registration?: string }>;
+  searchParams: Promise<{ registration?: string; reference?: string }>;
 }) {
-  const { registration } = await searchParams;
+  const { registration, reference } = await searchParams;
+  const registrationId = reference || registration;
+  let participantName: string | undefined;
+  if (registrationId) {
+    try { participantName = String((await getRegistration(registrationId))?.fullName || "") || undefined; } catch { /* The payment page remains usable even if storage is temporarily unavailable. */ }
+  }
 
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-stone-950"><PaymentConfirmation registrationId={registration} /></main>
+      <main className="min-h-screen bg-stone-950"><PaymentConfirmation registrationId={registrationId} participantName={participantName} /></main>
       <Footer />
     </>
   );
