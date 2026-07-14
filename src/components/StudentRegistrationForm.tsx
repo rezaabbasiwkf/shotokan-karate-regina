@@ -10,6 +10,7 @@ type FormState = typeof initialState;
 const postalPattern = /^[ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ][ -]?\d[ABCEGHJKLMNPRSTVWXYZ]\d$/i;
 const phonePattern = /^\+?[0-9\s().-]{7,15}$/;
 const fieldClass = (error?: string) => `w-full rounded-xl border bg-white/5 px-4 py-3 text-sm text-white outline-none transition placeholder:text-stone-500 focus:border-red-400 focus:ring-2 focus:ring-red-400/20 ${error ? "border-red-400" : "border-white/10"}`;
+const fieldLabels: Record<string, string> = { fullName: "Full Name", dateOfBirth: "Date of Birth", age: "Age", gender: "Gender", emailAddress: "Email Address", phoneNumber: "Phone Number", program: "Program", similarProgramsBefore: "Previous Program", motivation: "Motivation", heardAbout: "Referral Source", heardAboutOther: "Referral Details", medicalCondition: "Medical Conditions", medicalDetails: "Medical Details", medication: "Medication", medicationDetails: "Medication Details", goals: "Program Goals", nextGoals: "3–6 Month Goals", attendRegularly: "Attendance Commitment", homeAddress: "Street Address", addressCity: "City", addressProvince: "Province", postalCode: "Postal Code", emergencyContactName: "Emergency Contact Name", emergencyContactPhone: "Emergency Contact Phone", parentGuardianName: "Parent/Guardian Name", parentGuardianSignature: "Parent/Guardian Signature", participantSignature: "Participant Signature", consentDate: "Consent Date", informationAccurate: "Information Accuracy", understandsRisks: "Physical Activity Risks", followsRules: "Safety Guidelines", authorizeEmergencyTreatment: "Emergency Treatment Consent", feesNonRefundable: "Fee Policy", acceptsTerms: "Registration Terms", acceptsWaiver: "Liability Waiver", humanCheck: "Registration Confirmation", registrationService: "Registration Service" };
 
 export function StudentRegistrationForm() {
   const router = useRouter();
@@ -19,12 +20,14 @@ export function StudentRegistrationForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const summaryRef = useRef<HTMLDivElement>(null);
 
   const update = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = event.target;
     const nextValue = type === "checkbox" ? (event.target as HTMLInputElement).checked : value;
     setForm((previous) => ({ ...previous, [name]: nextValue }));
-    setErrors((previous) => ({ ...previous, [name]: "" }));
+    setErrors((previous) => ({ ...previous, [name]: "", registrationService: "" }));
+    setMessage(null);
   };
   const validateStep = (target: number) => {
     const next: Record<string, string> = {};
@@ -61,13 +64,17 @@ export function StudentRegistrationForm() {
       if (!form.acceptsTerms) next.acceptsTerms = "Please accept the registration terms.";
       if (!form.acceptsWaiver) next.acceptsWaiver = "Please accept the waiver before continuing.";
       if (!form.humanCheck) next.humanCheck = "Please confirm this registration is genuine.";
-      if (!form.informationAccurate || !form.understandsRisks || !form.followsRules || !form.authorizeEmergencyTreatment || !form.feesNonRefundable) next.acceptsTerms = "Please accept all required terms.";
+      if (!form.informationAccurate) next.informationAccurate = "Please confirm that your information is accurate.";
+      if (!form.understandsRisks) next.understandsRisks = "Please acknowledge the physical activity risks.";
+      if (!form.followsRules) next.followsRules = "Please agree to follow safety guidelines.";
+      if (!form.authorizeEmergencyTreatment) next.authorizeEmergencyTreatment = "Please authorize emergency treatment if necessary.";
+      if (!form.feesNonRefundable) next.feesNonRefundable = "Please acknowledge the fee policy.";
       if (!form.participantSignature.trim()) next.participantSignature = "Please enter your electronic signature.";
       if (!form.consentDate) next.consentDate = "Please enter the consent date.";
       if (Number(form.age) < 18 && !form.parentGuardianSignature.trim()) next.parentGuardianSignature = "Parent or guardian signature is required.";
     }
     setErrors(next);
-    if (Object.keys(next).length) requestAnimationFrame(() => formRef.current?.querySelector<HTMLElement>("[aria-invalid='true']")?.focus());
+    if (Object.keys(next).length) requestAnimationFrame(() => { summaryRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }); formRef.current?.querySelector<HTMLElement>("[aria-invalid='true']")?.focus(); });
     return Object.keys(next).length === 0;
   };
   const nextStep = () => { if (validateStep(step)) { setStep((current) => current + 1); setMessage(null); } };
@@ -77,7 +84,7 @@ export function StudentRegistrationForm() {
       const response = await fetch("/api/registration", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...form, age: Number(form.age) }) });
       const data = await response.json(); if (!response.ok) throw new Error(data.error || "Registration could not be completed.");
       router.push(`/payment?registration=${encodeURIComponent(data.submission.id)}`);
-    } catch (error) { setMessage(error instanceof Error ? error.message : "We could not complete your registration. Please try again."); } finally { setIsSubmitting(false); }
+    } catch (error) { const serverMessage = error instanceof Error ? error.message : "The registration service is temporarily unavailable. Please try again."; setErrors((previous) => ({ ...previous, registrationService: serverMessage })); setMessage(serverMessage); requestAnimationFrame(() => summaryRef.current?.scrollIntoView({ behavior: "smooth", block: "center" })); } finally { setIsSubmitting(false); }
   };
   const error = (name: string) => errors[name] ? <p className="mt-2 flex gap-2 text-sm text-red-300"><span aria-hidden="true">⚠</span>{errors[name]}</p> : null;
   const selectClass = (name: string) => `w-full rounded-xl border bg-white px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-400/30 ${errors[name] ? "border-red-400" : "border-stone-300"}`;
@@ -85,7 +92,8 @@ export function StudentRegistrationForm() {
   return <form ref={formRef} onSubmit={submit} className="rounded-3xl border border-white/10 bg-stone-950/90 p-6 shadow-2xl shadow-black/40 sm:p-8 lg:p-10">
     <div className="border-b border-white/10 pb-6"><p className="text-xs font-black uppercase tracking-[0.28em] text-red-300">Student enrollment</p><h3 className="mt-3 text-3xl font-black uppercase text-white sm:text-4xl">Register in three simple steps</h3><p className="mt-3 text-stone-300">Step {step} of 3 — {step === 1 ? "Student Information" : step === 2 ? "Program & Contact" : "Review & Consent"}</p></div>
     <div className="mt-6 flex gap-2" aria-label={`Step ${step} of 3`}>{[1, 2, 3].map((item) => <span key={item} className={`h-1 flex-1 rounded-full ${item <= step ? "bg-red-500" : "bg-white/10"}`} />)}</div>
-    {message ? <div className="mt-6 rounded-xl border border-red-400/30 bg-red-950/30 p-4 text-sm text-red-100">{message}</div> : null}
+    {Object.entries(errors).filter(([, errorMessage]) => errorMessage).length ? <div ref={summaryRef} className="mt-6 rounded-xl border border-red-400/60 bg-red-950/45 p-5 text-sm text-red-100" role="alert" tabIndex={-1}><p className="font-black uppercase tracking-[0.12em]">We could not continue to payment</p><p className="mt-2">Please fix the following fields:</p><ul className="mt-3 list-disc space-y-1 pl-5">{Object.entries(errors).filter(([, errorMessage]) => errorMessage).map(([field, errorMessage]) => <li key={field}><strong>{fieldLabels[field] || field}:</strong> {errorMessage}</li>)}</ul></div> : null}
+    {message && !Object.keys(errors).length ? <div className="mt-6 rounded-xl border border-red-400/30 bg-red-950/30 p-4 text-sm text-red-100">{message}</div> : null}
     {step === 1 ? <div className="mt-8 grid gap-5 md:grid-cols-2">
       <label className="text-sm font-semibold text-stone-200 md:col-span-2">Full name<input name="fullName" value={form.fullName} onChange={update} aria-invalid={Boolean(errors.fullName)} className={`mt-2 ${fieldClass(errors.fullName)}`} autoComplete="name" />{error("fullName")}</label>
       <label className="text-sm font-semibold text-stone-200">Date of birth<input name="dateOfBirth" type="date" value={form.dateOfBirth} onChange={update} aria-invalid={Boolean(errors.dateOfBirth)} className={`mt-2 ${fieldClass(errors.dateOfBirth)}`} />{error("dateOfBirth")}</label>
