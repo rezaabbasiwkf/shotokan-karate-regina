@@ -111,9 +111,9 @@ export default function Home() {
                 Professional Shotokan Karate classes in Regina for students who want to build discipline, confidence, focus, fitness, and practical self-defense under the guidance of Coach Reza Abbasi.
               </p>
               <div className="mt-6 flex flex-col justify-center gap-4 sm:flex-row">
-                <ButtonLink href="/register">Join a Class</ButtonLink>
-                <ButtonLink href="#coach" variant="secondary">
-                  Meet the Coach
+                <ButtonLink href="/register">Start Your Karate Journey</ButtonLink>
+                <ButtonLink href="#programs" variant="secondary">
+                  View Programs
                 </ButtonLink>
               </div>
             </div>
@@ -197,7 +197,7 @@ export default function Home() {
                   <p className="text-xs font-black uppercase tracking-[0.2em] text-red-300">{level}</p>
                   <h3 className="mt-3 text-xl font-black uppercase text-white">{title}</h3>
                   <p className="mt-3 leading-7 text-stone-300">{description}</p>
-                  <ButtonLink href="/register" variant="secondary">Register</ButtonLink>
+                  <div className="mt-5 flex flex-wrap gap-3"><ButtonLink href="/register" variant="secondary">Register</ButtonLink><a href="#schedule" className="inline-flex min-h-12 items-center text-sm font-bold uppercase tracking-[0.12em] text-red-200 hover:text-red-100">View schedule</a></div>
                 </article>
               ))}
             </div>
@@ -316,6 +316,7 @@ export default function Home() {
                   </article>
                 ))}
               </div>
+              <div className="mt-8"><ButtonLink href="/register">Train with Coach Reza</ButtonLink></div>
             </div>
 
             <div className="mt-10 flex justify-center">

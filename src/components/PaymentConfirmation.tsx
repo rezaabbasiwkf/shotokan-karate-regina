@@ -40,6 +40,7 @@ export function PaymentConfirmation({ registrationId }: { registrationId?: strin
       <div className="mx-auto max-w-3xl rounded-[2rem] border border-white/10 bg-gradient-to-br from-black via-stone-950 to-black p-6 text-center shadow-2xl shadow-black/40 sm:p-10 lg:p-14">
         <p className="text-xs font-black uppercase tracking-[0.28em] text-red-300">Step 2 of 2 · Tuition payment</p>
         <h1 className="mt-4 text-4xl font-black uppercase leading-tight text-white sm:text-5xl">Complete your enrollment</h1>
+        {registrationId ? <p className="mt-4 text-sm font-bold text-red-200">Registration submitted successfully · Reference: {registrationId.toUpperCase()}</p> : null}
         <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-stone-300 sm:text-lg">
           Scan this PayPal QR code with your phone to pay your tuition. When the payment is complete, select the confirmation button below and we’ll email your registration details and next steps.
         </p>

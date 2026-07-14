@@ -8,68 +8,32 @@ function normalizeField(value: unknown) {
   return value;
 }
 
-async function verifyRecaptcha(token: string) {
-  const secret = process.env.RECAPTCHA_SECRET_KEY;
-  if (!secret) {
-    return { success: true };
-  }
-
-  const result = await fetch("https://www.google.com/recaptcha/api/siteverify", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: new URLSearchParams({ secret, response: token }),
-  });
-
-  const data = (await result.json()) as { success?: boolean };
-  return data;
-}
-
 export async function POST(request: Request) {
   try {
     const payload = (await request.json()) as Record<string, unknown>;
-    const recaptchaToken = typeof payload.recaptchaToken === "string" ? payload.recaptchaToken : "";
     const honeypot = typeof payload.website === "string" ? payload.website : "";
 
     if (honeypot) {
       return NextResponse.json({ error: "Spam detected." }, { status: 400 });
     }
 
-    const hasGoogleCaptchaKey = Boolean(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && process.env.RECAPTCHA_SECRET_KEY);
-    if (hasGoogleCaptchaKey && !recaptchaToken) {
-      return NextResponse.json({ error: "Please complete the anti-spam verification." }, { status: 400 });
-    }
-
-    if (hasGoogleCaptchaKey) {
-      const verification = await verifyRecaptcha(recaptchaToken);
-      if (!verification.success) {
-        return NextResponse.json({ error: "Anti-spam verification failed." }, { status: 400 });
-      }
-    } else if (!payload.humanCheck) {
+    if (!payload.humanCheck) {
       return NextResponse.json({ error: "Please confirm you are not submitting this automatically." }, { status: 400 });
     }
 
     const requiredFields = [
-      "fullName",
-      "dateOfBirth",
+      "firstName",
+      "lastName",
+      "program",
       "gender",
       "phoneNumber",
       "emailAddress",
       "homeAddress",
+      "addressCity",
+      "addressProvince",
       "emergencyContactName",
       "emergencyContactPhone",
       "similarProgramsBefore",
-      "motivation",
-      "heardAbout",
-      "healthDetails",
-      "medicationDetails",
-      "goals",
-      "nextGoals",
-      "attendRegularly",
-      "participantName",
-      "participantSignature",
-      "date",
     ];
 
     const missing = requiredFields.filter((field) => {
@@ -83,6 +47,10 @@ export async function POST(request: Request) {
 
     if (!/^[ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ][ -]?\d[ABCEGHJKLMNPRSTVWXYZ]\d$/i.test(String(payload.postalCode || "").trim())) {
       return NextResponse.json({ error: "Please enter a valid Canadian postal code." }, { status: 400 });
+    }
+
+    if (!payload.acceptsTerms || !payload.acceptsWaiver) {
+      return NextResponse.json({ error: "Please accept the registration terms and waiver." }, { status: 400 });
     }
 
     const age = typeof payload.age === "number"
@@ -99,11 +67,19 @@ export async function POST(request: Request) {
     if (!allowedGenders.includes(String(payload.gender || ""))) {
       return NextResponse.json({ error: "Please select a valid gender." }, { status: 400 });
     }
+    const allowedPrograms = ["Kids Karate", "Teen Karate", "Adult Karate", "Beginner Program", "Advanced Training", "Practical Self-Defense"];
+    if (!allowedPrograms.includes(String(payload.program || ""))) {
+      return NextResponse.json({ error: "Please select a valid program." }, { status: 400 });
+    }
+    if (age < 18 && !String(payload.parentGuardianName || "").trim()) {
+      return NextResponse.json({ error: "A parent or guardian name is required for students under 18." }, { status: 400 });
+    }
 
     const normalizedPayload = Object.fromEntries(
       Object.entries(payload).map(([key, value]) => [key, normalizeField(value)]),
     );
     normalizedPayload.age = age;
+    normalizedPayload.fullName = `${String(payload.firstName).trim()} ${String(payload.lastName).trim()}`;
 
     const submission = await saveRegistration(normalizedPayload);
     return NextResponse.json({
