@@ -202,6 +202,28 @@ export default function Home() {
           </div>
         </section>
 
+        <section id="self-defense" className="relative overflow-hidden bg-gradient-to-br from-stone-950 via-black to-red-950/30 py-24">
+          <div className="absolute inset-y-0 left-0 hidden w-1/2 bg-[radial-gradient(circle_at_center,rgba(215,25,32,0.13),transparent_68%)] lg:block" />
+          <div className="section-shell relative z-10 grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+            <div className="relative mx-auto w-full max-w-md overflow-hidden rounded-[2rem] border border-white/10 bg-black shadow-2xl shadow-black/60 lg:mx-0">
+              <Image src="/images/self-defense.JPG" alt="Coach Reza Abbasi demonstrating focused martial arts training" width={864} height={1152} className="h-auto w-full object-cover" sizes="(min-width: 1024px) 40vw, (min-width: 640px) 65vw, 92vw" />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/65 to-transparent" />
+              <p className="absolute bottom-6 left-6 right-6 text-xs font-black uppercase tracking-[0.18em] text-white">Awareness · readiness · confidence</p>
+            </div>
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-red-300">Essential training</p>
+              <h2 className="hero-title mt-4 text-4xl font-bold leading-tight text-white sm:text-5xl">Practical Self-Defense</h2>
+              <p className="mt-4 text-lg font-bold text-red-100">Build Confidence. Stay Aware. Protect Yourself.</p>
+              <p className="mt-6 max-w-2xl leading-8 text-stone-300">At SHOTOKAN Karate Regina, self-defense is taught through practical, realistic, professionally structured training designed for everyday situations. Students build awareness, sound decision-making, and safe defensive skills in a respectful environment led by Coach Reza Abbasi.</p>
+              <div id="self-defense-benefits" className="mt-8 grid gap-3 sm:grid-cols-2">
+                {["Real-World Self-Defense Skills", "Situational Awareness", "Confidence Under Pressure", "Safe & Controlled Training", "Practical Defensive Techniques", "Increased Fitness", "Mental Resilience", "Professional Instruction"].map((benefit) => <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.045] p-4 text-sm font-bold text-stone-100" key={benefit}><span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-red-400/35 bg-red-500/10 text-xs text-red-200" aria-hidden="true">◆</span>{benefit}</div>)}
+              </div>
+              <p className="mt-7 text-sm leading-7 text-stone-400">Suitable for children, teenagers, adults, beginners, and experienced martial artists.</p>
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row"><ButtonLink href="/register">Register Today</ButtonLink><ButtonLink href="#self-defense-benefits" variant="secondary">Learn More</ButtonLink></div>
+            </div>
+          </div>
+        </section>
+
         <section className="relative overflow-hidden bg-gradient-to-br from-stone-950 via-black to-red-950/35 py-24">
           <div className="absolute inset-y-0 right-0 hidden w-1/2 bg-[radial-gradient(circle_at_center,rgba(215,25,32,0.18),transparent_65%)] lg:block" />
           <div className="section-shell relative z-10 grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr]">
