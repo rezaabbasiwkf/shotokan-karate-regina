@@ -82,10 +82,29 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="athlete-development" className="relative overflow-hidden bg-gradient-to-br from-stone-950 via-black to-red-950/35 py-24">
-          <div className="section-shell grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
-            <div><p className="text-xs font-black uppercase tracking-[0.28em] text-red-300">Competitive pathway</p><h2 className="hero-title mt-4 text-4xl font-bold leading-tight text-white sm:text-6xl">High Performance Athlete Development</h2><p className="mt-5 text-xl font-bold text-red-100">Preparing athletes for Provincial Championships, National Championships, and International Competition.</p><p className="mt-6 max-w-2xl leading-8 text-stone-300">Dedicated students progress through professional Olympic-style Karate coaching focused on technical excellence, performance, and competitive readiness.</p><div className="mt-8 grid gap-3 sm:grid-cols-2">{["Advanced Kata", "Advanced Kumite", "Competition strategy", "Athletic conditioning", "Mental preparation", "Performance analysis", "Competition rules", "Individual athlete coaching"].map((item) => <div className="rounded-lg border border-white/10 bg-white/[0.05] p-4 font-bold text-stone-100" key={item}>{item}</div>)}</div></div>
-            <div><div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-red-400/30 shadow-2xl shadow-black/50"><Image src="/images/class.jpg" alt="Shotokan Karate athletes developing Kata and Kumite competition skills" fill className="object-cover" sizes="(min-width: 1024px) 45vw, 100vw" /><div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" /><p className="absolute bottom-6 left-6 text-sm font-black uppercase tracking-[0.18em] text-white">Kata · Kumite · Competition Training</p></div><div className="mt-6"><ButtonLink href="/register">Begin the Athlete Pathway</ButtonLink></div></div>
+        <section id="athlete-development" className="relative overflow-hidden bg-gradient-to-br from-stone-950 via-black to-red-950/35 py-20">
+          <div className="section-shell">
+            <div className="text-center lg:text-left">
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-red-300">Competitive Pathway</p>
+              <h2 className="hero-title mt-3 font-bold leading-tight">
+                <span className="block text-3xl text-white sm:text-4xl lg:whitespace-nowrap lg:text-[2.75rem]">High Performance Athlete Development</span>
+                <span className="mt-2 block text-lg text-red-100 sm:text-xl lg:whitespace-nowrap lg:text-2xl">Preparing Athletes for Provincial, National &amp; International Competition</span>
+              </h2>
+            </div>
+            <div className="mt-8 grid items-center gap-8 lg:grid-cols-[1.55fr_0.75fr]">
+              <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-2xl border border-red-400/30 shadow-2xl shadow-black/50 lg:order-2">
+                <Image src="/images/athlete-development.jpg" alt="Shotokan Karate athlete training for high-level competition" fill className="object-cover object-center" sizes="(min-width: 1024px) 34vw, (min-width: 640px) 384px, 100vw" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                <p className="absolute inset-x-4 bottom-4 text-center text-xs font-black uppercase tracking-[0.16em] text-white">Kata · Kumite · Competition Training</p>
+              </div>
+              <div className="lg:order-1">
+                <p className="max-w-4xl leading-7 text-stone-300">Dedicated athletes receive professional competition-focused Shotokan Karate coaching designed to develop technical excellence, competitive performance, athletic discipline, and the skills required to succeed at provincial, national, and international levels.</p>
+                <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                  {["Advanced Kata", "Advanced Kumite", "Competition Strategy", "Athletic Conditioning", "Performance Analysis", "Competition Rules", "Mental Preparation", "Individual Athlete Coaching"].map((item) => <article className="flex min-h-28 flex-col items-center justify-center rounded-2xl border border-red-500/25 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-3 text-center shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-red-400/45 hover:shadow-2xl hover:shadow-red-950/20" key={item}><div className="relative h-8 w-8 shrink-0"><Image src="/favicon-round.png" alt="" fill className="object-contain" sizes="32px" /></div><h3 className="mt-2 text-xs font-bold leading-4 text-stone-100 sm:text-sm">{item}</h3></article>)}
+                </div>
+                <div className="mt-6"><ButtonLink href="/register">Begin the Athlete Pathway</ButtonLink></div>
+              </div>
+            </div>
           </div>
         </section>
 
