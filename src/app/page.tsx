@@ -8,10 +8,10 @@ import { Navbar } from "@/components/Navbar";
 import { SectionHeading } from "@/components/SectionHeading";
 
 const karatePrograms = [
-  { title: "Kids Shotokan Karate", audience: "Ages 5+", description: "Build focus, coordination, confidence, and strong Shotokan fundamentals." },
-  { title: "Teen Shotokan Karate", audience: "Teens", description: "Develop Kata, Kumite, fitness, discipline, and a confident competitive mindset." },
-  { title: "Adult Shotokan Karate", audience: "Adults", description: "Train in authentic technique, Kata, Kumite, fitness, and lifelong personal development." },
-  { title: "Competition Training", audience: "Athlete pathway", description: "Advanced Olympic-style coaching for provincial, national, and international competition." },
+  { title: "Kids Shotokan Karate", audience: "Ages 5+", description: "Build focus, coordination, confidence, discipline, and strong Shotokan fundamentals through safe and structured training.", illustration: "kids-shotokan.webp", illustrationAlt: "Young karate student practicing a basic Shotokan stance" },
+  { title: "Teen Shotokan Karate", audience: "Teens", description: "Develop Kata, Kumite, fitness, technical skill, discipline, leadership, and a confident competitive mindset.", illustration: "teen-shotokan.webp", illustrationAlt: "Teen karate athlete practicing a controlled Kumite technique" },
+  { title: "Adult Shotokan Karate", audience: "Adults", description: "Improve technique, Kata, Kumite, fitness, practical ability, confidence, and long-term personal development.", illustration: "adult-shotokan.webp", illustrationAlt: "Adult karate practitioner performing a strong Shotokan technique" },
+  { title: "Competition Training", audience: "Athlete Pathway", description: "Professional competition-focused coaching for athletes preparing for provincial, national, and international events.", illustration: "competition-training.webp", illustrationAlt: "High-performance karate athlete preparing for competition on a tatami" },
 ];
 
 const coreValues = [
@@ -82,11 +82,11 @@ export default function Home() {
         <section id="programs" className="bg-black py-24">
           <div className="section-shell">
             <SectionHeading eyebrow="Professional karate programs" title="Shotokan Training for Every Stage">Build precise technique, discipline, athletic ability, and confidence through a structured Shotokan Karate pathway.</SectionHeading>
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-              {karatePrograms.map((program) => <article className="flex min-h-60 flex-col items-center rounded-2xl border border-red-500/25 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-5 text-center shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-red-400/45 hover:shadow-2xl hover:shadow-red-950/20" key={program.title}><div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-red-400/35 bg-white"><Image src="/images/logo.PNG" alt="SHOTOKAN Karate Regina logo" fill className="object-cover" sizes="48px" /></div><p className="mt-2 text-[0.6875rem] font-black uppercase tracking-[0.16em] text-red-300">{program.audience}</p><h3 className="hero-title mt-2 text-2xl font-bold leading-tight text-white lg:text-[1.65rem]">{program.title}</h3><p className="mt-3 text-[0.9375rem] leading-6 text-stone-300">{program.description}</p></article>)}
+            <div className="grid auto-rows-fr gap-5 md:grid-cols-2 lg:grid-cols-4">
+              {karatePrograms.map((program) => <article className={`flex min-h-80 flex-col items-center rounded-2xl border bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-5 text-center shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-red-950/20 ${program.title === "Competition Training" ? "border-red-400/55 hover:border-red-300/75" : "border-red-500/25 hover:border-red-400/45"}`} key={program.title}><div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl"><Image src={`/images/program-cards/${program.illustration}`} alt={program.illustrationAlt} fill className="object-cover" sizes="96px" /></div><div className="mt-3 h-0.5 w-12 bg-red-500" /><p className="mt-3 text-[0.6875rem] font-black uppercase tracking-[0.16em] text-red-300">{program.audience}</p><h3 className="hero-title mt-2 text-2xl font-bold leading-tight text-white lg:text-[1.65rem]">{program.title}</h3><p className="mt-3 text-[0.9375rem] leading-6 text-stone-300">{program.description}</p></article>)}
             </div>
             <article className="mx-auto mt-8 max-w-4xl rounded-xl border border-white/10 bg-stone-950 p-6 sm:flex sm:items-center sm:justify-between sm:gap-8"><div><p className="text-xs font-black uppercase tracking-[0.2em] text-stone-400">Additional program</p><h3 className="mt-2 text-2xl font-black text-white">Practical Self-Defense</h3><p className="mt-2 max-w-2xl leading-7 text-stone-400">Practical self-defense training designed to improve awareness, confidence, and personal safety in real-world situations.</p></div><div className="mt-5 shrink-0 sm:mt-0"><ButtonLink href="/self-defense" variant="secondary">Learn More</ButtonLink></div></article>
-            <div className="mt-12 flex flex-col justify-center gap-4 sm:flex-row"><ButtonLink href="/register">Register for Karate</ButtonLink><ButtonLink href="#schedule" variant="secondary">View Class Schedule</ButtonLink></div>
+            <div className="mt-12 flex flex-col justify-center gap-4 sm:flex-row"><ButtonLink href="/register">Register Now</ButtonLink><ButtonLink href="#schedule" variant="secondary">View Class Schedule</ButtonLink></div>
           </div>
         </section>
 
