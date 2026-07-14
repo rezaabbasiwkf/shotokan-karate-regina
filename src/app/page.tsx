@@ -64,8 +64,8 @@ export default function Home() {
         <section id="about" className="bg-stone-950 py-24">
           <div className="section-shell">
             <SectionHeading eyebrow="The Shotokan standard" title="Why Choose SHOTOKAN Karate Regina">Our primary mission is developing skilled karate practitioners through professional, supportive instruction in authentic Shotokan Karate.</SectionHeading>
-            <div className="grid gap-5 md:grid-cols-2">
-              {coreValues.map(([title, description]) => <article className="rounded-2xl border border-red-500/25 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-7 shadow-2xl shadow-black/25 sm:p-8" key={title}><div className="h-1 w-20 bg-red-500" /><h3 className="hero-title mt-6 text-3xl font-bold text-white sm:text-4xl">{title}</h3><p className="mt-4 max-w-xl leading-7 text-stone-300">{description}</p></article>)}
+            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+              {coreValues.map(([title, description]) => <article className="flex min-h-56 flex-col rounded-2xl border border-red-500/25 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-6 shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-red-400/45 hover:shadow-2xl hover:shadow-red-950/20" key={title}><div className="h-1 w-16 bg-red-500" /><h3 className="hero-title mt-5 text-2xl font-bold leading-tight text-white lg:text-[1.65rem]">{title}</h3><p className="mt-3 max-w-xl text-[0.9375rem] leading-6 text-stone-300">{description}</p></article>)}
             </div>
             <blockquote className="mx-auto mt-14 max-w-4xl border-l-2 border-red-500 px-6 py-3 text-center"><p className="hero-title text-balance text-2xl font-bold leading-relaxed text-white sm:text-3xl">“Training the body. Strengthening the mind. Building character for life.”</p></blockquote>
           </div>
