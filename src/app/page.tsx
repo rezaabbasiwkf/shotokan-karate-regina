@@ -204,6 +204,26 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="relative overflow-hidden bg-gradient-to-br from-stone-950 via-black to-red-950/35 py-24">
+          <div className="absolute inset-y-0 right-0 hidden w-1/2 bg-[radial-gradient(circle_at_center,rgba(215,25,32,0.18),transparent_65%)] lg:block" />
+          <div className="section-shell relative z-10 grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr]">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-red-300">Competitive pathway</p>
+              <h2 className="hero-title mt-4 text-4xl font-bold leading-tight text-white sm:text-5xl">High Performance Athlete Development</h2>
+              <p className="mt-4 text-lg font-bold text-red-100">Preparing Athletes for Provincial, National, and International Competition</p>
+              <p className="mt-6 max-w-2xl leading-8 text-stone-300">At SHOTOKAN Karate Regina, dedicated students can progress through a structured high-performance pathway designed to prepare them for competitive karate.</p>
+              <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                {["Olympic-style Shotokan Karate", "Advanced Kata and Kumite development", "Competition strategy and tactical training", "Physical conditioning and athletic performance", "Mental preparation and competition mindset", "Performance analysis and continuous improvement", "Referee rules and competition standards", "Individual coaching for competitive athletes"].map((item) => <div className="flex gap-3 rounded-lg border border-white/10 bg-white/[0.045] p-4 text-sm font-bold leading-6 text-stone-100" key={item}><span className="text-red-300" aria-hidden="true">◆</span>{item}</div>)}
+              </div>
+              <p className="mt-7 max-w-2xl text-sm leading-7 text-stone-400">For athletes who demonstrate technical ability, discipline, and competitive readiness, coaching can prepare them for local tournaments, provincial and national championships, and international competition. Higher-level opportunities depend on performance, eligibility, and governing-body selection criteria.</p>
+            </div>
+            <div className="space-y-5">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/50"><Image src="/images/class.jpg" alt="Shotokan Karate Regina training session" fill className="object-cover" sizes="(min-width: 1024px) 50vw, 100vw" /><div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" /><p className="absolute bottom-5 left-5 text-xs font-black uppercase tracking-[0.18em] text-white">Focused training. Measurable progress.</p></div>
+              <article className="rounded-2xl border border-red-400/30 bg-black/55 p-7 shadow-xl shadow-red-950/20"><p className="text-xs font-black uppercase tracking-[0.24em] text-red-300">Athlete pathway</p><h3 className="hero-title mt-3 text-3xl font-bold text-white">From Beginner to High Performance Athlete</h3><p className="mt-4 leading-7 text-stone-300">Whether your goal is personal development, competition success, or pursuing opportunities at the provincial, national, or international level, SHOTOKAN Karate Regina provides professional coaching to help you reach your highest potential.</p><div className="mt-6"><ButtonLink href="/register">Start Your Training Path</ButtonLink></div></article>
+            </div>
+          </div>
+        </section>
+
         <section id="schedule" className="bg-stone-950 py-24">
           <div className="section-shell">
             <SectionHeading eyebrow="Schedule" title="A clear weekly training schedule">Current class times and program information for Shotokan Karate Regina.</SectionHeading>
