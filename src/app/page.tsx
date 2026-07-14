@@ -54,8 +54,8 @@ export default function Home() {
               <h1 className="hero-title mx-auto text-[clamp(2.2rem,6.9vw,6.4rem)] font-bold leading-[0.95] text-white drop-shadow-[0_3px_12px_rgba(0,0,0,0.9)]">SHOTOKAN Karate Regina</h1>
               <p className="hero-title mx-auto mt-4 max-w-4xl text-xl font-bold text-red-100 sm:text-[1.85rem]">Professional Shotokan Karate Training in Regina</p>
             </div>
-            <div className="absolute inset-x-4 bottom-2 mx-auto max-w-3xl rounded-xl border border-white/10 bg-gradient-to-br from-black/75 via-black/55 to-black/25 p-4 text-center shadow-xl shadow-black/30 backdrop-blur-[2px] sm:inset-x-6 sm:bottom-3 sm:p-5">
-              <p className="mx-auto max-w-xl text-xs font-normal leading-5 text-stone-100 sm:text-sm sm:leading-6">Professional coaching in Shotokan Karate, Kata, Kumite, and competition training for students of every level—from first class to high-performance athlete.</p>
+            <div className="absolute inset-x-4 bottom-2 mx-auto w-fit max-w-[calc(100%-2rem)] rounded-xl border border-white/10 bg-gradient-to-br from-black/75 via-black/55 to-black/25 p-4 text-center shadow-xl shadow-black/30 backdrop-blur-[2px] sm:inset-x-6 sm:bottom-3 sm:max-w-[calc(100%-3rem)] sm:p-5">
+              <p className="mx-auto max-w-xl text-xs font-normal leading-5 text-stone-100 sm:text-sm sm:leading-6 lg:max-w-none lg:whitespace-nowrap lg:text-[0.8125rem]">Professional coaching in Shotokan Karate, Kata, Kumite, and competition training for students of every level—from first class to high-performance athlete.</p>
               <div className="mt-4 flex flex-col justify-center gap-3 sm:flex-row"><ButtonLink href="/register">Start Your Karate Journey</ButtonLink><ButtonLink href="#programs" variant="secondary">Explore Karate Programs</ButtonLink></div>
             </div>
           </div>
