@@ -15,6 +15,7 @@ const primaryLinks = [
 ];
 
 const secondaryLinks = [
+  { href: "/self-defense", label: "Self-Defense" },
   { href: "/#reviews", label: "Reviews" },
   { href: "/#faq", label: "FAQ" },
   { href: "/#contact", label: "Contact" },
@@ -28,7 +29,7 @@ export function Navbar() {
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const closeMenu = () => setIsOpen(false);
-  const isActive = (href: string) => pathname === "/" && (href === "/" ? !activeSection : href === `/#${activeSection}`);
+  const isActive = (href: string) => href === "/self-defense" ? pathname === href : pathname === "/" && (href === "/" ? !activeSection : href === `/#${activeSection}`);
 
   useEffect(() => {
     if (pathname !== "/") return;
