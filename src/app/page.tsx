@@ -54,7 +54,7 @@ export default function Home() {
       <Navbar />
       <main id="home">
         <section className="relative min-h-[52rem] overflow-hidden pt-16 sm:min-h-[48rem] lg:min-h-[52rem]">
-          <Image src="/images/hero-group-straight.jpg" alt="Shotokan Karate Regina students and instructors" fill priority quality={90} className="scale-[1.2] object-cover object-[center_42%] sm:scale-[1.23] sm:object-[center_40%] lg:scale-[1.25] lg:object-[center_38%]" sizes="100vw" />
+          <Image src="/images/hero-group-straight.jpg" alt="Shotokan Karate Regina students and instructors" fill priority quality={90} className="-translate-y-[4.5rem] scale-[1.2] object-cover object-[center_42%] sm:scale-[1.23] sm:object-[center_40%] lg:scale-[1.25] lg:object-[center_38%]" sizes="100vw" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/5 to-black/85" />
           <div className="section-shell relative z-10 min-h-[calc(52rem-4rem)] sm:min-h-[calc(48rem-4rem)] lg:min-h-[calc(52rem-4rem)]">
             <div className="absolute inset-x-5 top-14 text-center">
