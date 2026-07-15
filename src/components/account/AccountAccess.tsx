@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { portalFetch } from "@/lib/client/portal-fetch";
+import { safelyReadJson } from "@/lib/client/safe-json";
 
 type Mode = "create" | "login";
 type Message = { type: "error" | "success"; text: string } | null;
@@ -26,7 +27,7 @@ export function AccountAccess({ next }: { next?: string }) {
     if (mode === "login") payload.next = next || "/account/dashboard";
     try {
       const response = await portalFetch(mode === "create" ? "/api/auth/signup" : "/api/auth/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-      const data = await response.json() as { message?: string; fieldErrors?: Record<string, string>; nextUrl?: string };
+      const data = await safelyReadJson<{ message?: string; fieldErrors?: Record<string, string>; nextUrl?: string }>(response);
       if (!response.ok) { setErrors(data.fieldErrors || {}); throw new Error(data.message || "The request could not be completed."); }
       window.location.assign(data.nextUrl || "/account/dashboard");
     } catch (caught) { setMessage({ type: "error", text: caught instanceof Error ? caught.message : "The request could not be completed." }); }
@@ -69,7 +70,7 @@ export function AccountAccess({ next }: { next?: string }) {
         </form>
         {mode === "login" ? <p className="mt-5 text-center text-sm"><Link className="text-red-300 hover:text-red-200" href="/forgot-password">Forgot Password?</Link></p> : null}
       </section>
-      <aside className="rounded-3xl border border-red-400/20 bg-gradient-to-br from-red-950/40 to-black/40 p-7 sm:p-9"><p className="text-xs font-black uppercase tracking-[0.24em] text-red-300">New to the academy?</p><h2 className="hero-title mt-4 text-3xl font-bold text-white">Start with a Trial Class</h2><p className="mt-4 leading-7 text-stone-300">Request a trial without creating an account or making a payment.</p><Link href="/trial-class" className="mt-7 inline-flex min-h-12 w-full items-center justify-center rounded-md border border-white/20 px-5 text-sm font-black uppercase tracking-[0.12em] text-white transition hover:border-red-300 hover:bg-white/5">Request a Trial Class</Link></aside>
+      <aside className="rounded-3xl border border-red-400/20 bg-gradient-to-br from-red-950/40 to-black/40 p-7 sm:p-9"><p className="text-xs font-black uppercase tracking-[0.24em] text-red-300">New to the academy?</p><h2 className="hero-title mt-4 text-3xl font-bold text-white">Register or Try a Class</h2><p className="mt-4 leading-7 text-stone-300">Use the streamlined student form without creating an account, or request a trial class with no payment.</p><Link href="/register" className="mt-7 inline-flex min-h-12 w-full items-center justify-center rounded-md bg-red-600 px-5 text-center text-sm font-black uppercase tracking-[0.12em] text-white transition hover:bg-red-500">Student Registration</Link><Link href="/trial-class" className="mt-3 inline-flex min-h-12 w-full items-center justify-center rounded-md border border-white/20 px-5 text-center text-sm font-black uppercase tracking-[0.12em] text-white transition hover:border-red-300 hover:bg-white/5">Request a Trial Class</Link></aside>
     </div>
   </div>;
 }

@@ -2,6 +2,51 @@ export type AccountRole = "family" | "admin";
 export type PaymentStatus = "Not Paid" | "Pending Verification" | "Confirmed";
 export type EnrollmentStatus = "Pending Payment" | "Payment Submitted" | "Active" | "Cancelled";
 
+export type Registration = {
+  id: string;
+  registrationReference: string;
+  submissionId: string;
+  accessTokenHash: string;
+  fullName: string;
+  dateOfBirth: string;
+  calculatedAge: number;
+  gender: string;
+  phone: string;
+  email: string;
+  homeAddress: string;
+  emergencyContactName: string;
+  emergencyContactPhone: string;
+  guardianName: string;
+  guardianPhone: string;
+  guardianEmail: string;
+  previousProgram: "Yes" | "No";
+  referralSource: string;
+  hasMedicalCondition: boolean;
+  medicalDetails: string;
+  attendanceCommitment: boolean;
+  informationConfirmed: boolean;
+  riskAcknowledged: boolean;
+  rulesAccepted: boolean;
+  emergencyTreatmentAuthorized: boolean;
+  mediaPermission: boolean;
+  refundPolicyAccepted: boolean;
+  liabilityWaiverAccepted: boolean;
+  participantSignature: string;
+  guardianSignature: string;
+  consentedAt: string;
+  consentVersion: string;
+  consentIpAddress: string;
+  registrationStatus: EnrollmentStatus;
+  paymentStatus: PaymentStatus;
+  paymentReference: string;
+  paymentReceiptId: string | null;
+  adminEmailStatus: "Pending" | "Sent" | "Failed" | "Skipped";
+  participantEmailStatus: "Pending" | "Sent" | "Failed" | "Skipped";
+  tuitionCents: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
 export type Account = {
   id: string;
   firstName: string;
@@ -92,6 +137,7 @@ export type Enrollment = {
 export type Payment = {
   id: string;
   enrollmentId: string;
+  registrationId?: string;
   accountId: string;
   amountCents: number;
   transactionReference: string;
@@ -166,6 +212,7 @@ export type SecureToken = {
 export type Receipt = {
   id: string;
   accountId: string;
+  registrationId?: string;
   fileName: string;
   contentType: string;
   size: number;
@@ -194,6 +241,7 @@ export type PortalDatabase = {
   classes: KarateClass[];
   class_sessions: ClassSession[];
   enrollments: Enrollment[];
+  registrations: Registration[];
   payments: Payment[];
   waiver_acceptances: WaiverAcceptance[];
   email_delivery_logs: EmailDeliveryLog[];

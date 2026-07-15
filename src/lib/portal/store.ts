@@ -34,6 +34,7 @@ function createDatabase(): PortalDatabase {
     }],
     class_sessions: [{ id: "session-current", classId: "class-general-shotokan", name: "Current Session", startDate: null, endDate: null, active: true }],
     enrollments: [],
+    registrations: [],
     payments: [],
     waiver_acceptances: [],
     email_delivery_logs: [],

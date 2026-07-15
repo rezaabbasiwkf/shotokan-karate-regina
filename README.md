@@ -47,7 +47,7 @@ Replace `FRIEND_USERNAME` and `REPO_NAME` with the GitHub account and repository
 
 ### Family account, enrollment, payment, and email portal
 
-The site includes a secure family portal at `/account` with email verification, password reset, multiple students, class matching, enrollment review, registration references, private payment receipt storage, manual PayPal verification, a role-protected administrator dashboard, trial requests, consent records, email-delivery logs, and audit logs.
+The site includes a secure family portal at `/account` and a streamlined student form at `/register`. Both workflows connect to private payment receipt storage, manual PayPal verification, a role-protected administrator dashboard, consent records, email-delivery logs, and audit logs.
 
 Copy `.env.example` to `.env.local` for local development. Configure these variables in Vercel before enabling production registrations:
 
@@ -59,9 +59,15 @@ KV_REST_API_URL=your_vercel_kv_rest_url
 KV_REST_API_TOKEN=your_vercel_kv_rest_token
 ADMIN_EMAILS=reza.abbasi.wkf@gmail.com
 NEXT_PUBLIC_SITE_URL=https://shotokan-karate-regina.vercel.app
+APP_BASE_URL=https://shotokan-karate-regina.vercel.app
+ADMIN_NOTIFICATION_EMAIL=reza.abbasi.wkf@gmail.com
 ```
 
 `KV_REST_API_URL` and `KV_REST_API_TOKEN` are mandatory in production. The app intentionally refuses production writes when persistent database configuration is missing; it does not silently use Vercel’s ephemeral filesystem. Local development uses `data/portal-database.json`, or a different ignored filename inside `data/` specified by `PORTAL_DATABASE_FILE`.
+
+The project already used an Upstash/Vercel KV-compatible persistent store, so this repair extends that database instead of introducing an unrelated SQL service. `EMAIL_API_KEY`/`EMAIL_FROM_ADDRESS` may be used as aliases for `RESEND_API_KEY`/`RESEND_FROM`.
+
+Production API routes are `POST /api/registrations`, `POST /api/payments/confirm`, and owner-protected `GET /api/registrations/[reference]/summary`. The reference in a URL is not authorization; streamlined registrants receive a separate HTTP-only access cookie.
 
 Accounts whose normalized email is listed in `ADMIN_EMAILS` receive the `admin` role. The account must still verify its email before `/admin` and administrator APIs are available. Public families are restricted to records with their own `accountId`; private receipts perform the same ownership/role check.
 
@@ -77,7 +83,7 @@ Run the automated portal journey against an isolated temporary database:
 npm run test:portal
 ```
 
-The test covers account creation, verification, duplicate email, minor/adult and multiple students, duplicate student, recommended class enrollment, duplicate enrollment, full class, traceable database failure, pending payment, failed/unconfigured email delivery, password reset, trial request, administrator payment verification, re-login, and Active dashboard status.
+The test covers account creation, minor/adult streamlined registration, conditional guardian and medical fields, minimum age, invalid email, missing waiver, idempotent duplicate clicks, private summary access, account and streamlined payments, receipt upload, confirmation pages, failed/unconfigured email delivery, password reset, trial requests, administrator verification, and active status.
 
 The project is built with the Next.js App Router, TypeScript, Tailwind CSS, and static-friendly content suitable for GitHub and Vercel deployment.
 

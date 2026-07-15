@@ -1,9 +1,10 @@
 let csrfToken = "";
+import { safelyReadJson } from "./safe-json";
 
 async function token() {
   if (csrfToken) return csrfToken;
   const response = await fetch("/api/auth/csrf", { credentials: "same-origin", cache: "no-store" });
-  const data = await response.json() as { csrfToken?: string };
+  const data = await safelyReadJson<{ csrfToken?: string }>(response);
   if (!response.ok || !data.csrfToken) throw new Error("The security check could not be initialized. Please refresh and try again.");
   csrfToken = data.csrfToken;
   return csrfToken;

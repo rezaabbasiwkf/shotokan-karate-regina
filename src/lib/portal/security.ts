@@ -5,12 +5,17 @@ const scrypt = promisify(scryptCallback);
 
 export const SESSION_COOKIE = "shotokan_session";
 export const CSRF_COOKIE = "shotokan_csrf";
+export const REGISTRATION_ACCESS_COOKIE = "shotokan_registration_access";
 export const POLICY_VERSION = "2026-07-15";
 
 export function normalizeEmail(value: string) { return value.trim().toLowerCase(); }
 export function cleanText(value: unknown, maxLength = 500) { return typeof value === "string" ? value.trim().replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "").slice(0, maxLength) : ""; }
 export function sha256(value: string) { return createHash("sha256").update(value).digest("hex"); }
 export function randomToken(bytes = 32) { return randomBytes(bytes).toString("base64url"); }
+
+export function registrationAccessCookie(token: string) {
+  return { name: REGISTRATION_ACCESS_COOKIE, value: token, httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax" as const, path: "/", maxAge: 60 * 60 * 24 * 30 };
+}
 
 export function passwordProblems(password: string) {
   const problems: string[] = [];
@@ -61,6 +66,8 @@ export function ageFromDateOfBirth(value: string, now = new Date()) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
   const date = new Date(`${value}T12:00:00Z`);
   if (Number.isNaN(date.getTime()) || date > now) return null;
+  const [year, month, day] = value.split("-").map(Number);
+  if (date.getUTCFullYear() !== year || date.getUTCMonth() + 1 !== month || date.getUTCDate() !== day) return null;
   let age = now.getUTCFullYear() - date.getUTCFullYear();
   if (now.getUTCMonth() < date.getUTCMonth() || (now.getUTCMonth() === date.getUTCMonth() && now.getUTCDate() < date.getUTCDate())) age -= 1;
   return age;
