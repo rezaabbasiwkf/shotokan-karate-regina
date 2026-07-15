@@ -119,9 +119,9 @@ export default function Home() {
         <section id="coach" className="relative overflow-hidden bg-stone-950 py-24">
           <div className="absolute inset-0 opacity-60 [background-image:linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.025)_50%,transparent_100%),radial-gradient(circle_at_15%_35%,rgba(215,25,32,0.16),transparent_28rem)]" />
           <div className="section-shell relative">
-            <div className="grid items-center gap-10 lg:grid-cols-[0.72fr_1.28fr]">
-              <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-2xl border border-red-400/25 shadow-2xl shadow-black/50">
-                <Image src="/images/coach-reza-portrait.jpg" alt="Coach Reza Abbasi, professional Shotokan Karate instructor and Saskatchewan Provincial Team Kumite coach" fill className="object-cover object-center" sizes="(min-width: 1024px) 34vw, (min-width: 640px) 384px, 100vw" />
+            <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-14">
+              <div className="relative mx-auto aspect-[37/27] w-full max-w-xl overflow-hidden rounded-2xl border border-red-400/30 bg-black shadow-2xl shadow-black/50 ring-1 ring-white/5">
+                <Image src="/images/coach-reza-portrait.jpg" alt="Coach Reza Abbasi performing a karate kick in a traditional dojo" fill className="object-cover object-center" sizes="(min-width: 1024px) 44vw, (min-width: 640px) 576px, calc(100vw - 2rem)" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
               </div>
               <div>
