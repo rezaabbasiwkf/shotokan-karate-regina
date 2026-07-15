@@ -13,7 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: `${siteUrl}/register`,
+      url: `${siteUrl}/account`,
       lastModified: baseDate,
       changeFrequency: "monthly",
       priority: 0.8,
@@ -26,6 +26,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${siteUrl}/after-school-program`,
+      lastModified: baseDate,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${siteUrl}/trial-class`,
       lastModified: baseDate,
       changeFrequency: "monthly",
       priority: 0.7,

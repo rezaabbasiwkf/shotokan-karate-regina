@@ -23,10 +23,12 @@ export function Footer() {
             </p>
           </div>
         </div>
-        <p className="text-sm text-stone-500">
-          Copyright {new Date().getFullYear()} Shotokan Karate Regina. All
-          rights reserved.
-        </p>
+        <div className="text-sm text-stone-500">
+          <p>Copyright {new Date().getFullYear()} Shotokan Karate Regina. All rights reserved.</p>
+          <nav className="mt-3 flex flex-wrap justify-center gap-x-4 gap-y-2 sm:justify-end" aria-label="Legal policies">
+            <a className="hover:text-red-300" href="/privacy">Privacy</a><a className="hover:text-red-300" href="/liability-waiver">Liability Waiver</a><a className="hover:text-red-300" href="/refund-policy">Refund Policy</a><a className="hover:text-red-300" href="/photo-video-consent">Photo & Video Consent</a><a className="hover:text-red-300" href="/terms">Terms</a>
+          </nav>
+        </div>
       </div>
     </footer>
   );

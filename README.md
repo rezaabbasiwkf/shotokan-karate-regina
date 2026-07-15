@@ -45,28 +45,39 @@ Replace `FRIEND_USERNAME` and `REPO_NAME` with the GitHub account and repository
 4. Keep the default Next.js settings.
 5. Deploy.
 
-### Registration storage, administration, and email
+### Family account, enrollment, payment, and email portal
 
-To send the final enrollment email after a student confirms payment, add these environment variables in Vercel (and in `.env.local` for local testing):
+The site includes a secure family portal at `/account` with email verification, password reset, multiple students, class matching, enrollment review, registration references, private payment receipt storage, manual PayPal verification, a role-protected administrator dashboard, trial requests, consent records, email-delivery logs, and audit logs.
+
+Copy `.env.example` to `.env.local` for local development. Configure these variables in Vercel before enabling production registrations:
 
 ```bash
 RESEND_API_KEY=your_resend_api_key
-RESEND_FROM="Shotokan Karate Regina <verified-sender@your-domain.com>"
+RESEND_FROM="SHOTOKAN Karate Regina <verified-sender@your-domain.com>"
 REGISTRATION_EMAIL=reza.abbasi.wkf@gmail.com
 KV_REST_API_URL=your_vercel_kv_rest_url
 KV_REST_API_TOKEN=your_vercel_kv_rest_token
-ADMIN_DASHBOARD_PASSWORD=choose_a_long_unique_password
+ADMIN_EMAILS=reza.abbasi.wkf@gmail.com
+NEXT_PUBLIC_SITE_URL=https://shotokan-karate-regina.vercel.app
 ```
 
-To enable Google Places address suggestions on the registration form, add a browser-restricted Google Maps JavaScript API key with the Places API enabled:
+`KV_REST_API_URL` and `KV_REST_API_TOKEN` are mandatory in production. The app intentionally refuses production writes when persistent database configuration is missing; it does not silently use Vercel’s ephemeral filesystem. Local development uses `data/portal-database.json`, or a different ignored filename inside `data/` specified by `PORTAL_DATABASE_FILE`.
+
+Accounts whose normalized email is listed in `ADMIN_EMAILS` receive the `admin` role. The account must still verify its email before `/admin` and administrator APIs are available. Public families are restricted to records with their own `accountId`; private receipts perform the same ownership/role check.
+
+Passwords are salted and hashed with Node.js scrypt. Session cookies are HTTP-only, Secure in production, SameSite=Lax, and expire after 14 days. State-changing requests require a same-origin CSRF token. Verification links expire after 24 hours; password-reset links expire after one hour. Rate limits, honeypot spam checks, server-side validation, sanitization, security headers, consent versions, IP records where appropriate, and audit logs are built in.
+
+The PayPal QR code is rendered only on `/payment`. Submitting a transaction reference changes payment to `Pending Verification` and enrollment to `Payment Submitted`. Only an administrator can change them to `Confirmed` and `Active`. The current implementation intentionally does not claim automatic PayPal verification.
+
+Email delivery runs after database commits and is logged independently. A missing or failed email provider never cancels a saved account, trial request, enrollment, or payment submission.
+
+Run the automated portal journey against an isolated temporary database:
 
 ```bash
-NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_key
+npm run test:portal
 ```
 
-The registration records are stored in Vercel KV when its variables are present; local development uses `data/registrations.json`. Public visitors cannot list records through the registration API. The `/admin` dashboard and its API require HTTP Basic authentication using `ADMIN_DASHBOARD_PASSWORD`.
-
-The PayPal screen uses the provided PayPal QR code. A PayPal transaction reference is required when the payer submits payment. That changes the record to `Pending Verification`; only the protected administrator dashboard can mark it `Confirmed` and send the final email. For automatic, provider-verified payment status or receipt-file uploads, a PayPal API/webhook and private object storage would be required.
+The test covers account creation, verification, duplicate email, minor/adult and multiple students, duplicate student, recommended class enrollment, duplicate enrollment, full class, traceable database failure, pending payment, failed/unconfigured email delivery, password reset, trial request, administrator payment verification, re-login, and Active dashboard status.
 
 The project is built with the Next.js App Router, TypeScript, Tailwind CSS, and static-friendly content suitable for GitHub and Vercel deployment.
 

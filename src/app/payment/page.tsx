@@ -1,32 +1,3 @@
-import type { Metadata } from "next";
-import { Footer } from "@/components/Footer";
-import { Navbar } from "@/components/Navbar";
-import { PaymentConfirmation } from "@/components/PaymentConfirmation";
-import { getRegistration } from "@/lib/registration-store";
-
-export const metadata: Metadata = {
-  title: "Payment",
-  description: "Complete Shotokan Karate Regina tuition payment after submitting your registration.",
-  robots: { index: false, follow: false },
-};
-
-export default async function PaymentPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ registration?: string; reference?: string }>;
-}) {
-  const { registration, reference } = await searchParams;
-  const registrationId = reference || registration;
-  let participantName: string | undefined;
-  if (registrationId) {
-    try { participantName = String((await getRegistration(registrationId))?.fullName || "") || undefined; } catch { /* The payment page remains usable even if storage is temporarily unavailable. */ }
-  }
-
-  return (
-    <>
-      <Navbar />
-      <main className="min-h-screen bg-stone-950"><PaymentConfirmation registrationId={registrationId} participantName={participantName} /></main>
-      <Footer />
-    </>
-  );
-}
+import type { Metadata } from "next";import { notFound } from "next/navigation";import { Footer } from "@/components/Footer";import { Navbar } from "@/components/Navbar";import { PaymentConfirmation } from "@/components/PaymentConfirmation";import { requireAccount } from "@/lib/portal/auth";import { money } from "@/lib/portal/security";import { readPortalDatabase } from "@/lib/portal/store";
+export const metadata:Metadata={title:"Payment",description:"Submit tuition payment information securely.",robots:{index:false,follow:false}};
+export default async function Page({searchParams}:{searchParams:Promise<{reference?:string}>}){const account=await requireAccount({verified:true});const{reference}=await searchParams;const db=await readPortalDatabase();const enrollment=db.enrollments.find((item)=>item.registrationReference===reference&&item.accountId===account.id);if(!enrollment)notFound();const student=db.students.find((item)=>item.id===enrollment.studentId),karateClass=db.classes.find((item)=>item.id===enrollment.classId);if(!student||!karateClass)notFound();return <><Navbar/><main className="min-h-screen bg-stone-950 pt-20"><PaymentConfirmation registrationReference={enrollment.registrationReference} studentName={student.fullName} className={karateClass.name} tuition={money(enrollment.tuitionCents)} paymentStatus={enrollment.paymentStatus}/></main><Footer/></>}

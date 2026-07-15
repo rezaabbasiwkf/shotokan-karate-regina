@@ -9,7 +9,7 @@ const navigationLinks = [
   { href: "/", label: "Home" },
   { href: "/#programs", label: "Classes" },
   { href: "/#about", label: "About" },
-  { href: "/register", label: "Register / Login" },
+  { href: "/account", label: "Register / Login" },
   { href: "/#events", label: "Events" },
   { href: "/after-school-program", label: "After School Program" },
   { href: "/#contact", label: "Contact" },
@@ -25,6 +25,8 @@ export function Navbar() {
     if (href.startsWith("/#")) {
       return pathname === "/" && href === `/#${activeSection}`;
     }
+
+    if (href === "/account") return pathname.startsWith("/account") || pathname === "/payment";
 
     return href === "/" ? pathname === "/" && !activeSection : pathname === href;
   };

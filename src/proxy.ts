@@ -1,20 +1,23 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-function unauthorized() {
-  return new NextResponse("Administrator authentication is required.", { status: 401, headers: { "WWW-Authenticate": 'Basic realm="Shotokan Karate Administration"' } });
-}
-
 export function proxy(request: NextRequest) {
-  const password = process.env.ADMIN_DASHBOARD_PASSWORD;
-  if (!password) return new NextResponse("Administrator access has not been configured.", { status: 503 });
-  const authorization = request.headers.get("authorization");
-  if (!authorization?.startsWith("Basic ")) return unauthorized();
-  try {
-    const credentials = atob(authorization.slice(6));
-    const [, suppliedPassword] = credentials.split(":", 2);
-    return suppliedPassword === password ? NextResponse.next() : unauthorized();
-  } catch { return unauthorized(); }
+  if (process.env.NODE_ENV === "production" && request.headers.get("x-forwarded-proto") === "http") {
+    const url = request.nextUrl.clone();
+    url.protocol = "https:";
+    return NextResponse.redirect(url, 308);
+  }
+  const response = NextResponse.next();
+  response.headers.set("X-Content-Type-Options", "nosniff");
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=(self)");
+  response.headers.set("X-Frame-Options", "DENY");
+  if (/^\/(account|payment|admin|api\/receipts)/.test(request.nextUrl.pathname)) response.headers.set("Cache-Control", "private, no-store");
+  if (process.env.NODE_ENV === "production") {
+    response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
+    response.headers.set("Content-Security-Policy", "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: blob:; font-src 'self' https://fonts.gstatic.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline'; connect-src 'self'");
+  }
+  return response;
 }
 
-export const config = { matcher: ["/admin/:path*", "/api/admin/:path*"] };
+export const config = { matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"] };

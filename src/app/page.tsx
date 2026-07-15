@@ -67,7 +67,7 @@ export default function Home() {
             </div>
             <div className="absolute inset-x-4 bottom-2 mx-auto w-fit max-w-[calc(100%-2rem)] rounded-xl border border-white/10 bg-gradient-to-br from-black/75 via-black/55 to-black/25 p-4 text-center shadow-xl shadow-black/30 backdrop-blur-[2px] sm:inset-x-6 sm:bottom-3 sm:max-w-[calc(100%-3rem)] sm:p-5">
               <p className="mx-auto max-w-xl text-xs font-normal leading-5 text-stone-100 sm:text-sm sm:leading-6 lg:max-w-none lg:text-[0.8125rem]">SHOTOKAN Karate Regina is a professional karate academy dedicated to developing confident individuals, skilled martial artists, and competitive athletes through high-quality Shotokan Karate instruction. Whether you are beginning your martial arts journey or preparing for provincial, national, and international competition, our structured programs and experienced coaching provide the foundation for long-term success.</p>
-              <div className="mt-4 flex flex-col justify-center gap-3 sm:flex-row"><ButtonLink href="/register">Start Your Karate Journey</ButtonLink><ButtonLink href="#programs" variant="secondary">Explore Karate Programs</ButtonLink></div>
+              <div className="mt-4 flex flex-col justify-center gap-3 sm:flex-row"><ButtonLink href="/account">Start Your Karate Journey</ButtonLink><ButtonLink href="#programs" variant="secondary">Explore Karate Programs</ButtonLink></div>
             </div>
           </div>
         </section>
@@ -89,7 +89,7 @@ export default function Home() {
               {karatePrograms.map((program) => <article className={`flex min-h-80 flex-col items-center rounded-2xl border bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-5 text-center shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-red-950/20 ${program.title === "Competition Training" ? "border-red-400/55 hover:border-red-300/75" : "border-red-500/25 hover:border-red-400/45"}`} key={program.title}><div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl"><Image src={`/images/program-cards/${program.illustration}`} alt={program.illustrationAlt} fill className="object-cover" sizes="96px" /></div><div className="mt-3 h-0.5 w-12 bg-red-500" /><p className="mt-3 text-[0.6875rem] font-black uppercase tracking-[0.16em] text-red-300">{program.audience}</p><h3 className="hero-title mt-2 text-2xl font-bold leading-tight text-white lg:text-[1.65rem]">{program.title}</h3><p className="mt-3 text-[0.9375rem] leading-6 text-stone-300">{program.description}</p></article>)}
             </div>
             <article className="mx-auto mt-8 max-w-4xl rounded-xl border border-white/10 bg-stone-950 p-6 sm:flex sm:items-center sm:justify-between sm:gap-8"><div><p className="text-xs font-black uppercase tracking-[0.2em] text-stone-400">Additional program</p><h3 className="mt-2 text-2xl font-black text-white">Practical Self-Defense</h3><p className="mt-2 max-w-2xl leading-7 text-stone-400">Practical self-defense training designed to improve awareness, confidence, and personal safety in real-world situations.</p></div><div className="mt-5 shrink-0 sm:mt-0"><ButtonLink href="/self-defense" variant="secondary">Learn More</ButtonLink></div></article>
-            <div className="mt-12 flex flex-col justify-center gap-4 sm:flex-row"><ButtonLink href="/register">Register Now</ButtonLink><ButtonLink href="#events" variant="secondary">View Class Schedule</ButtonLink></div>
+            <div className="mt-12 flex flex-col justify-center gap-4 sm:flex-row"><ButtonLink href="/account">Register Now</ButtonLink><ButtonLink href="#events" variant="secondary">View Class Schedule</ButtonLink></div>
           </div>
         </section>
 
@@ -113,7 +113,7 @@ export default function Home() {
                 <div className="mt-6 grid auto-rows-fr gap-3 sm:grid-cols-2 lg:grid-cols-4">
                   {athleteHighlights.map(([item, illustration]) => <article className="flex min-h-40 flex-col items-center justify-center rounded-2xl border border-red-500/25 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-3 text-center shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-red-400/45 hover:shadow-2xl hover:shadow-red-950/20" key={item}><div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl"><Image src={`/images/athlete-cards/${illustration}`} alt="" fill className="object-cover" sizes="80px" /></div><h3 className="mt-3 text-sm font-bold leading-5 text-stone-100">{item}</h3></article>)}
                 </div>
-                <div className="mt-6"><ButtonLink href="/register">Begin the Athlete Pathway</ButtonLink></div>
+                <div className="mt-6"><ButtonLink href="/account">Begin the Athlete Pathway</ButtonLink></div>
               </div>
             </div>
           </div>
@@ -179,7 +179,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="relative overflow-hidden bg-red-950/30 py-24 text-center"><div className="section-shell"><p className="text-xs font-black uppercase tracking-[0.28em] text-red-300">Registration</p><h2 className="hero-title mx-auto mt-4 max-w-4xl text-4xl font-bold text-white sm:text-6xl">Begin Professional Shotokan Karate Training</h2><p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-stone-300">Join Shotokan Karate Regina and build skill, discipline, confidence, and athletic potential through professional coaching.</p><div className="mt-8"><ButtonLink href="/register">Register Now</ButtonLink></div></div></section>
+        <section className="relative overflow-hidden bg-red-950/30 py-24 text-center"><div className="section-shell"><p className="text-xs font-black uppercase tracking-[0.28em] text-red-300">Registration</p><h2 className="hero-title mx-auto mt-4 max-w-4xl text-4xl font-bold text-white sm:text-6xl">Begin Professional Shotokan Karate Training</h2><p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-stone-300">Join Shotokan Karate Regina and build skill, discipline, confidence, and athletic potential through professional coaching.</p><div className="mt-8"><ButtonLink href="/account">Register Now</ButtonLink></div></div></section>
       </main>
       <Footer />
     </>

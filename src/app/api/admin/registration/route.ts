@@ -1,22 +1,2 @@
-import { NextResponse } from "next/server";
-import { sendPaymentConfirmationEmail } from "@/lib/email";
-import { confirmRegistrationPayment, getRegistration, markRegistrationConfirmationEmailSent } from "@/lib/registration-store";
-
-export async function POST(request: Request) {
-  try {
-    const { registrationId, action } = (await request.json()) as { registrationId?: string; action?: "confirm" | "resend" };
-    if (!registrationId || !action) return NextResponse.json({ error: "Registration and action are required." }, { status: 400 });
-
-    const registration = action === "confirm"
-      ? await confirmRegistrationPayment(registrationId)
-      : await getRegistration(registrationId);
-    if (!registration) return NextResponse.json({ error: "Registration not found." }, { status: 404 });
-
-    const email = await sendPaymentConfirmationEmail(registration);
-    if (email.sent) await markRegistrationConfirmationEmailSent(registrationId);
-    return NextResponse.json({ message: email.sent ? action === "confirm" ? "Payment verified and confirmation email sent." : "Confirmation email resent." : action === "confirm" ? "Payment verified. Email delivery is not configured yet." : "Email delivery is not configured yet." });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: "The registration update could not be completed." }, { status: 500 });
-  }
-}
+import { after } from "next/server";import { accountFromRequest } from "@/lib/portal/auth";import { sendEnrollmentConfirmedEmail } from "@/lib/portal/email";import { assertCsrf,cleanText } from "@/lib/portal/security";import { audit,mutatePortalDatabase,readPortalDatabase } from "@/lib/portal/store";import { apiError } from "@/lib/portal/validation";
+export async function POST(request:Request){try{assertCsrf(request)}catch{return apiError("Your secure admin session expired. Refresh and try again.",403,"CSRF_FAILED")}const admin=await accountFromRequest(request,{verified:true,admin:true});if(!admin)return apiError("Administrator access is required.",403,"ADMIN_REQUIRED");const payload=await request.json().catch(()=>({})) as Record<string,unknown>;const enrollmentId=cleanText(payload.enrollmentId||payload.registrationId,80),action=cleanText(payload.action,20);if(!enrollmentId)return apiError("The enrollment identifier is missing.");if(action==="confirm"){const saved=await mutatePortalDatabase((db)=>{const enrollment=db.enrollments.find((item)=>item.id===enrollmentId);if(!enrollment)throw new Error("NOT_FOUND");const payment=db.payments.filter((item)=>item.enrollmentId===enrollment.id).sort((a,b)=>b.submittedAt.localeCompare(a.submittedAt))[0];if(!payment||payment.status!=="Pending Verification")throw new Error("PAYMENT_NOT_PENDING");const now=new Date().toISOString();payment.status="Confirmed";payment.verifiedAt=now;payment.verifiedByAccountId=admin.id;enrollment.paymentStatus="Confirmed";enrollment.enrollmentStatus="Active";enrollment.updatedAt=now;audit(db,request,admin.id,"payment.confirmed","enrollment",enrollment.id,enrollment.registrationReference);return enrollment});const db=await readPortalDatabase();const account=db.accounts.find((item)=>item.id===saved.accountId),student=db.students.find((item)=>item.id===saved.studentId),karateClass=db.classes.find((item)=>item.id===saved.classId);if(account&&student&&karateClass)after(()=>sendEnrollmentConfirmedEmail(account,student,karateClass,saved).then(()=>undefined));return Response.json({success:true,message:"Payment confirmed and enrollment activated."})}if(action==="resend"){const db=await readPortalDatabase();const enrollment=db.enrollments.find((item)=>item.id===enrollmentId&&item.paymentStatus==="Confirmed");if(!enrollment)return apiError("A confirmed enrollment was not found.",404,"NOT_FOUND");const account=db.accounts.find((item)=>item.id===enrollment.accountId),student=db.students.find((item)=>item.id===enrollment.studentId),karateClass=db.classes.find((item)=>item.id===enrollment.classId);if(!account||!student||!karateClass)return apiError("Enrollment data is incomplete.",500,"INCOMPLETE_DATA");after(()=>sendEnrollmentConfirmedEmail(account,student,karateClass,enrollment).then(()=>undefined));return Response.json({success:true,message:"Confirmation email queued."})}return apiError("Unknown administrator action.")}
