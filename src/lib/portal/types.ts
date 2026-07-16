@@ -1,3 +1,5 @@
+import type { KnowledgeArticle, KnowledgeResource } from "@/lib/knowledge/types";
+
 export type AccountRole = "family" | "admin";
 export type PaymentStatus = "Not Paid" | "Pending Verification" | "Confirmed";
 export type EnrollmentStatus = "Pending Payment" | "Payment Submitted" | "Active" | "Cancelled";
@@ -251,4 +253,6 @@ export type PortalDatabase = {
   receipts: Receipt[];
   audit_logs: AuditLog[];
   rate_limits: RateLimitEntry[];
+  knowledge_resources: KnowledgeResource[];
+  knowledge_articles: KnowledgeArticle[];
 };

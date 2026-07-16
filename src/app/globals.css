@@ -57,3 +57,17 @@ a {
   font-family: "Cinzel", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
   letter-spacing: 0.025em;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

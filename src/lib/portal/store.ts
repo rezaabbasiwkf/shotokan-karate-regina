@@ -44,6 +44,8 @@ function createDatabase(): PortalDatabase {
     receipts: [],
     audit_logs: [],
     rate_limits: [],
+    knowledge_resources: [],
+    knowledge_articles: [],
   };
 }
 
@@ -56,6 +58,8 @@ function normalizeDatabase(value: unknown): PortalDatabase {
     ...stored,
     classes: stored.classes?.length ? stored.classes : fresh.classes,
     class_sessions: stored.class_sessions?.length ? stored.class_sessions : fresh.class_sessions,
+    knowledge_resources: stored.knowledge_resources || [],
+    knowledge_articles: stored.knowledge_articles || [],
   };
 }
 

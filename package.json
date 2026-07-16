@@ -5,12 +5,15 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "knowledge:index": "node scripts/build-refereeing-search-index.mjs",
     "start": "next start",
     "lint": "eslint .",
     "test:portal": "node scripts/portal-e2e.mjs"
   },
   "dependencies": {
+    "@vercel/blob": "^2.6.1",
     "next": "^16.0.0",
+    "pdfjs-dist": "^6.1.200",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
