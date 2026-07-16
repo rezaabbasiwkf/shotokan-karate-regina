@@ -134,6 +134,7 @@ export default function Home() {
                   <p><strong className="text-white">Coach Reza Abbasi</strong> is a <strong className="text-white">5th Dan Shotokan Karate Instructor</strong>, <strong className="text-white">Certified Level 1 Karate Coach</strong>, <strong className="text-white">Official Karate Federation Referee</strong>, and an <strong className="text-white">Official Kumite Coach of the Saskatchewan Provincial Karate Team</strong>. With more than <strong className="text-white">15 years of coaching experience</strong>, he has dedicated his career to developing athletes through professional Shotokan Karate instruction, technical excellence in Kata and Kumite, character development, and high-performance competition training.</p>
                   <p>Coach Reza Abbasi works with students of all ages and skill levels, guiding them from their first class to advanced competition while helping dedicated athletes prepare for provincial, national, and international events.</p>
                 </div>
+                <div className="mt-7"><ButtonLink href="/coach-achievements">View Championships &amp; Achievements</ButtonLink></div>
               </div>
             </div>
             <div className="mt-10 grid auto-rows-fr gap-5 md:grid-cols-2 lg:grid-cols-3">
