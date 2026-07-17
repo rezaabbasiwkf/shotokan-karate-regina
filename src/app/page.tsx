@@ -134,12 +134,21 @@ export default function Home() {
                   <p><strong className="text-white">Coach Reza Abbasi</strong> is a <strong className="text-white">5th Dan Shotokan Karate Instructor</strong>, <strong className="text-white">Certified Level 1 Karate Coach</strong>, <strong className="text-white">Official Karate Federation Referee</strong>, and an <strong className="text-white">Official Kumite Coach of the Saskatchewan Provincial Karate Team</strong>. With more than <strong className="text-white">15 years of coaching experience</strong>, he has dedicated his career to developing athletes through professional Shotokan Karate instruction, technical excellence in Kata and Kumite, character development, and high-performance competition training.</p>
                   <p>Coach Reza Abbasi works with students of all ages and skill levels, guiding them from their first class to advanced competition while helping dedicated athletes prepare for provincial, national, and international events.</p>
                 </div>
-                <div className="mt-7 flex flex-col gap-3 sm:flex-row"><ButtonLink href="/coach-achievements">View Championships &amp; Achievements</ButtonLink><ButtonLink href="/karate-refereeing" variant="secondary">Explore Refereeing Education</ButtonLink></div>
+                <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap"><ButtonLink href="/coach-achievements">View Championships &amp; Achievements</ButtonLink><ButtonLink href="/coach-certifications" variant="secondary">View Coaching Certifications</ButtonLink><ButtonLink href="/karate-refereeing" variant="secondary">Explore Refereeing Education</ButtonLink></div>
               </div>
             </div>
             <div className="mt-10 grid auto-rows-fr gap-5 md:grid-cols-2 lg:grid-cols-3">
               {coachHighlights.map(([icon, highlight]) => <article className="flex min-h-36 flex-col items-center justify-center rounded-2xl border border-red-500/25 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-4 text-center shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-red-400/45 hover:shadow-2xl hover:shadow-red-950/20" key={highlight}><span className="text-3xl" aria-hidden="true">{icon}</span><h3 className="mt-3 text-base font-bold leading-6 text-white">{highlight}</h3></article>)}
             </div>
+          </div>
+        </section>
+
+        <section className="border-y border-white/10 bg-black py-16">
+          <div className="section-shell">
+            <article className="mx-auto grid max-w-5xl items-center gap-6 rounded-2xl border border-red-400/25 bg-gradient-to-br from-stone-900 to-black p-6 shadow-2xl sm:p-8 md:grid-cols-[1fr_auto]">
+              <div><p className="text-xs font-black uppercase tracking-[0.2em] text-red-300">Verified professional education</p><h2 className="hero-title mt-2 text-3xl font-bold text-white sm:text-4xl">Professional Coaching Certifications</h2><p className="mt-4 max-w-3xl leading-7 text-stone-300">Review Coach Reza Abbasi’s coaching licenses, instructor training, federation credentials, and continuing professional development.</p></div>
+              <div><ButtonLink href="/coach-certifications">View Certifications</ButtonLink></div>
+            </article>
           </div>
         </section>
 

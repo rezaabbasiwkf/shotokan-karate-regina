@@ -32,6 +32,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
+      url: `${siteUrl}/coach-certifications`,
+      lastModified: baseDate,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: `${siteUrl}/karate-knowledge-center`,
       lastModified: baseDate,
       changeFrequency: "weekly",

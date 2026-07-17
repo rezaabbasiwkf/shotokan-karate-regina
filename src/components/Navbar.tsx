@@ -8,12 +8,19 @@ import { useEffect, useState } from "react";
 const navigationLinks = [
   { href: "/", label: "Home" },
   { href: "/#programs", label: "Classes" },
-  { href: "/#about", label: "About" },
   { href: "/karate-knowledge-center", label: "Knowledge Center" },
   { href: "/account", label: "Register / Login" },
   { href: "/#events", label: "Events" },
   { href: "/after-school-program", label: "After School Program" },
   { href: "/#contact", label: "Contact" },
+];
+
+const aboutLinks = [
+  { href: "/#coach", label: "Coach Reza Abbasi" },
+  { href: "/coach-achievements", label: "Championships & Achievements" },
+  { href: "/coach-certifications", label: "Coaching Certifications" },
+  { href: "/karate-knowledge-center", label: "Karate Knowledge Center" },
+  { href: "/karate-refereeing", label: "Karate Refereeing Education" },
 ];
 
 export function Navbar() {
@@ -32,6 +39,7 @@ export function Navbar() {
     if (href === "/karate-knowledge-center") return pathname.startsWith("/karate-knowledge-center") || pathname.startsWith("/karate-refereeing");
     return href === "/" ? pathname === "/" && !activeSection : pathname === href;
   };
+  const aboutActive = pathname === "/coach-achievements" || pathname === "/coach-certifications" || pathname.startsWith("/karate-refereeing");
 
   useEffect(() => {
     if (pathname !== "/") return;
@@ -83,6 +91,14 @@ export function Navbar() {
         </Link>
 
         <div className="hidden flex-1 items-center justify-end gap-1 xl:flex">
+          <details className="group relative">
+            <summary className={`${linkClass} cursor-pointer list-none ${aboutActive ? "bg-white/5 text-red-300" : ""}`}>About <span className="ml-1 text-[.6rem]" aria-hidden="true">▼</span></summary>
+            <div className="absolute left-1/2 top-full w-72 -translate-x-1/2 pt-2">
+              <div className="rounded-xl border border-white/10 bg-stone-950 p-2 shadow-2xl">
+                {aboutLinks.map((link) => <Link key={link.href} href={link.href} className="block rounded-lg px-4 py-3 text-xs font-bold uppercase tracking-[.08em] text-stone-300 hover:bg-white/5 hover:text-red-300">{link.label}</Link>)}
+              </div>
+            </div>
+          </details>
           {navigationLinks.map((link) => {
             const active = isActive(link.href);
             return (
@@ -117,6 +133,9 @@ export function Navbar() {
       {isOpen ? (
         <div id="mobile-navigation" className="border-t border-white/10 bg-stone-950/98 px-5 py-4 shadow-2xl shadow-black/50 xl:hidden">
           <div className="mx-auto grid max-w-2xl gap-1" role="menu">
+            <p className="px-4 pb-1 pt-2 text-[.65rem] font-black uppercase tracking-[.2em] text-stone-500">About</p>
+            {aboutLinks.map((link) => <Link className={`${linkClass} justify-start px-4 text-left text-xs ${isActive(link.href) ? "bg-red-950/35 text-red-300" : ""}`} href={link.href} key={link.href} role="menuitem" onClick={closeMenu}>{link.label}</Link>)}
+            <div className="my-2 h-px bg-white/10" />
             {navigationLinks.map((link) => {
               const active = isActive(link.href);
               return (
