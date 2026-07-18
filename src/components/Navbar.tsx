@@ -9,6 +9,7 @@ const navigationLinks = [
   { href: "/", label: "Home" },
   { href: "/#programs", label: "Classes" },
   { href: "/karate-knowledge-center", label: "Knowledge Center" },
+  { href: "/belt-grading", label: "Belt Grading" },
   { href: "/account", label: "Register / Login" },
   { href: "/#events", label: "Events" },
   { href: "/after-school-program", label: "After School Program" },
@@ -37,6 +38,7 @@ export function Navbar() {
     if (href === "/account") return pathname.startsWith("/account") || pathname === "/payment";
 
     if (href === "/karate-knowledge-center") return pathname.startsWith("/karate-knowledge-center") || pathname.startsWith("/karate-refereeing");
+    if (href === "/belt-grading") return pathname.startsWith("/belt-grading");
     return href === "/" ? pathname === "/" && !activeSection : pathname === href;
   };
   const aboutActive = pathname === "/coach-achievements" || pathname === "/coach-certifications" || pathname.startsWith("/karate-refereeing");

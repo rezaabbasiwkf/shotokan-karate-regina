@@ -152,6 +152,15 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="bg-stone-950 py-16">
+          <div className="section-shell">
+            <article className="mx-auto grid max-w-5xl items-center gap-6 rounded-2xl border border-red-400/25 bg-gradient-to-br from-stone-900 to-black p-6 shadow-2xl shadow-black/30 sm:p-8 md:grid-cols-[1fr_auto]">
+              <div><p className="text-xs font-black uppercase tracking-[0.2em] text-red-300">Official examination curriculum</p><h2 className="hero-title mt-2 text-3xl font-bold text-white sm:text-4xl">Karate Belt Grading</h2><p className="mt-4 max-w-3xl leading-7 text-stone-300">Review the official grading requirements for every belt level at SHOTOKAN Karate Regina.</p></div>
+              <div><ButtonLink href="/belt-grading">View Belt Requirements</ButtonLink></div>
+            </article>
+          </div>
+        </section>
+
         <section className="border-y border-white/10 bg-black py-16">
           <div className="section-shell">
             <article className="mx-auto grid max-w-5xl items-center gap-6 overflow-hidden rounded-2xl border border-red-400/25 bg-gradient-to-br from-stone-900 to-black p-6 shadow-2xl shadow-black/30 sm:p-8 md:grid-cols-[1fr_auto]">

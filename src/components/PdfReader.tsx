@@ -8,14 +8,16 @@ export function PdfReader({
   pageCount,
   allowDownload,
   allowPrint,
+  initialPage = 1,
 }: {
   title: string;
   source: string;
   pageCount: number;
   allowDownload: boolean;
   allowPrint: boolean;
+  initialPage?: number;
 }) {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(initialPage);
   const [zoom, setZoom] = useState(100);
   const readerRef = useRef<HTMLDivElement>(null);
   const viewerSource = `${source}#page=${page}&zoom=${zoom}&toolbar=0&navpanes=0`;

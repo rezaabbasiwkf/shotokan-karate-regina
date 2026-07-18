@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { suppliedRefereeingResources } from "@/data/refereeing-resources";
+import { gradingLevels } from "@/data/belt-grading";
 
 const siteUrl = "https://shotokan-karate-regina.vercel.app";
 
@@ -49,6 +50,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.8,
     },
+    {
+      url: `${siteUrl}/belt-grading`,
+      lastModified: baseDate,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    ...gradingLevels.map((level) => ({
+      url: `${siteUrl}/belt-grading/${level.slug}`,
+      lastModified: baseDate,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
     {
       url: `${siteUrl}/karate-refereeing/resources`,
       lastModified: baseDate,
