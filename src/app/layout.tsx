@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const siteUrl = "https://shotokan-karate-regina.vercel.app";
+const siteUrl = "https://www.karateyqr.com";
 const siteName = "Shotokan Karate Regina";
 const pageTitle = "Professional Shotokan Karate Training in Regina";
 const pageDescription =

@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { suppliedRefereeingResources } from "@/data/refereeing-resources";
 import { gradingLevels } from "@/data/belt-grading";
 
-const siteUrl = "https://shotokan-karate-regina.vercel.app";
+const siteUrl = "https://www.karateyqr.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseDate = new Date();
