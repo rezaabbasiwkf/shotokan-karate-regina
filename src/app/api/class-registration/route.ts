@@ -38,9 +38,7 @@ export async function POST(request: Request) {
       catch { return {} as { success?: boolean | string; message?: string }; }
     })();
     if (!response.ok || payload.success === false || payload.success === "false") {
-      const message = payload.message || (response.status >= 500
-        ? "FormSubmit is currently rejecting the registration request. Please try again shortly or call 306-519-5711."
-        : "The email service could not accept your registration. Please call 306-519-5711.");
+      const message = payload.message || "FormSubmit has not activated this registration form yet. Please open the newest activation email sent to shotokan.karate.regina@gmail.com and select Activate Form.";
       return apiError(message, 502, "EMAIL_SERVICE_FAILED");
     }
     return Response.json({ success: true, message: "Your registration was sent successfully." });
