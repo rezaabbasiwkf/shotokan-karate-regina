@@ -41,7 +41,7 @@ export function SimplifiedRegistrationForm() {
       let response: Response;
       try {
         response = await portalFetch("/api/class-registration", { method: "POST", body: formData, headers: { Accept: "application/json" } });
-        if (response.status === 404 || response.status === 405) throw new Error("Registration relay unavailable");
+        if (response.status === 404 || response.status === 405 || response.status === 502) throw new Error("Registration relay unavailable");
       } catch {
         response = await fetch(formSubmitEndpoint, { method: "POST", body: formData, headers: { Accept: "application/json" } });
       }
