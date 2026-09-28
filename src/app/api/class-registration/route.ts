@@ -14,9 +14,12 @@ export async function POST(request: Request) {
   if (!form) return apiError("The registration form could not be read.", 400, "INVALID_FORM");
   if (cleanText(form.get("_honey"))) return Response.json({ success: true });
   if (!cleanText(form.get("Full Name"), 160) || !cleanText(form.get("email"), 254)) return apiError("Please enter the participant name and email address.", 400, "MISSING_REQUIRED_FIELDS");
+  const siteOrigin = new URL(request.url).origin;
+  const registrationUrl = `${siteOrigin}/register`;
+  form.set("_url", registrationUrl);
 
   try {
-    const response = await fetch(formSubmitEndpoint, { method: "POST", body: form, headers: { Accept: "application/json" }, cache: "no-store" });
+    const response = await fetch(formSubmitEndpoint, { method: "POST", body: form, headers: { Accept: "application/json", Origin: siteOrigin, Referer: registrationUrl }, cache: "no-store" });
     const payload = await response.json().catch(() => ({})) as { success?: boolean | string; message?: string };
     if (!response.ok || payload.success === false || payload.success === "false") return apiError(payload.message || "The email service could not accept your registration. Please call 306-519-5711.", 502, "EMAIL_SERVICE_FAILED");
     return Response.json({ success: true, message: "Your registration was sent successfully." });
