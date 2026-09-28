@@ -37,7 +37,7 @@ export function SimplifiedRegistrationForm() {
     try {
       const response = await fetch(endpoint, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } });
       const result = await response.json().catch(() => ({})) as { success?: string | boolean; message?: string };
-      if (!response.ok || result.success === false) throw new Error(result.message || "Your registration could not be sent. Please try again or call 306-570-3125.");
+      if (!response.ok || result.success === false || result.success === "false") throw new Error(result.message || "Your registration could not be sent. Please try again or call 306-570-3125.");
       form.reset();
       setDateOfBirth("");
       setStatus({ kind: "success", text: "Thank you. Your registration has been sent to SHOTOKAN Karate Regina. We will contact you about the next step." });
@@ -89,7 +89,15 @@ export function SimplifiedRegistrationForm() {
     </div></fieldset>
 
     <fieldset className={sectionClass}><SectionTitle number={5}>Terms &amp; Conditions</SectionTitle><p className="mb-5 text-sm leading-6 text-stone-400">Please review our <Link href="/liability-waiver" target="_blank" className="text-red-300 underline">Liability Waiver</Link>, <Link href="/refund-policy" target="_blank" className="text-red-300 underline">Refund Policy</Link>, <Link href="/privacy" target="_blank" className="text-red-300 underline">Privacy Policy</Link>, and <Link href="/photo-video-consent" target="_blank" className="text-red-300 underline">Photo and Video Consent</Link>. Your form, including health information, will be transmitted by FormSubmit to the academy email address.</p><div className="grid gap-4 md:grid-cols-2">
-      {[["Information Accuracy", "I confirm that all information provided is accurate."], ["Physical Activity Risk", "I understand that participation involves physical activity and inherent risks."], ["Rules and Safety", "I agree to follow all rules and safety guidelines."], ["Emergency Treatment Authorization", "I authorize emergency medical treatment if necessary."], ["Photo Video Permission", "I grant permission for photos/videos to be used for promotional purposes."], ["Refund Policy Agreement", "I understand registration fees are non-refundable unless otherwise stated."], ["Liability Waiver Agreement", "I voluntarily participate and assume responsibility for associated risks. I have read and agree to the Liability Waiver."]].map(([name, text]) => <label key={name} className="flex gap-3 rounded-xl border border-white/10 p-4 text-sm leading-6 text-stone-200"><input required name={name} value="Agreed" type="checkbox" className="mt-1 h-5 w-5 shrink-0 accent-red-600" /><span>{text}</span></label>)}
+      {[
+        { name: "Information Accuracy", text: "I confirm that all information provided is accurate.", required: true },
+        { name: "Physical Activity Risk", text: "I understand that participation involves physical activity and inherent risks.", required: true },
+        { name: "Rules and Safety", text: "I agree to follow all rules and safety guidelines.", required: true },
+        { name: "Emergency Treatment Authorization", text: "I authorize emergency medical treatment if necessary.", required: true },
+        { name: "Photo Video Permission", text: "I grant permission for photos/videos to be used for promotional purposes. (Optional)", required: false },
+        { name: "Refund Policy Agreement", text: "I understand registration fees are non-refundable unless otherwise stated.", required: true },
+        { name: "Liability Waiver Agreement", text: "I voluntarily participate and assume responsibility for associated risks. I have read and agree to the Liability Waiver.", required: true },
+      ].map(({ name, text, required }) => <label key={name} className="flex gap-3 rounded-xl border border-white/10 p-4 text-sm leading-6 text-stone-200"><input required={required} name={name} value="Agreed" type="checkbox" className="mt-1 h-5 w-5 shrink-0 accent-red-600" /><span>{text}</span></label>)}
     </div></fieldset>
 
     <fieldset className={sectionClass}><legend className="mb-6 w-full border-l-4 border-red-600 bg-black px-4 py-3 text-base font-black uppercase tracking-[.08em] text-white">Final Consent</legend><div className="grid gap-5 md:grid-cols-2">
