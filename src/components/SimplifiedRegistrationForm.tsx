@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { portalFetch } from "@/lib/client/portal-fetch";
 
-const formSubmitEndpoint = "https://formsubmit.co/ajax/shotokan.karate.regina@gmail.com";
 const inputClass = "mt-2 min-h-12 w-full rounded-xl border border-white/15 bg-black/35 px-4 py-3 text-white outline-none transition placeholder:text-stone-600 focus:border-red-400 focus:ring-2 focus:ring-red-500/20";
 const sectionClass = "rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-xl shadow-black/10 sm:p-8";
 
@@ -38,13 +37,7 @@ export function SimplifiedRegistrationForm() {
     try {
       const formData = new FormData(form);
       formData.set("_url", window.location.href);
-      let response: Response;
-      try {
-        response = await portalFetch("/api/class-registration", { method: "POST", body: formData, headers: { Accept: "application/json" } });
-        if (response.status === 404 || response.status === 405 || response.status === 502) throw new Error("Registration relay unavailable");
-      } catch {
-        response = await fetch(formSubmitEndpoint, { method: "POST", body: formData, headers: { Accept: "application/json" } });
-      }
+      const response = await portalFetch("/api/class-registration", { method: "POST", body: formData, headers: { Accept: "application/json" } });
       const responseText = await response.text();
       const result = (() => { try { return JSON.parse(responseText) as { success?: string | boolean; message?: string }; } catch { return { message: `The registration service returned an unexpected response (${response.status}).` }; } })();
       if (!response.ok || result.success === false || result.success === "false") throw new Error(result.message || "Your registration could not be sent. Please try again or call 306-570-3125.");

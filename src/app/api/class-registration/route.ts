@@ -13,10 +13,36 @@ export async function POST(request: Request) {
   const registrationUrl = `${siteOrigin}/register`;
   form.set("_url", registrationUrl);
 
+  // FormSubmit's AJAX endpoint is most reliable with a traditional encoded
+  // form body. Keep every submitted field (including repeated checkboxes).
+  const body = new URLSearchParams();
+  for (const [key, value] of form.entries()) {
+    if (typeof value === "string") body.append(key, value);
+  }
+
   try {
-    const response = await fetch(formSubmitEndpoint, { method: "POST", body: form, headers: { Accept: "application/json", Origin: siteOrigin, Referer: registrationUrl }, cache: "no-store" });
-    const payload = await response.json().catch(() => ({})) as { success?: boolean | string; message?: string };
-    if (!response.ok || payload.success === false || payload.success === "false") return apiError(payload.message || "The email service could not accept your registration. Please call 306-519-5711.", 502, "EMAIL_SERVICE_FAILED");
+    const response = await fetch(formSubmitEndpoint, {
+      method: "POST",
+      body,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        Origin: siteOrigin,
+        Referer: registrationUrl,
+      },
+      cache: "no-store",
+    });
+    const responseText = await response.text();
+    const payload = (() => {
+      try { return JSON.parse(responseText) as { success?: boolean | string; message?: string }; }
+      catch { return {} as { success?: boolean | string; message?: string }; }
+    })();
+    if (!response.ok || payload.success === false || payload.success === "false") {
+      const message = payload.message || (response.status >= 500
+        ? "FormSubmit is currently rejecting the registration request. Please try again shortly or call 306-519-5711."
+        : "The email service could not accept your registration. Please call 306-519-5711.");
+      return apiError(message, 502, "EMAIL_SERVICE_FAILED");
+    }
     return Response.json({ success: true, message: "Your registration was sent successfully." });
   } catch {
     return apiError("The email service is temporarily unavailable. Please try again or call 306-519-5711.", 502, "EMAIL_SERVICE_UNAVAILABLE");
