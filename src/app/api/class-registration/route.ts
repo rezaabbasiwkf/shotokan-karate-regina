@@ -13,20 +13,23 @@ export async function POST(request: Request) {
   const registrationUrl = `${siteOrigin}/register`;
   form.set("_url", registrationUrl);
 
-  // FormSubmit's AJAX endpoint is most reliable with a traditional encoded
-  // form body. Keep every submitted field (including repeated checkboxes).
-  const body = new URLSearchParams();
+  // Match FormSubmit's documented AJAX format and preserve repeated fields.
+  const body: Record<string, string | string[]> = {};
   for (const [key, value] of form.entries()) {
-    if (typeof value === "string") body.append(key, value);
+    if (typeof value !== "string") continue;
+    const current = body[key];
+    if (current === undefined) body[key] = value;
+    else if (Array.isArray(current)) current.push(value);
+    else body[key] = [current, value];
   }
 
   try {
     const response = await fetch(formSubmitEndpoint, {
       method: "POST",
-      body,
+      body: JSON.stringify(body),
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        "Content-Type": "application/json",
         Origin: siteOrigin,
         Referer: registrationUrl,
       },
