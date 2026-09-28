@@ -10,13 +10,14 @@ const navigationLinks = [
   { href: "/#programs", label: "Classes" },
   { href: "/karate-knowledge-center", label: "Knowledge Center" },
   { href: "/belt-grading", label: "Belt Grading" },
-  { href: "/account", label: "Register / Login" },
+  { href: "/register", label: "Register for Class" },
   { href: "/#events", label: "Events" },
   { href: "/after-school-program", label: "After School Program" },
   { href: "/#contact", label: "Contact" },
 ];
 
 const aboutLinks = [
+  { href: "/account", label: "Family Account Login" },
   { href: "/#coach", label: "Coach Reza Abbasi" },
   { href: "/coach-achievements", label: "Championships & Achievements" },
   { href: "/coach-certifications", label: "Coaching Certifications" },
@@ -35,13 +36,13 @@ export function Navbar() {
       return pathname === "/" && href === `/#${activeSection}`;
     }
 
-    if (href === "/account") return pathname.startsWith("/account") || pathname === "/payment";
+    if (href === "/register") return pathname === "/register";
 
     if (href === "/karate-knowledge-center") return pathname.startsWith("/karate-knowledge-center") || pathname.startsWith("/karate-refereeing");
     if (href === "/belt-grading") return pathname.startsWith("/belt-grading");
     return href === "/" ? pathname === "/" && !activeSection : pathname === href;
   };
-  const aboutActive = pathname === "/coach-achievements" || pathname === "/coach-certifications" || pathname.startsWith("/karate-refereeing");
+  const aboutActive = pathname.startsWith("/account") || pathname === "/payment" || pathname === "/coach-achievements" || pathname === "/coach-certifications" || pathname.startsWith("/karate-refereeing");
 
   useEffect(() => {
     if (pathname !== "/") return;

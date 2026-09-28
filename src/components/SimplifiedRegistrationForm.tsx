@@ -1,92 +1,105 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
-import { portalFetch } from "@/lib/client/portal-fetch";
-import { safelyReadJson } from "@/lib/client/safe-json";
+import { useMemo, useState } from "react";
 
-type ApiResult = { success?: boolean; message?: string; fieldErrors?: Record<string, string>; registrationReference?: string; paymentUrl?: string; errorReference?: string };
+const endpoint = "https://formsubmit.co/ajax/shotokan.karate.regina@gmail.com";
+const inputClass = "mt-2 min-h-12 w-full rounded-xl border border-white/15 bg-black/35 px-4 py-3 text-white outline-none transition placeholder:text-stone-600 focus:border-red-400 focus:ring-2 focus:ring-red-500/20";
+const sectionClass = "rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-xl shadow-black/10 sm:p-8";
 
 function ageFromDob(value: string) {
-  if (!value) return null;
-  const birth = new Date(`${value}T12:00:00Z`), today = new Date();
-  if (Number.isNaN(birth.getTime())) return null;
-  let age = today.getUTCFullYear() - birth.getUTCFullYear();
-  if (today.getUTCMonth() < birth.getUTCMonth() || (today.getUTCMonth() === birth.getUTCMonth() && today.getUTCDate() < birth.getUTCDate())) age -= 1;
-  return age;
+  if (!value) return "";
+  const birth = new Date(`${value}T12:00:00`);
+  if (Number.isNaN(birth.getTime()) || birth > new Date()) return "";
+  const today = new Date();
+  let age = today.getFullYear() - birth.getFullYear();
+  if (today.getMonth() < birth.getMonth() || (today.getMonth() === birth.getMonth() && today.getDate() < birth.getDate())) age--;
+  return String(age);
 }
 
-const inputClass = "mt-2 w-full rounded-xl border border-white/15 bg-white/[0.06] px-4 py-3 text-white outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-500/20";
+function SectionTitle({ number, children }: { number: number; children: React.ReactNode }) {
+  return <legend className="mb-6 w-full border-l-4 border-red-600 bg-black px-4 py-3 text-base font-black uppercase tracking-[.08em] text-white">Section {number}: {children}</legend>;
+}
 
 export function SimplifiedRegistrationForm() {
-  const submissionId = useRef(crypto.randomUUID());
   const [dateOfBirth, setDateOfBirth] = useState("");
-  const [medical, setMedical] = useState("");
   const [busy, setBusy] = useState(false);
-  const [message, setMessage] = useState("");
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const age = ageFromDob(dateOfBirth), isMinor = age !== null && age < 18;
-  const error = (name: string) => errors[name] ? <p id={`${name}-error`} className="mt-2 text-sm text-red-300">{errors[name]}</p> : null;
-  const props = (name: string) => ({ className: `${inputClass} ${errors[name] ? "border-red-400" : ""}`, "aria-invalid": Boolean(errors[name]), "aria-describedby": errors[name] ? `${name}-error` : undefined });
+  const [status, setStatus] = useState<{ kind: "success" | "error"; text: string } | null>(null);
+  const age = useMemo(() => ageFromDob(dateOfBirth), [dateOfBirth]);
+  const isMinor = age !== "" && Number(age) < 18;
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (busy) return;
-    setBusy(true); setErrors({}); setMessage("");
-    const form = new FormData(event.currentTarget);
-    const payload = Object.fromEntries(form.entries()) as Record<string, FormDataEntryValue | boolean>;
-    for (const name of ["informationConfirmed", "riskAcknowledged", "rulesAccepted", "emergencyTreatmentAuthorized", "mediaPermission", "refundPolicyAccepted", "liabilityWaiverAccepted"]) payload[name] = form.has(name);
-    payload.attendanceCommitment = form.get("attendanceCommitment") === "Yes";
-    payload.submissionId = submissionId.current;
+    const form = event.currentTarget;
+    setBusy(true);
+    setStatus(null);
     try {
-      const response = await portalFetch("/api/registrations", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-      const result = await safelyReadJson<ApiResult>(response);
-      if (!response.ok || !result.success) {
-        setErrors(result.fieldErrors || {});
-        const first = Object.keys(result.fieldErrors || {})[0];
-        if (first) document.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
-        throw new Error(result.message || (result.errorReference ? `Registration could not be completed. Error reference: ${result.errorReference}` : "Registration could not be completed."));
-      }
-      window.location.assign(result.paymentUrl || `/payment?reference=${encodeURIComponent(result.registrationReference || "")}`);
-    } catch (caught) {
-      setMessage(caught instanceof Error ? caught.message : "Registration could not be completed.");
+      const response = await fetch(endpoint, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } });
+      const result = await response.json().catch(() => ({})) as { success?: string | boolean; message?: string };
+      if (!response.ok || result.success === false) throw new Error(result.message || "Your registration could not be sent. Please try again or call 306-570-3125.");
+      form.reset();
+      setDateOfBirth("");
+      setStatus({ kind: "success", text: "Thank you. Your registration has been sent to SHOTOKAN Karate Regina. We will contact you about the next step." });
+      window.scrollTo({ top: form.offsetTop - 110, behavior: "smooth" });
+    } catch (error) {
+      setStatus({ kind: "error", text: error instanceof Error ? error.message : "Your registration could not be sent. Please try again." });
+    } finally {
       setBusy(false);
     }
   }
 
-  return <form onSubmit={submit} noValidate className="space-y-8">
-    {(message || Object.keys(errors).length > 0) && <div role="alert" tabIndex={-1} className="rounded-2xl border border-red-400/40 bg-red-950/35 p-5 text-red-100"><p className="font-bold">{message || "Please correct the highlighted fields."}</p>{Object.values(errors).length > 0 && <ul className="mt-2 list-disc space-y-1 pl-5 text-sm">{Object.values(errors).map((item) => <li key={item}>{item}</li>)}</ul>}</div>}
-    <input className="absolute -left-[9999px]" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" />
+  return <form onSubmit={submit} className="space-y-8">
+    <input type="hidden" name="_subject" value="New Student Registration — SHOTOKAN Karate Regina" />
+    <input type="hidden" name="_template" value="table" />
+    <input type="text" name="_honey" className="absolute -left-[9999px]" tabIndex={-1} autoComplete="off" aria-hidden="true" />
+    {status ? <div role="status" className={`rounded-2xl border p-5 ${status.kind === "success" ? "border-green-500/40 bg-green-950/30 text-green-100" : "border-red-500/40 bg-red-950/30 text-red-100"}`}><p className="font-bold">{status.text}</p></div> : null}
 
-    <fieldset className="rounded-3xl border border-white/10 bg-white/[0.035] p-5 sm:p-8"><legend className="px-3 text-xl font-black text-white">Personal Information</legend><div className="grid gap-5 md:grid-cols-2">
-      <label className="text-sm font-semibold text-stone-200">Full Name<input name="fullName" autoComplete="name" {...props("fullName")} />{error("fullName")}</label>
-      <label className="text-sm font-semibold text-stone-200">Date of Birth<input name="dateOfBirth" type="date" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} {...props("dateOfBirth")} />{error("dateOfBirth")}</label>
-      <label className="text-sm font-semibold text-stone-200">Gender<select name="gender" defaultValue="" {...props("gender")}><option value="" className="text-black">Select one</option><option className="text-black">Female</option><option className="text-black">Male</option><option className="text-black">Non-binary</option><option className="text-black">Prefer not to say</option></select>{error("gender")}</label>
-      <label className="text-sm font-semibold text-stone-200">Phone Number<input name="phone" type="tel" autoComplete="tel" {...props("phone")} />{error("phone")}</label>
-      <label className="text-sm font-semibold text-stone-200">Email Address<input name="email" type="email" autoComplete="email" {...props("email")} />{error("email")}</label>
-      <label className="text-sm font-semibold text-stone-200 md:col-span-2">Home Address<textarea name="homeAddress" autoComplete="street-address" rows={3} {...props("homeAddress")} />{error("homeAddress")}</label>
-      <label className="text-sm font-semibold text-stone-200">Emergency Contact Name<input name="emergencyContactName" {...props("emergencyContactName")} />{error("emergencyContactName")}</label>
-      <label className="text-sm font-semibold text-stone-200">Emergency Contact Phone<input name="emergencyContactPhone" type="tel" {...props("emergencyContactPhone")} />{error("emergencyContactPhone")}</label>
+    <div className="grid items-start gap-8 lg:grid-cols-2">
+      <fieldset className={sectionClass}><SectionTitle number={1}>Personal Information</SectionTitle><div className="grid gap-5 sm:grid-cols-2">
+        <label className="text-sm font-semibold text-stone-200 sm:col-span-2">1. Full Name<input required name="Full Name" autoComplete="name" className={inputClass} /></label>
+        <label className="text-sm font-semibold text-stone-200">2. Date of Birth<input required name="Date of Birth" type="date" value={dateOfBirth} onChange={(event) => setDateOfBirth(event.target.value)} className={inputClass} /></label>
+        <label className="text-sm font-semibold text-stone-200">3. Age<input name="Age" value={age} readOnly aria-live="polite" className={`${inputClass} cursor-not-allowed opacity-80`} /></label>
+        <label className="text-sm font-semibold text-stone-200 sm:col-span-2">4. Gender<select required name="Gender" defaultValue="" className={inputClass}><option value="" disabled className="text-black">Select one</option><option className="text-black">Male</option><option className="text-black">Female</option><option className="text-black">Prefer not to say</option></select></label>
+        <label className="text-sm font-semibold text-stone-200">5. Phone Number<input required name="Phone Number" type="tel" autoComplete="tel" className={inputClass} /></label>
+        <label className="text-sm font-semibold text-stone-200">6. Email Address<input required name="email" type="email" autoComplete="email" className={inputClass} /></label>
+        <label className="text-sm font-semibold text-stone-200 sm:col-span-2">7. Home Address<textarea required name="Home Address" autoComplete="street-address" rows={3} className={inputClass} /></label>
+        <label className="text-sm font-semibold text-stone-200">8. Emergency Contact Name<input required name="Emergency Contact Name" className={inputClass} /></label>
+        <label className="text-sm font-semibold text-stone-200">9. Emergency Contact Phone<input required name="Emergency Contact Phone" type="tel" className={inputClass} /></label>
+        <label className="text-sm font-semibold text-stone-200 sm:col-span-2">10. Parent/Guardian Name {isMinor ? <span className="text-red-300">(required for participants under 18)</span> : "(if under 18)"}<input required={isMinor} name="Parent or Guardian Name" className={inputClass} /></label>
+      </div></fieldset>
+
+      <div className="space-y-8">
+        <fieldset className={sectionClass}><SectionTitle number={2}>Background Information</SectionTitle><div className="space-y-5">
+          <label className="text-sm font-semibold text-stone-200">11. Have you participated in similar programs before?<select required name="Participated in Similar Programs" defaultValue="" className={inputClass}><option value="" disabled className="text-black">Select one</option><option className="text-black">Yes</option><option className="text-black">No</option></select></label>
+          <label className="text-sm font-semibold text-stone-200">12. What motivated you to join this program?<textarea required name="Motivation for Joining" rows={3} className={inputClass} /></label>
+          <label className="text-sm font-semibold text-stone-200">13. How did you hear about us?<textarea required name="How They Heard About Us" rows={2} className={inputClass} /></label>
+        </div></fieldset>
+        <fieldset className={sectionClass}><SectionTitle number={3}>Health &amp; Safety</SectionTitle><div className="space-y-5">
+          <label className="text-sm font-semibold text-stone-200">14. Medical conditions, injuries, allergies, or physical limitations we should know about?<textarea required name="Medical Conditions Injuries Allergies or Limitations" rows={4} placeholder="Enter details or write None" className={inputClass} /></label>
+          <label className="text-sm font-semibold text-stone-200">15. Are you currently taking medication that may affect participation?<textarea required name="Medication Affecting Participation" rows={3} placeholder="Enter details or write No" className={inputClass} /></label>
+        </div></fieldset>
+      </div>
+    </div>
+
+    <fieldset className={sectionClass}><SectionTitle number={4}>Expectations</SectionTitle><div className="grid gap-5 md:grid-cols-2">
+      <label className="text-sm font-semibold text-stone-200">16. What are your goals for joining this program?<textarea required name="Program Goals" rows={4} className={inputClass} /></label>
+      <label className="text-sm font-semibold text-stone-200">17. What do you hope to achieve within the next 3–6 months?<textarea required name="Three to Six Month Goals" rows={4} className={inputClass} /></label>
+      <label className="text-sm font-semibold text-stone-200 md:col-span-2">18. Are you willing to attend classes regularly and follow program requirements?<select required name="Attendance and Program Commitment" defaultValue="" className={inputClass}><option value="" disabled className="text-black">Select one</option><option className="text-black">Yes</option><option className="text-black">No</option></select></label>
     </div></fieldset>
 
-    {isMinor && <fieldset className="rounded-3xl border border-red-500/20 bg-red-950/15 p-5 sm:p-8"><legend className="px-3 text-xl font-black text-white">Parent or Guardian Information</legend><p className="mb-5 text-sm leading-6 text-stone-400">Required because the participant is under 18.</p><div className="grid gap-5 md:grid-cols-2">
-      <label className="text-sm font-semibold text-stone-200 md:col-span-2">Parent/Guardian Full Name<input name="guardianName" {...props("guardianName")} />{error("guardianName")}</label>
-      <label className="text-sm font-semibold text-stone-200">Parent/Guardian Phone<input name="guardianPhone" type="tel" {...props("guardianPhone")} />{error("guardianPhone")}</label>
-      <label className="text-sm font-semibold text-stone-200">Parent/Guardian Email<input name="guardianEmail" type="email" {...props("guardianEmail")} />{error("guardianEmail")}</label>
-    </div></fieldset>}
-
-    <fieldset className="rounded-3xl border border-white/10 bg-white/[0.035] p-5 sm:p-8"><legend className="px-3 text-xl font-black text-white">Background and Safety</legend><div className="grid gap-5 md:grid-cols-2">
-      <label className="text-sm font-semibold text-stone-200">Have you participated in a similar program before?<select name="previousProgram" defaultValue="" {...props("previousProgram")}><option value="" className="text-black">Select one</option><option className="text-black">Yes</option><option className="text-black">No</option></select>{error("previousProgram")}</label>
-      <label className="text-sm font-semibold text-stone-200">How did you hear about us?<input name="referralSource" {...props("referralSource")} />{error("referralSource")}</label>
-      <label className="text-sm font-semibold text-stone-200">Medical conditions, injuries, allergies, or physical limitations?<select name="hasMedicalCondition" value={medical} onChange={(e) => setMedical(e.target.value)} {...props("hasMedicalCondition")}><option value="" className="text-black">Select one</option><option className="text-black">Yes</option><option className="text-black">No</option></select>{error("hasMedicalCondition")}</label>
-      <label className="text-sm font-semibold text-stone-200">Willing to attend regularly and follow academy requirements?<select name="attendanceCommitment" defaultValue="" {...props("attendanceCommitment")}><option value="" className="text-black">Select one</option><option className="text-black">Yes</option><option className="text-black">No</option></select>{error("attendanceCommitment")}</label>
-      {medical === "Yes" && <label className="text-sm font-semibold text-stone-200 md:col-span-2">Medical Details<textarea name="medicalDetails" rows={4} {...props("medicalDetails")} />{error("medicalDetails")}</label>}
+    <fieldset className={sectionClass}><SectionTitle number={5}>Terms &amp; Conditions</SectionTitle><p className="mb-5 text-sm leading-6 text-stone-400">Please review our <Link href="/liability-waiver" target="_blank" className="text-red-300 underline">Liability Waiver</Link>, <Link href="/refund-policy" target="_blank" className="text-red-300 underline">Refund Policy</Link>, <Link href="/privacy" target="_blank" className="text-red-300 underline">Privacy Policy</Link>, and <Link href="/photo-video-consent" target="_blank" className="text-red-300 underline">Photo and Video Consent</Link>. Your form, including health information, will be transmitted by FormSubmit to the academy email address.</p><div className="grid gap-4 md:grid-cols-2">
+      {[["Information Accuracy", "I confirm that all information provided is accurate."], ["Physical Activity Risk", "I understand that participation involves physical activity and inherent risks."], ["Rules and Safety", "I agree to follow all rules and safety guidelines."], ["Emergency Treatment Authorization", "I authorize emergency medical treatment if necessary."], ["Photo Video Permission", "I grant permission for photos/videos to be used for promotional purposes."], ["Refund Policy Agreement", "I understand registration fees are non-refundable unless otherwise stated."], ["Liability Waiver Agreement", "I voluntarily participate and assume responsibility for associated risks. I have read and agree to the Liability Waiver."]].map(([name, text]) => <label key={name} className="flex gap-3 rounded-xl border border-white/10 p-4 text-sm leading-6 text-stone-200"><input required name={name} value="Agreed" type="checkbox" className="mt-1 h-5 w-5 shrink-0 accent-red-600" /><span>{text}</span></label>)}
     </div></fieldset>
 
-    <fieldset className="rounded-3xl border border-white/10 bg-white/[0.035] p-5 sm:p-8"><legend className="px-3 text-xl font-black text-white">Consent</legend><p className="mb-5 text-sm leading-6 text-stone-400">Review the <Link className="text-red-300 underline" href="/liability-waiver" target="_blank">Liability Waiver</Link>, <Link className="text-red-300 underline" href="/refund-policy" target="_blank">Refund Policy</Link>, <Link className="text-red-300 underline" href="/privacy" target="_blank">Privacy Policy</Link>, and <Link className="text-red-300 underline" href="/photo-video-consent" target="_blank">Photo and Video Consent</Link>.</p><div className="space-y-4">
-      {[["informationConfirmed", "I confirm that the information provided is accurate."], ["riskAcknowledged", "I acknowledge the risks associated with physical activity and karate training."], ["rulesAccepted", "I agree to follow academy rules and safety guidelines."], ["emergencyTreatmentAuthorized", "I authorize emergency medical treatment when reasonably necessary."], ["mediaPermission", "I grant photo and video permission."], ["refundPolicyAccepted", "I acknowledge the Refund Policy."], ["liabilityWaiverAccepted", "I accept the Liability Waiver."]].map(([name, text]) => <div key={name}><label className="flex items-start gap-3 text-sm leading-6 text-stone-200"><input name={name} type="checkbox" className="mt-1 h-5 w-5 shrink-0 accent-red-600" />{text}</label>{error(name)}</div>)}
-    </div><div className="mt-6 grid gap-5 md:grid-cols-2"><label className="text-sm font-semibold text-stone-200">Typed Electronic Signature<input name="participantSignature" {...props("participantSignature")} />{error("participantSignature")}</label>{isMinor && <label className="text-sm font-semibold text-stone-200">Parent/Guardian Signature<input name="guardianSignature" {...props("guardianSignature")} />{error("guardianSignature")}</label>}</div></fieldset>
+    <fieldset className={sectionClass}><legend className="mb-6 w-full border-l-4 border-red-600 bg-black px-4 py-3 text-base font-black uppercase tracking-[.08em] text-white">Final Consent</legend><div className="grid gap-5 md:grid-cols-2">
+      <label className="text-sm font-semibold text-stone-200">Participant Name<input required name="Participant Name" className={inputClass} /></label>
+      <label className="text-sm font-semibold text-stone-200">Participant Signature<input required name="Participant Signature" placeholder="Type full legal name" className={inputClass} /></label>
+      <label className="text-sm font-semibold text-stone-200">Parent/Guardian Name {isMinor ? "(required)" : "(if applicable)"}<input required={isMinor} name="Final Parent Guardian Name" className={inputClass} /></label>
+      <label className="text-sm font-semibold text-stone-200">Parent/Guardian Signature {isMinor ? "(required)" : "(if applicable)"}<input required={isMinor} name="Parent Guardian Signature" placeholder="Type full legal name" className={inputClass} /></label>
+      <label className="text-sm font-semibold text-stone-200 md:col-span-2">Date<input required name="Consent Date" type="date" className={inputClass} /></label>
+    </div></fieldset>
 
-    <button type="submit" disabled={busy} className="min-h-14 w-full rounded-xl bg-red-600 px-6 text-sm font-black uppercase tracking-[0.14em] text-white shadow-lg shadow-red-950/40 transition hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-60">{busy ? "Submitting Registration…" : "Continue to Payment"}</button>
+    <button type="submit" disabled={busy} className="min-h-14 w-full rounded-xl bg-red-600 px-6 text-sm font-black uppercase tracking-[.14em] text-white shadow-lg shadow-red-950/40 transition hover:bg-red-500 disabled:cursor-wait disabled:opacity-60">{busy ? "Sending Registration…" : "Submit Registration"}</button>
   </form>;
 }

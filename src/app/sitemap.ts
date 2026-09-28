@@ -15,10 +15,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: `${siteUrl}/account`,
+      url: `${siteUrl}/register`,
       lastModified: baseDate,
       changeFrequency: "monthly",
-      priority: 0.8,
+      priority: 0.9,
     },
     {
       url: `${siteUrl}/self-defense`,
