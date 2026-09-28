@@ -11,7 +11,7 @@ const navigationLinks = [
   { href: "/karate-knowledge-center", label: "Knowledge Center" },
   { href: "/belt-grading", label: "Belt Grading" },
   { href: "/register", label: "Register for Class" },
-  { href: "/#events", label: "Events" },
+  { href: "/updates", label: "Updates" },
   { href: "/after-school-program", label: "After School Program" },
   { href: "/#contact", label: "Contact" },
 ];

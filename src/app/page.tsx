@@ -25,7 +25,7 @@ const coachHighlights = [
   ["🥋", "5th Dan Shotokan Karate Instructor"],
   ["🏅", "Official Kumite Coach – Saskatchewan Provincial Karate Team"],
   ["🎓", "Certified Level 1 Karate Coach"],
-  ["⚖️", "Official Karate Federation Referee"],
+  ["⚖️", "Official Karate Canada Referee"],
   ["👨‍🏫", "15+ Years of Professional Coaching Experience"],
   ["🥇", "Gold Medalist – 2015 World Championship"],
 ];
@@ -38,11 +38,11 @@ const athleteHighlights = [
 ];
 
 const contactItems = [
-  ["Class Time", "Every Wednesday, 4:00 PM - 5:00 PM"],
+  ["Class Times", "Wednesdays & Sundays, 5:00 PM - 6:00 PM"],
   ["Location", "1751 Broad Street, Regina, SK"],
-  ["Monthly Fee", "$60 / month"],
-  ["Family Discount", "$50 / person / month"],
-  ["Trial Class", "First week free"],
+  ["Monthly Tuition", "$80 / month"],
+  ["Family Discount", "$70 / person / month"],
+  ["Student Levels", "All ages & skill levels"],
   ["Coach Reza Abbasi", "306-570-3125"],
   ["Registration", "Moha Ebrahimi, 306-519-5711"],
   ["Instagram", "@shotokan_karate_yqr"],
@@ -131,7 +131,7 @@ export default function Home() {
                 <p className="text-xs font-black uppercase tracking-[0.28em] text-red-300">Professional Instruction</p>
                 <h2 className="hero-title mt-3 text-4xl font-bold text-white sm:text-6xl">Coach Reza Abbasi</h2>
                 <div className="mt-5 space-y-4 text-base leading-7 text-stone-300 sm:text-lg sm:leading-8">
-                  <p><strong className="text-white">Coach Reza Abbasi</strong> is a <strong className="text-white">5th Dan Shotokan Karate Instructor</strong>, <strong className="text-white">Certified Level 1 Karate Coach</strong>, <strong className="text-white">Official Karate Federation Referee</strong>, and an <strong className="text-white">Official Kumite Coach of the Saskatchewan Provincial Karate Team</strong>. With more than <strong className="text-white">15 years of coaching experience</strong>, he has dedicated his career to developing athletes through professional Shotokan Karate instruction, technical excellence in Kata and Kumite, character development, and high-performance competition training.</p>
+                  <p><strong className="text-white">Coach Reza Abbasi</strong> is a <strong className="text-white">5th Dan Shotokan Karate Instructor</strong>, <strong className="text-white">Certified Level 1 Karate Coach</strong>, <strong className="text-white">Official Karate Canada Referee</strong>, and an <strong className="text-white">Official Kumite Coach of the Saskatchewan Provincial Karate Team</strong>. With more than <strong className="text-white">15 years of coaching experience</strong>, he has dedicated his career to developing athletes through professional Shotokan Karate instruction, technical excellence in Kata and Kumite, character development, and high-performance competition training.</p>
                   <p>Coach Reza Abbasi works with students of all ages and skill levels, guiding them from their first class to advanced competition while helping dedicated athletes prepare for provincial, national, and international events.</p>
                 </div>
                 <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap"><ButtonLink href="/coach-achievements">View Championships &amp; Achievements</ButtonLink><ButtonLink href="/coach-certifications" variant="secondary">View Coaching Certifications</ButtonLink><ButtonLink href="/karate-refereeing" variant="secondary">Explore Refereeing Education</ButtonLink></div>
@@ -170,7 +170,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="events" className="bg-black py-24"><div className="section-shell"><SectionHeading eyebrow="Class schedule" title="Professional Shotokan Karate Training">Current class times for kids, teens, and adults at all levels.</SectionHeading><div className="overflow-x-auto rounded-2xl border border-white/10 bg-stone-950"><table className="w-full min-w-[720px] text-left text-sm"><thead className="bg-white/[0.06] text-xs font-black uppercase tracking-[0.14em] text-red-200"><tr><th className="px-5 py-4">Program</th><th className="px-5 py-4">Age / Level</th><th className="px-5 py-4">Day</th><th className="px-5 py-4">Time</th><th className="px-5 py-4">Location</th></tr></thead><tbody className="text-stone-200"><tr><td className="px-5 py-5 font-bold text-white">Shotokan Karate</td><td className="px-5 py-5">Kids, teens & adults · all levels</td><td className="px-5 py-5">Wednesday</td><td className="px-5 py-5">4:00 PM – 5:00 PM</td><td className="px-5 py-5">1751 Broad Street, Regina, SK</td></tr></tbody></table></div></div></section>
+        <section id="events" className="bg-black py-24"><div className="section-shell"><SectionHeading eyebrow="Class schedule" title="Professional Shotokan Karate Training">Current class times for students of all ages and skill levels.</SectionHeading><div className="overflow-x-auto rounded-2xl border border-white/10 bg-stone-950"><table className="w-full min-w-[720px] text-left text-sm"><thead className="bg-white/[0.06] text-xs font-black uppercase tracking-[0.14em] text-red-200"><tr><th className="px-5 py-4">Program</th><th className="px-5 py-4">Age / Level</th><th className="px-5 py-4">Day</th><th className="px-5 py-4">Time</th><th className="px-5 py-4">Location</th></tr></thead><tbody className="divide-y divide-white/10 text-stone-200">{["Wednesday", "Sunday"].map((day) => <tr key={day}><td className="px-5 py-5 font-bold text-white">Shotokan Karate</td><td className="px-5 py-5">All ages &amp; skill levels</td><td className="px-5 py-5">{day}</td><td className="px-5 py-5">5:00 PM – 6:00 PM</td><td className="px-5 py-5">1751 Broad Street, Regina, SK</td></tr>)}</tbody></table></div><div className="mt-6 text-center"><ButtonLink href="/updates" variant="secondary">View Current Academy Updates</ButtonLink></div></div></section>
 
         <section id="gallery" className="bg-stone-950 py-24"><div className="section-shell"><SectionHeading eyebrow="Karate gallery" title="Kata, Kumite & Competition Training">See professional Shotokan Karate training and our Regina dojo community in action.</SectionHeading><Gallery /></div></section>
 

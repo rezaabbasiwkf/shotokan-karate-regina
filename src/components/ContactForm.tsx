@@ -9,7 +9,7 @@ export function ContactForm() {
     const form = new FormData(event.currentTarget);
     const subject = encodeURIComponent(`Website inquiry from ${form.get("name")}`);
     const body = encodeURIComponent(`Name: ${form.get("name")}\nEmail: ${form.get("email")}\n\n${form.get("message")}`);
-    window.location.href = `mailto:info@shotokan-karate-regina.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:shotokan.karate.regina@gmail.com?subject=${subject}&body=${body}`;
     setSent(true);
   };
   return <form onSubmit={submit} className="rounded-2xl border border-white/10 bg-black/45 p-6 sm:p-8">

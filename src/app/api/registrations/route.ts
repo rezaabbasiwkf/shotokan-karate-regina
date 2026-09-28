@@ -76,7 +76,7 @@ export async function POST(request: Request) {
         previousProgram: previousProgram as "Yes" | "No", referralSource, hasMedicalCondition: hasMedicalConditionValue === "Yes", medicalDetails: hasMedicalConditionValue === "Yes" ? medicalDetails : "", attendanceCommitment: true,
         informationConfirmed: true, riskAcknowledged: true, rulesAccepted: true, emergencyTreatmentAuthorized: true, mediaPermission: checked(payload.mediaPermission), refundPolicyAccepted: true, liabilityWaiverAccepted: true,
         participantSignature, guardianSignature: age! < 18 ? guardianSignature : "", consentedAt: now, consentVersion: POLICY_VERSION, consentIpAddress: ip, registrationStatus: "Pending Payment", paymentStatus: "Not Paid", paymentReference: "", paymentReceiptId: null,
-        adminEmailStatus: "Pending", participantEmailStatus: "Pending", tuitionCents: 6000, createdAt: now, updatedAt: now,
+        adminEmailStatus: "Pending", participantEmailStatus: "Pending", tuitionCents: 8000, createdAt: now, updatedAt: now,
       };
       database.registrations.push(registration);
       registration.registrationReference = createReference(new Set([...database.registrations.map((item) => item.registrationReference), ...database.enrollments.map((item) => item.registrationReference)].filter(Boolean)));

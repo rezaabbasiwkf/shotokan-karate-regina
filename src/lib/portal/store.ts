@@ -20,13 +20,13 @@ function createDatabase(): PortalDatabase {
       minAge: 5,
       maxAge: null,
       skillLevel: "All Levels",
-      day: "Wednesday",
-      startTime: "4:00 PM",
-      endTime: "5:00 PM",
+      day: "Wednesday & Sunday",
+      startTime: "5:00 PM",
+      endTime: "6:00 PM",
       location: "1751 Broad Street, Regina, SK",
       instructor: "Coach Reza Abbasi",
       capacity: 30,
-      tuitionCents: 6000,
+      tuitionCents: 8000,
       registrationStatus: "Open",
       enrollmentPeriod: "Current Session",
       createdAt: now,
@@ -53,10 +53,17 @@ function normalizeDatabase(value: unknown): PortalDatabase {
   const fresh = createDatabase();
   if (!value || typeof value !== "object") return fresh;
   const stored = value as Partial<PortalDatabase>;
+  const classes = (stored.classes?.length ? stored.classes : fresh.classes).map((karateClass) => karateClass.id === "class-general-shotokan" ? {
+    ...karateClass,
+    day: "Wednesday & Sunday",
+    startTime: "5:00 PM",
+    endTime: "6:00 PM",
+    tuitionCents: 8000,
+  } : karateClass);
   return {
     ...fresh,
     ...stored,
-    classes: stored.classes?.length ? stored.classes : fresh.classes,
+    classes,
     class_sessions: stored.class_sessions?.length ? stored.class_sessions : fresh.class_sessions,
     knowledge_resources: stored.knowledge_resources || [],
     knowledge_articles: stored.knowledge_articles || [],

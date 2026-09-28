@@ -14,6 +14,8 @@ const structuredData = {
   url: siteUrl,
   description: pageDescription,
   telephone: "306-570-3125",
+  email: "shotokan.karate.regina@gmail.com",
+  openingHours: ["We 17:00-18:00", "Su 17:00-18:00"],
   address: {
     "@type": "PostalAddress",
     streetAddress: "1751 Broad Street",
