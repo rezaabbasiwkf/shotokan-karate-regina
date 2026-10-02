@@ -45,9 +45,15 @@ Replace `FRIEND_USERNAME` and `REPO_NAME` with the GitHub account and repository
 4. Keep the default Next.js settings.
 5. Deploy.
 
+### Student registration email form
+
+The public `/register` page submits JSON directly to FormSubmit and sends student forms to `shotokan.karate.regina@gmail.com`. It shows confirmation only when FormSubmit explicitly reports success, and retains the entered fields on failure.
+
+Set `NEXT_PUBLIC_FORMSUBMIT_FORM_ID` in Vercel to the random endpoint code supplied in the academy's FormSubmit activation email. Use the code from `https://formsubmit.co/<code>`, not the activation link's `/confirm/<token>`. Redeploy after setting it because Next.js embeds this public value in the browser bundle. Until an ID is configured, the form uses the academy email endpoint.
+
 ### Family account, enrollment, payment, and email portal
 
-The site includes a secure family portal at `/account` and a streamlined student form at `/register`. Both workflows connect to private payment receipt storage, manual PayPal verification, a role-protected administrator dashboard, consent records, email-delivery logs, and audit logs.
+The secure family portal at `/account` connects to private payment receipt storage, manual PayPal verification, a role-protected administrator dashboard, consent records, email-delivery logs, and audit logs.
 
 Copy `.env.example` to `.env.local` for local development. Configure these variables in Vercel before enabling production registrations:
 

@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
-const formSubmitEndpoint = "https://formsubmit.co/ajax/shotokan.karate.regina@gmail.com";
+const verifiedFormId = process.env.NEXT_PUBLIC_FORMSUBMIT_FORM_ID?.trim();
+const formSubmitEndpoint = `https://formsubmit.co/ajax/${verifiedFormId ? encodeURIComponent(verifiedFormId) : "shotokan.karate.regina@gmail.com"}`;
 const registrationUrl = "https://www.karateyqr.com/register";
 
 const inputClass = "mt-2 min-h-12 w-full rounded-xl border border-white/15 bg-black/35 px-4 py-3 text-white outline-none transition placeholder:text-stone-600 focus:border-red-400 focus:ring-2 focus:ring-red-500/20";
@@ -50,6 +51,8 @@ export function SimplifiedRegistrationForm() {
       const response = await fetch(formSubmitEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
+        referrer: new URL("/register", window.location.origin).href,
+        referrerPolicy: "no-referrer-when-downgrade",
         body: JSON.stringify(fields),
       });
       const responseText = await response.text();
