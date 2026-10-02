@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 
 const formSubmitEndpoint = "https://formsubmit.co/ajax/shotokan.karate.regina@gmail.com";
+const registrationUrl = "https://www.karateyqr.com/register";
 
 const inputClass = "mt-2 min-h-12 w-full rounded-xl border border-white/15 bg-black/35 px-4 py-3 text-white outline-none transition placeholder:text-stone-600 focus:border-red-400 focus:ring-2 focus:ring-red-500/20";
 const sectionClass = "rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-xl shadow-black/10 sm:p-8";
@@ -37,7 +38,7 @@ export function SimplifiedRegistrationForm() {
     setStatus(null);
     try {
       const formData = new FormData(form);
-      formData.set("_url", window.location.href);
+      formData.set("_url", registrationUrl);
       const fields: Record<string, string | string[]> = {};
       for (const [key, value] of formData.entries()) {
         if (typeof value !== "string") continue;
@@ -53,13 +54,16 @@ export function SimplifiedRegistrationForm() {
       });
       const responseText = await response.text();
       const result = (() => { try { return JSON.parse(responseText) as { success?: string | boolean; message?: string }; } catch { return { message: `The registration service returned an unexpected response (${response.status}).` }; } })();
-      if (!response.ok || (result.success !== true && result.success !== "true")) throw new Error(result.message || "Your registration could not be sent. Please try again or call 306-570-3125.");
+      if (!response.ok || (result.success !== true && result.success !== "true")) {
+        if (/needs activation/i.test(result.message || "")) throw new Error("Online registration is temporarily unavailable. Please call 306-570-3125 to register.");
+        throw new Error(result.message || "Your registration could not be sent. Please try again or call 306-570-3125.");
+      }
       form.reset();
       setDateOfBirth("");
       setStatus({ kind: "success", text: "Thank you. Your registration has been sent to SHOTOKAN Karate Regina. We will contact you about the next step." });
       window.scrollTo({ top: form.offsetTop - 110, behavior: "smooth" });
     } catch (error) {
-      setStatus({ kind: "error", text: error instanceof Error ? error.message : "Your registration could not be sent. Please try again or call 306-570-3125." });
+      setStatus({ kind: "error", text: error instanceof TypeError ? "The registration service could not be reached. Please try again or call 306-570-3125." : error instanceof Error ? error.message : "Your registration could not be sent. Please try again or call 306-570-3125." });
     } finally {
       setBusy(false);
     }
