@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { portalFetch } from "@/lib/client/portal-fetch";
+
+const formSubmitEndpoint = "https://formsubmit.co/ajax/shotokan.karate.regina@gmail.com";
 
 const inputClass = "mt-2 min-h-12 w-full rounded-xl border border-white/15 bg-black/35 px-4 py-3 text-white outline-none transition placeholder:text-stone-600 focus:border-red-400 focus:ring-2 focus:ring-red-500/20";
 const sectionClass = "rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-xl shadow-black/10 sm:p-8";
@@ -37,16 +38,28 @@ export function SimplifiedRegistrationForm() {
     try {
       const formData = new FormData(form);
       formData.set("_url", window.location.href);
-      const response = await portalFetch("/api/class-registration", { method: "POST", body: formData, headers: { Accept: "application/json" } });
+      const fields: Record<string, string | string[]> = {};
+      for (const [key, value] of formData.entries()) {
+        if (typeof value !== "string") continue;
+        const current = fields[key];
+        if (current === undefined) fields[key] = value;
+        else if (Array.isArray(current)) current.push(value);
+        else fields[key] = [current, value];
+      }
+      const response = await fetch(formSubmitEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(fields),
+      });
       const responseText = await response.text();
       const result = (() => { try { return JSON.parse(responseText) as { success?: string | boolean; message?: string }; } catch { return { message: `The registration service returned an unexpected response (${response.status}).` }; } })();
-      if (!response.ok || result.success === false || result.success === "false") throw new Error(result.message || "Your registration could not be sent. Please try again or call 306-570-3125.");
+      if (!response.ok || (result.success !== true && result.success !== "true")) throw new Error(result.message || "Your registration could not be sent. Please try again or call 306-570-3125.");
       form.reset();
       setDateOfBirth("");
       setStatus({ kind: "success", text: "Thank you. Your registration has been sent to SHOTOKAN Karate Regina. We will contact you about the next step." });
       window.scrollTo({ top: form.offsetTop - 110, behavior: "smooth" });
     } catch (error) {
-      setStatus({ kind: "error", text: error instanceof Error ? error.message : "Your registration could not be sent. Please try again." });
+      setStatus({ kind: "error", text: error instanceof Error ? error.message : "Your registration could not be sent. Please try again or call 306-570-3125." });
     } finally {
       setBusy(false);
     }
