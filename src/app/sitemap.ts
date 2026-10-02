@@ -1,96 +1,34 @@
 import type { MetadataRoute } from "next";
-import { suppliedRefereeingResources } from "@/data/refereeing-resources";
 import { gradingLevels } from "@/data/belt-grading";
+import { getPublishedKnowledgeContent } from "@/lib/knowledge/store";
+import { SITE_URL } from "@/lib/seo";
 
-const siteUrl = "https://www.karateyqr.com";
+export const revalidate = 3600;
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseDate = new Date();
+// Omit dates for static pages rather than inventing a content revision date.
+const publicPaths = [
+  "/", "/classes", "/register", "/updates", "/self-defense",
+  "/coach-achievements", "/coach-certifications", "/karate-knowledge-center",
+  "/karate-refereeing", "/karate-refereeing/resources", "/belt-grading",
+  "/after-school-program", "/trial-class", "/privacy", "/liability-waiver",
+  "/refund-policy", "/photo-video-consent", "/terms",
+];
 
-  return [
-    {
-      url: siteUrl,
-      lastModified: baseDate,
-      changeFrequency: "monthly",
-      priority: 1,
-    },
-    {
-      url: `${siteUrl}/register`,
-      lastModified: baseDate,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${siteUrl}/updates`,
-      lastModified: baseDate,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${siteUrl}/self-defense`,
-      lastModified: baseDate,
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: `${siteUrl}/coach-achievements`,
-      lastModified: baseDate,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/coach-certifications`,
-      lastModified: baseDate,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/karate-knowledge-center`,
-      lastModified: baseDate,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${siteUrl}/karate-refereeing`,
-      lastModified: baseDate,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${siteUrl}/belt-grading`,
-      lastModified: baseDate,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    ...gradingLevels.map((level) => ({
-      url: `${siteUrl}/belt-grading/${level.slug}`,
-      lastModified: baseDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    })),
-    {
-      url: `${siteUrl}/karate-refereeing/resources`,
-      lastModified: baseDate,
-      changeFrequency: "weekly",
-      priority: 0.7,
-    },
-    ...suppliedRefereeingResources.map((resource) => ({
-      url: `${siteUrl}/karate-refereeing/resources/${resource.slug}`,
-      lastModified: new Date(resource.updatedAt),
-      changeFrequency: "monthly" as const,
-      priority: 0.6,
-    })),
-    {
-      url: `${siteUrl}/after-school-program`,
-      lastModified: baseDate,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/trial-class`,
-      lastModified: baseDate,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
+function publishedEntry(path: string, updatedAt: string): MetadataRoute.Sitemap[number] {
+  const date = new Date(updatedAt);
+  return {
+    url: `${SITE_URL}${path}`,
+    ...(Number.isNaN(date.getTime()) ? {} : { lastModified: date }),
+  };
+}
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const { resources, articles } = await getPublishedKnowledgeContent();
+  const entries: MetadataRoute.Sitemap = [
+    ...publicPaths.map((path) => ({ url: path === "/" ? SITE_URL : `${SITE_URL}${path}` })),
+    ...gradingLevels.map((level) => ({ url: `${SITE_URL}/belt-grading/${level.slug}` })),
+    ...resources.map((resource) => publishedEntry(`/karate-refereeing/resources/${resource.slug}`, resource.updatedAt)),
+    ...articles.map((article) => publishedEntry(`/karate-refereeing/articles/${article.slug}`, article.updatedAt)),
   ];
+  return [...new Map(entries.map((entry) => [entry.url, entry])).values()];
 }

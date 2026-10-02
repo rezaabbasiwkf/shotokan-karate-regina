@@ -6,13 +6,16 @@ import { Footer } from "@/components/Footer";
 import { KnowledgeResourceLibrary } from "@/components/KnowledgeResourceLibrary";
 import { Navbar } from "@/components/Navbar";
 import { getPublishedKnowledgeContent } from "@/lib/knowledge/store";
+import { publicPageMetadata, SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: { absolute: "Karate Refereeing Education and Competition Rules | Regina, Canada" },
-  description: "Learn about karate refereeing, Kata judging, Kumite rules, Para Karate, scoring, penalties, signals, and professional competition procedures.",
-  alternates: { canonical: "/karate-refereeing" },
+  ...publicPageMetadata({
+    title: "Karate Refereeing Education and Competition Rules",
+    description: "Learn about karate refereeing, Kata judging, Kumite rules, Para Karate, scoring, penalties, signals, and professional competition procedures.",
+    path: "/karate-refereeing",
+    image: "/images/coach-reza-portrait.jpg",
+  }),
   keywords: ["karate referee", "karate refereeing", "karate judging", "WKF karate rules", "Kata judging rules", "Kumite referee rules", "Kumite scoring", "Para Karate rules", "karate officiating Canada", "karate referee Saskatchewan", "karate referee Regina"],
-  openGraph: { title: "Karate Refereeing Education and Competition Rules", description: "Rules, judging procedures, competition standards, and verified educational resources for modern karate.", url: "/karate-refereeing", images: [{ url: "/images/coach-reza-portrait.jpg", width: 1200, height: 876, alt: "Coach Reza Abbasi, official karate referee and coach in Saskatchewan" }] },
 };
 
 const modules = [
@@ -31,11 +34,11 @@ export default async function KarateRefereeingPage() {
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", headline: "Karate Refereeing Education", description: metadata.description, author: { "@type": "Person", name: "Coach Reza Abbasi" }, publisher: { "@type": "Organization", name: "SHOTOKAN Karate Regina" }, mainEntityOfPage: "https://shotokan-karate-regina.vercel.app/karate-refereeing" },
+      { "@type": "Article", headline: "Karate Refereeing Education", description: metadata.description, author: { "@type": "Person", name: "Coach Reza Abbasi" }, publisher: { "@type": "Organization", name: "SHOTOKAN Karate Regina" }, mainEntityOfPage: `${SITE_URL}/karate-refereeing` },
       { "@type": "BreadcrumbList", itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://shotokan-karate-regina.vercel.app/" },
-        { "@type": "ListItem", position: 2, name: "Knowledge Center", item: "https://shotokan-karate-regina.vercel.app/karate-knowledge-center" },
-        { "@type": "ListItem", position: 3, name: "Karate Refereeing Education", item: "https://shotokan-karate-regina.vercel.app/karate-refereeing" },
+        { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+        { "@type": "ListItem", position: 2, name: "Knowledge Center", item: `${SITE_URL}/karate-knowledge-center` },
+        { "@type": "ListItem", position: 3, name: "Karate Refereeing Education", item: `${SITE_URL}/karate-refereeing` },
       ] },
     ],
   };

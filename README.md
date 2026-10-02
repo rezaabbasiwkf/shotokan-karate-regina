@@ -47,9 +47,17 @@ Replace `FRIEND_USERNAME` and `REPO_NAME` with the GitHub account and repository
 
 ### Student registration email form
 
-The public `/register` page submits JSON directly to FormSubmit and sends student forms to `shotokan.karate.regina@gmail.com`. It shows confirmation only when FormSubmit explicitly reports success, and retains the entered fields on failure.
+The public `/register` page implements the registration image's 18 numbered questions, terms, separate liability waiver, and typed participant/guardian signatures. It calculates age from the date of birth, rejects future or invalid dates, requires guardian details for participants under 18, and records declined photo permission explicitly. The current all-ages policy is retained pending clarification of the image's conflicting 16+ note.
+
+By default it submits JSON directly to FormSubmit, configured for `shotokan.karate.regina@gmail.com`. Delivery still requires a working, activated provider endpoint; the form UI alone does not verify email delivery. It shows confirmation only when the service reports acceptance and retains the entered fields on failure.
 
 Set `NEXT_PUBLIC_FORMSUBMIT_FORM_ID` in Vercel to the random endpoint code supplied in the academy's FormSubmit activation email. Use the code from `https://formsubmit.co/<code>`, not the activation link's `/confirm/<token>`. Redeploy after setting it because Next.js embeds this public value in the browser bundle. Until an ID is configured, the form uses the academy email endpoint.
+
+Alternatively, create a Formspree form with the academy email as its recipient. Set `NEXT_PUBLIC_FORMSPREE_FORM_ID` to the ID from its `https://formspree.io/f/<id>` integration endpoint, then redeploy. This selects Formspree without any Gmail password or SMTP credentials. The form preserves its fields and consent entries and uses Formspree's honeypot field and JSON response handling.
+
+### Local search and traffic measurement
+
+Local search improvements, Search Console verification, owner-side promotion, and the read-only SEO regression check are documented in [docs/traffic-growth.md](docs/traffic-growth.md).
 
 ### Family account, enrollment, payment, and email portal
 

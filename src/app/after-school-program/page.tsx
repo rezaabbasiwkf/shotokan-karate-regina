@@ -4,13 +4,15 @@ import { ButtonLink } from "@/components/ButtonLink";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { SectionHeading } from "@/components/SectionHeading";
+import { publicPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "After School Karate Program",
+export const metadata: Metadata = publicPageMetadata({
+  title: "After School Karate Program in Regina",
   description:
     "A safe, active, and educational After School Karate Program from Shotokan Karate Regina, with professional instruction and school partnerships.",
-  alternates: { canonical: "/after-school-program" },
-};
+  path: "/after-school-program",
+  image: "/images/after-school-program-hero.png",
+});
 
 const benefits = [
   { title: "Confidence & Self-Discipline", description: "Build confidence and self-discipline through structured goals, positive coaching, and steady progress.", icon: "confidence" },

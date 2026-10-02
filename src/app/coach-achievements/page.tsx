@@ -5,18 +5,16 @@ import { ButtonLink } from "@/components/ButtonLink";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { visibleCoachAchievements } from "@/data/coach-achievements";
+import { publicPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Coach Reza Abbasi Championships & Karate Achievements",
-  description: "Official championship certificates and verified World, International, National, University and Provincial karate results for Coach Reza Abbasi in Regina.",
-  alternates: { canonical: "/coach-achievements" },
+  ...publicPageMetadata({
+    title: "Coach Reza Abbasi Championships & Karate Achievements",
+    description: "Official championship certificates and verified World, International, National, University and Provincial karate results for Coach Reza Abbasi in Regina.",
+    path: "/coach-achievements",
+    image: "/images/coach-achievements/2015-world-men-championship-gold.jpg",
+  }),
   keywords: ["Coach Reza Abbasi Karate Achievements", "Karate Champion Regina", "Shotokan Karate Champion", "Kumite Championship", "International Karate Medalist", "National Karate Champion", "University Karate Olympiad", "Karate Coach Regina"],
-  openGraph: {
-    title: "Coach Reza Abbasi – Championships & Achievements",
-    description: "A verified archive of Coach Reza Abbasi’s karate championship certificates and results.",
-    url: "/coach-achievements",
-    images: [{ url: "/images/coach-achievements/2015-world-men-championship-gold.jpg", width: 1900, height: 1268, alt: "Coach Reza Abbasi 2015 World Championship gold medal record." }],
-  },
 };
 
 const featured = visibleCoachAchievements.filter((item) => item.featured).slice(0, 4);

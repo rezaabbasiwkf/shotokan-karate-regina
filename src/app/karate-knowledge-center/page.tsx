@@ -4,18 +4,16 @@ import { Footer } from "@/components/Footer";
 import { KnowledgeResourceLibrary } from "@/components/KnowledgeResourceLibrary";
 import { Navbar } from "@/components/Navbar";
 import { getPublishedKnowledgeContent } from "@/lib/knowledge/store";
+import { publicPageMetadata, SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: { absolute: "Karate Knowledge Center | SHOTOKAN Karate Regina" },
-  description: "Explore educational resources about karate refereeing, Kata, Kumite, Para Karate, competition rules, coaching, and athlete development from SHOTOKAN Karate Regina.",
-  alternates: { canonical: "/karate-knowledge-center" },
+  ...publicPageMetadata({
+    title: "Karate Knowledge Center",
+    description: "Explore educational resources about karate refereeing, Kata, Kumite, Para Karate, competition rules, coaching, and athlete development from SHOTOKAN Karate Regina.",
+    path: "/karate-knowledge-center",
+    image: "/images/athlete-development.jpg",
+  }),
   keywords: ["karate referee", "karate judging", "karate competition rules", "WKF karate rules", "karate competition education", "Shotokan Karate Regina"],
-  openGraph: {
-    title: "Karate Knowledge Center | SHOTOKAN Karate Regina",
-    description: "Professional karate education, competition knowledge, and refereeing resources.",
-    url: "/karate-knowledge-center",
-    images: [{ url: "/images/athlete-development.jpg", width: 1200, height: 1500, alt: "Karate athlete development and competition education" }],
-  },
 };
 
 const categories = [
@@ -36,10 +34,10 @@ export default async function KnowledgeCenterPage() {
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "CollectionPage", name: "Karate Knowledge Center", description: metadata.description, url: "https://shotokan-karate-regina.vercel.app/karate-knowledge-center" },
+      { "@type": "CollectionPage", name: "Karate Knowledge Center", description: metadata.description, url: `${SITE_URL}/karate-knowledge-center` },
       { "@type": "BreadcrumbList", itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://shotokan-karate-regina.vercel.app/" },
-        { "@type": "ListItem", position: 2, name: "Karate Knowledge Center", item: "https://shotokan-karate-regina.vercel.app/karate-knowledge-center" },
+        { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+        { "@type": "ListItem", position: 2, name: "Karate Knowledge Center", item: `${SITE_URL}/karate-knowledge-center` },
       ] },
     ],
   };

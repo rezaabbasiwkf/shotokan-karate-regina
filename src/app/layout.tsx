@@ -1,21 +1,25 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { SITE_NAME, SITE_URL } from "@/lib/seo";
 
-const siteUrl = "https://www.karateyqr.com";
-const siteName = "Shotokan Karate Regina";
-const pageTitle = "Professional Shotokan Karate Training in Regina";
+const siteUrl = SITE_URL;
+const siteName = SITE_NAME;
+const pageTitle = "Karate Classes in Regina | Shotokan Karate Regina";
 const pageDescription =
-  "Professional, competition-focused, Olympic-style Shotokan Karate training in Regina with Kata, Kumite, and high-performance athlete development.";
+  "Shotokan karate classes for kids, teens and adults in Regina. View class times, tuition and training with Coach Reza Abbasi at 1751 Broad Street.";
 
 const structuredData = {
   "@context": "https://schema.org",
-  "@type": "MartialArtsSchool",
+  "@type": ["SportsActivityLocation", "EducationalOrganization"],
+  "@id": `${siteUrl}/#academy`,
   name: siteName,
   url: siteUrl,
   description: pageDescription,
-  telephone: "306-570-3125",
+  telephone: "+13065703125",
   email: "shotokan.karate.regina@gmail.com",
-  openingHours: ["We 17:00-18:00", "Su 17:00-18:00"],
+  logo: `${siteUrl}/images/logo.PNG`,
+  image: [`${siteUrl}/images/class.jpg`],
+  areaServed: { "@type": "City", name: "Regina" },
   address: {
     "@type": "PostalAddress",
     streetAddress: "1751 Broad Street",
@@ -24,14 +28,21 @@ const structuredData = {
     addressCountry: "CA",
   },
   sameAs: ["https://www.instagram.com/shotokan_karate_yqr"],
-  founder: {
+  employee: {
     "@type": "Person",
     name: "Reza Abbasi",
+    jobTitle: "Head Instructor",
+  },
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "Registration and coordination",
+    telephone: "+13065195711",
   },
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  verification: process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : undefined,
   title: {
     default: pageTitle,
     template: `%s | ${siteName}`,
@@ -50,9 +61,6 @@ export const metadata: Metadata = {
     "Karate training Regina",
     "Martial arts Regina",
   ],
-  alternates: {
-    canonical: "/",
-  },
   icons: {
     icon: [
       {
@@ -108,11 +116,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <body>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [structuredData, {
+              "@type": "WebSite",
+              "@id": `${siteUrl}/#website`,
+              url: siteUrl,
+              name: siteName,
+              inLanguage: "en-CA",
+              publisher: { "@id": `${siteUrl}/#academy` },
+            }],
+          }).replace(/</g, "\\u003c") }}
         />
         {children}
       </body>

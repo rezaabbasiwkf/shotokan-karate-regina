@@ -4,12 +4,13 @@ import { Footer } from "@/components/Footer";
 import { KnowledgeResourceLibrary } from "@/components/KnowledgeResourceLibrary";
 import { Navbar } from "@/components/Navbar";
 import { getPublishedKnowledgeContent } from "@/lib/knowledge/store";
+import { publicPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = publicPageMetadata({
   title: "Karate Refereeing PDF Learning Library",
   description: "Search and read verified karate refereeing, Kata, Kumite, Para Karate, competition procedure, and training documents.",
-  alternates: { canonical: "/karate-refereeing/resources" },
-};
+  path: "/karate-refereeing/resources",
+});
 
 export default async function RefereeingResourcesPage() {
   const { resources, articles } = await getPublishedKnowledgeContent();

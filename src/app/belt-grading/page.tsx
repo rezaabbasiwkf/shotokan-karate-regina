@@ -5,11 +5,14 @@ import { BeltGradingSearch } from "@/components/BeltGradingSearch";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { gradingLevels } from "@/data/belt-grading";
+import { publicPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Karate Belt Grading Requirements | Shotokan Karate Regina",
+export const metadata: Metadata = publicPageMetadata({
+  title: "Karate Belt Grading Requirements",
   description: "Official Shotokan Karate Regina belt examination curriculum, karate grading requirements, Kata, Kihon and Kumite syllabus.",
-};
+  path: "/belt-grading",
+  image: "/images/belt-grading/white-to-yellow.png",
+});
 
 export default function BeltGradingOverview() {
   return <><Navbar /><main className="pt-20">

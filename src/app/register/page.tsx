@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { SimplifiedRegistrationForm } from "@/components/SimplifiedRegistrationForm";
+import { publicPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Register for Karate Classes in Regina",
-  description: "Complete the SHOTOKAN Karate Regina student registration and enrollment form for professional kids, teen, and adult karate classes in Regina, Saskatchewan.",
-  alternates: { canonical: "/register" },
+  ...publicPageMetadata({
+    title: "Register for Karate Classes in Regina",
+    description: "Complete the SHOTOKAN Karate Regina student registration and enrollment form for professional kids, teen, and adult karate classes in Regina, Saskatchewan.",
+    path: "/register",
+  }),
   robots: { index: true, follow: true },
 };
 

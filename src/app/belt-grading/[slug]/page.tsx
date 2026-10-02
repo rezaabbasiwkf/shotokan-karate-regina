@@ -6,13 +6,14 @@ import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { PdfReader } from "@/components/PdfReader";
 import { beltSteps, gradingBySlug, gradingDocument, gradingLevels } from "@/data/belt-grading";
+import { publicPageMetadata, SITE_URL } from "@/lib/seo";
 
 export function generateStaticParams() { return gradingLevels.map(({ slug }) => ({ slug })); }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const level = gradingBySlug((await params).slug);
   if (!level) return {};
-  return { title: `${level.title} Karate Belt Requirements | Shotokan Karate Regina`, description: `Official ${level.rank} Shotokan karate belt test requirements for ${level.title}: Kihon, Kata, Kumite and examination notes in Regina.` };
+  return publicPageMetadata({ title: `${level.title} Karate Belt Requirements`, description: `Official ${level.rank} Shotokan karate belt test requirements for ${level.title}: Kihon, Kata, Kumite and examination notes in Regina.`, path: `/belt-grading/${level.slug}`, image: `/images/belt-grading/${level.image}` });
 }
 
 function Card({ title, items }: { title: string; items: string[] }) {
@@ -23,7 +24,7 @@ export default async function BeltPage({ params }: { params: Promise<{ slug: str
   const level = gradingBySlug((await params).slug);
   if (!level) notFound();
   const index = gradingLevels.indexOf(level);
-  const schema = { "@context": "https://schema.org", "@type": "LearningResource", name: `${level.title} Official Grading Requirements`, educationalLevel: level.rank, provider: { "@type": "Organization", name: "SHOTOKAN Karate Regina" }, isPartOf: { "@type": "CreativeWork", name: gradingDocument.title }, url: `https://shotokan-karate-regina.vercel.app/belt-grading/${level.slug}` };
+  const schema = { "@context": "https://schema.org", "@type": "LearningResource", name: `${level.title} Official Grading Requirements`, educationalLevel: level.rank, provider: { "@type": "Organization", name: "SHOTOKAN Karate Regina" }, isPartOf: { "@type": "CreativeWork", name: gradingDocument.title }, url: `${SITE_URL}/belt-grading/${level.slug}` };
   return <><Navbar /><main className="pt-20">
     <div className="section-shell py-5 text-sm text-stone-400"><Link href="/">Home</Link> <span aria-hidden="true">/</span> <Link href="/belt-grading">Belt Grading</Link> <span aria-hidden="true">/</span> <span className="text-white">{level.title}</span></div>
     <section className="border-y border-white/10 bg-gradient-to-br from-black via-stone-950 to-red-950/30 py-12"><div className="section-shell grid items-center gap-8 lg:grid-cols-[1fr_1.1fr]"><div><p className="text-xs font-black uppercase tracking-[.24em] text-red-300">{level.rank} · PDF page {level.page}</p><h1 className="hero-title mt-4 text-4xl font-bold text-white sm:text-6xl">{level.title}</h1><p className="mt-4 text-xl font-bold text-red-100">Official Grading Requirements</p>{level.tenure ? <p className="mt-5 inline-flex rounded-full border border-white/15 px-4 py-2 text-stone-300">Tenure: {level.tenure}</p> : null}</div><div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-red-400/25 bg-white shadow-2xl"><Image src={`/images/belt-grading/${level.image}`} alt={level.imageAlt} fill priority className="object-contain" sizes="(min-width:1024px) 50vw, 100vw" /></div></div></section>

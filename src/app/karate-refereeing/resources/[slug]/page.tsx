@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { PdfReader } from "@/components/PdfReader";
 import { findKnowledgeResource, getPublishedKnowledgeContent } from "@/lib/knowledge/store";
+import { publicPageMetadata, SITE_URL } from "@/lib/seo";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -41,11 +42,14 @@ function formatDate(value: string) {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const resource = await findKnowledgeResource((await params).slug);
   if (!resource) return {};
-  return {
+  const pageMetadata = publicPageMetadata({
     title: resource.title,
     description: resource.short_description,
-    alternates: { canonical: `/karate-refereeing/resources/${resource.slug}` },
-    openGraph: { title: resource.title, description: resource.short_description, url: `/karate-refereeing/resources/${resource.slug}`, type: "article" },
+    path: `/karate-refereeing/resources/${resource.slug}`,
+  });
+  return {
+    ...pageMetadata,
+    openGraph: { ...pageMetadata.openGraph, type: "article" },
   };
 }
 
@@ -60,12 +64,12 @@ export default async function ResourceDetailPage({ params }: PageProps) {
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", headline: resource.title, description: resource.short_description, datePublished: resource.publication_date, dateModified: resource.revision_date || resource.updatedAt, author: { "@type": "Organization", name: resource.author_or_source }, publisher: { "@type": "Organization", name: "SHOTOKAN Karate Regina" }, mainEntityOfPage: `https://shotokan-karate-regina.vercel.app/karate-refereeing/resources/${resource.slug}` },
+      { "@type": "Article", headline: resource.title, description: resource.short_description, datePublished: resource.publication_date, dateModified: resource.revision_date || resource.updatedAt, author: { "@type": "Organization", name: resource.author_or_source }, publisher: { "@type": "Organization", name: "SHOTOKAN Karate Regina" }, mainEntityOfPage: `${SITE_URL}/karate-refereeing/resources/${resource.slug}` },
       { "@type": "BreadcrumbList", itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://shotokan-karate-regina.vercel.app/" },
-        { "@type": "ListItem", position: 2, name: "Knowledge Center", item: "https://shotokan-karate-regina.vercel.app/karate-knowledge-center" },
-        { "@type": "ListItem", position: 3, name: "Refereeing Resources", item: "https://shotokan-karate-regina.vercel.app/karate-refereeing/resources" },
-        { "@type": "ListItem", position: 4, name: resource.title, item: `https://shotokan-karate-regina.vercel.app/karate-refereeing/resources/${resource.slug}` },
+        { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+        { "@type": "ListItem", position: 2, name: "Knowledge Center", item: `${SITE_URL}/karate-knowledge-center` },
+        { "@type": "ListItem", position: 3, name: "Refereeing Resources", item: `${SITE_URL}/karate-refereeing/resources` },
+        { "@type": "ListItem", position: 4, name: resource.title, item: `${SITE_URL}/karate-refereeing/resources/${resource.slug}` },
       ] },
     ],
   };

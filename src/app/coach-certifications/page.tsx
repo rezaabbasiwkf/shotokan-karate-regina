@@ -5,11 +5,15 @@ import { CertificationGallery } from "@/components/CertificationGallery";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { visibleCoachCertifications } from "@/data/coach-certifications";
+import { publicPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Coach Reza Abbasi – Coaching Certifications & Professional Qualifications",
-  description: "Verified karate coaching qualifications, instructor training, professional coaching licenses and continuing education earned by Coach Reza Abbasi.",
-  alternates: { canonical: "/coach-certifications" },
+  ...publicPageMetadata({
+    title: "Coach Reza Abbasi Coaching Certifications & Qualifications",
+    description: "Verified karate coaching qualifications, instructor training, professional coaching licenses and continuing education earned by Coach Reza Abbasi.",
+    path: "/coach-certifications",
+    image: "/images/coach-reza-portrait.jpg",
+  }),
   keywords: ["Karate Coach Certification", "Karate Coaching Qualifications", "Shotokan Karate Instructor", "Karate Coaching License", "Karate Referee Certification", "Karate Instructor Canada", "Karate Coach Regina", "Karate Coaching Credentials"],
 };
 
