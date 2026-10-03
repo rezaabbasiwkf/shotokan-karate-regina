@@ -73,7 +73,7 @@ const structuredData = {
 };
 
 export default function ClassesPage() {
-  return <><Navbar /><main className="bg-stone-950 pt-20">
+  return <><Navbar /><main className="poster-theme bg-stone-950 pt-20">
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} />
     <header className="border-b border-white/10 bg-gradient-to-br from-black via-stone-950 to-red-950/30 py-12 sm:py-20">
       <div className="section-shell">

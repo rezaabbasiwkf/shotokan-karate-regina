@@ -45,7 +45,7 @@ export default async function KnowledgeCenterPage() {
   return (
     <>
       <Navbar />
-      <main className="overflow-hidden bg-black pt-20">
+      <main className="poster-theme overflow-hidden bg-black pt-20">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
         <section className="relative border-b border-white/10 bg-stone-950 py-20 sm:py-28">
           <div className="absolute inset-0 opacity-45 [background-image:linear-gradient(rgba(215,25,32,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(215,25,32,0.12)_1px,transparent_1px)] [background-size:4rem_4rem] [mask-image:linear-gradient(to_bottom,black,transparent)]" />

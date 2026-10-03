@@ -16,7 +16,7 @@ export function ButtonLink({
 
   return (
     <a
-      className={`inline-flex min-h-12 items-center justify-center rounded-md px-6 text-sm font-bold uppercase tracking-[0.16em] transition ${classes}`}
+      className={`poster-button poster-button--${variant} inline-flex min-h-12 items-center justify-center rounded-md px-6 text-sm font-bold uppercase tracking-[0.16em] transition ${classes}`}
       href={href}
     >
       {children}

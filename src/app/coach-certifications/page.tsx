@@ -22,8 +22,8 @@ const featured = visibleCoachCertifications.filter((item) => item.featured);
 export default function CoachCertificationsPage() {
   return <>
     <Navbar />
-    <main className="overflow-hidden bg-black pt-20">
-      <section className="relative min-h-[34rem] overflow-hidden border-b border-white/10">
+    <main className="poster-theme overflow-hidden bg-black pt-20">
+      <section className="poster-preserve relative min-h-[34rem] overflow-hidden border-b border-white/10">
         <Image src="/images/coach-reza-portrait.jpg" alt="Coach Reza Abbasi in a traditional karate dojo" fill priority className="object-cover object-center" sizes="100vw" />
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/85 to-black/45" />
         <div className="section-shell relative flex min-h-[34rem] items-center py-20">

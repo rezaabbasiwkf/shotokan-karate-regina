@@ -72,7 +72,7 @@ export default function AfterSchoolProgramPage() {
   return (
     <>
       <Navbar />
-      <main className="pt-20">
+      <main className="poster-theme pt-20">
         <section className="overflow-hidden bg-black">
           <Image
             src="/images/after-school-program-hero.png"

@@ -8,7 +8,7 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(url, 308);
   }
   const response = NextResponse.next();
-  const embeddableDocument = /^\/(documents\/refereeing|api\/knowledge-documents)\//.test(request.nextUrl.pathname);
+  const embeddableDocument = /^\/(documents\/(?:refereeing|belt-grading)|api\/knowledge-documents)\//.test(request.nextUrl.pathname);
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=(self)");

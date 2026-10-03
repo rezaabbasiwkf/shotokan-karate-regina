@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint .",
     "test:portal": "node scripts/portal-e2e.mjs",
-    "test:seo": "node scripts/seo-check.mjs"
+    "test:seo": "node scripts/seo-check.mjs",
+    "test:design": "node scripts/check-poster-design.mjs"
   },
   "dependencies": {
     "@vercel/blob": "^2.6.1",

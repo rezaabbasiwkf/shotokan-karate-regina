@@ -58,6 +58,271 @@ a {
   letter-spacing: 0.025em;
 }
 
+/* Opt-in public-page palette. The home hero, navigation, footer and portal
+   retain their original dark treatment because they sit outside this scope. */
+.poster-theme {
+  color-scheme: light;
+  --poster-paper: #faf7f2;
+  --poster-beige: #efe7db;
+  --poster-surface: #fffdf9;
+  --poster-ink: #242321;
+  --poster-muted: #625b50;
+  --poster-red: #c91524;
+  --poster-red-dark: #a90c1a;
+  --poster-line: #d6cbbd;
+  --poster-texture: repeating-linear-gradient(
+      0deg, rgba(105, 79, 41, 0.018) 0 1px, transparent 1px 5px
+    ), repeating-linear-gradient(
+      90deg, rgba(105, 79, 41, 0.012) 0 1px, transparent 1px 7px
+    );
+  background-color: var(--poster-paper);
+  background-image: var(--poster-texture);
+  color: var(--poster-ink);
+}
+
+/* Photo captions and document dialogs need their original light-on-dark
+   contrast. This explicit escape hatch also protects true-color belt swatches. */
+.poster-theme :is(.poster-preserve, [role="dialog"]) {
+  color-scheme: dark;
+  color: #f7f4ed;
+}
+
+/* Bridge the existing public-page color utilities to named poster tokens.
+   Exclusions apply to every rule, including interactive/error states. Layout,
+   factual content, photographs and the original PDF canvases are untouched. */
+.poster-theme :where(:not(
+  .poster-preserve, .poster-preserve *, [role="dialog"], [role="dialog"] *
+)) {
+  &[class~="bg-black"] {
+    background-color: var(--poster-paper);
+    background-image: var(--poster-texture);
+  }
+
+  &[class~="bg-stone-950"] {
+    background-color: #f3eee6;
+    background-image: var(--poster-texture);
+  }
+
+  &[class~="bg-stone-900"] {
+    background-color: var(--poster-beige);
+  }
+
+  &[class*="bg-black/"],
+  &[class*="bg-white/"] {
+    background-color: var(--poster-surface);
+  }
+
+  &:is(article, form, fieldset, details, aside)[class~="bg-stone-950"] {
+    background-color: var(--poster-surface);
+  }
+
+  &[class*="bg-gradient-to-"]:is(
+    [class*="from-black"], [class*="from-stone-"],
+    [class*="from-red-950"], [class*="from-white/"]
+  ) {
+    background-color: var(--poster-paper);
+    background-image: linear-gradient(125deg, #fffdf9, #eee5d7);
+  }
+
+  /* Match base tokens only, so state variants never tint unchecked controls. */
+  &[class~="bg-red-950"],
+  &[class~="bg-red-950/15"],
+  &[class~="bg-red-950/20"],
+  &[class~="bg-red-950/25"],
+  &[class~="bg-red-950/30"],
+  &[class~="bg-red-950/35"],
+  &[class~="bg-red-950/40"],
+  &[class~="bg-red-950/50"],
+  &[class~="bg-red-950/60"] {
+    background-color: #f6e5df;
+  }
+
+  &[class*="border-white/"] {
+    border-color: var(--poster-line);
+  }
+
+  &[class*="border-red-300/"],
+  &[class*="border-red-400/"],
+  &[class*="border-red-500/"] {
+    border-color: #d9b5a5;
+  }
+
+  &[class~="border-red-300"],
+  &[class~="border-red-400"],
+  &[class~="border-red-500"] {
+    border-color: var(--poster-red);
+  }
+
+  &[class*="divide-white/"] > :not(:last-child) {
+    border-color: var(--poster-line);
+  }
+
+  &[class*="shadow-black/"],
+  &[class*="shadow-red-950/"] {
+    --tw-shadow-color: rgba(65, 43, 21, 0.09);
+  }
+
+  &[class~="text-white"],
+  &[class~="text-stone-100"],
+  &[class~="text-stone-200"],
+  &.section-heading__title {
+    color: var(--poster-ink);
+  }
+
+  &[class~="text-stone-300"],
+  &[class~="text-stone-400"],
+  &[class~="text-stone-500"],
+  &[class~="text-stone-600"],
+  &.section-heading__description {
+    color: var(--poster-muted);
+  }
+
+  &[class~="text-red-100"],
+  &[class~="text-red-200"],
+  &[class~="text-red-300"],
+  &[class~="text-red-400"],
+  &.section-heading__eyebrow {
+    color: var(--poster-red-dark);
+  }
+
+  &[class~="text-amber-100"],
+  &[class~="text-amber-200"],
+  &[class~="text-amber-300"] {
+    color: #74501f;
+  }
+
+  &[class*="bg-amber-400/"],
+  &[class*="bg-amber-950/"] {
+    background-color: #f5e6c8;
+  }
+
+  &[class*="border-amber-"] {
+    border-color: #be965b;
+  }
+
+  &[class~="text-emerald-100"],
+  &[class~="text-green-100"] {
+    color: #245b36;
+  }
+
+  &[class*="bg-emerald-950/"],
+  &[class*="bg-green-950/"] {
+    background-color: #e8f0e3;
+    border-color: #8ba581;
+  }
+
+  &:where(input:not([type="checkbox"]):not([type="radio"]), textarea, select) {
+    color-scheme: light;
+    background-color: #fffdf9;
+    color: var(--poster-ink);
+    border-color: #b9aa91;
+    accent-color: var(--poster-red);
+  }
+
+  &:is(input, textarea)::placeholder {
+    color: #746b5e;
+    opacity: 1;
+  }
+
+  &:is(input, textarea, select):focus-visible {
+    border-color: var(--poster-red);
+    outline: 2px solid var(--poster-red);
+    outline-offset: 2px;
+  }
+
+  &:is(input, textarea, select)[class~="border-red-400"] {
+    border-color: var(--poster-red);
+  }
+
+  &:is(a, button, summary):focus-visible {
+    outline: 2px solid var(--poster-red);
+    outline-offset: 4px;
+  }
+
+  &[class~="hover:text-red-300"]:hover,
+  &[class~="hover:text-red-200"]:hover {
+    color: var(--poster-red);
+  }
+
+  &[class*="hover:border-red-"]:hover {
+    border-color: var(--poster-red);
+  }
+
+  &[class~="has-checked:border-red-400"]:has(input:checked) {
+    border-color: var(--poster-red);
+  }
+
+  &:is(label):has(input[type="radio"]:checked) {
+    background-color: #f6e6df;
+  }
+
+  &[class~="bg-red-600"],
+  &[class~="bg-red-500"],
+  &.poster-button--primary {
+    background-color: var(--poster-red);
+    color: var(--poster-surface);
+    border-color: var(--poster-red);
+  }
+
+  &[class~="hover:bg-red-500"]:hover,
+  &.poster-button--primary:hover {
+    background-color: var(--poster-red-dark);
+    color: var(--poster-surface);
+  }
+
+  &.poster-button--secondary {
+    border-color: #9d8d78;
+    background-color: rgba(255, 253, 249, 0.6);
+    color: var(--poster-ink);
+  }
+
+  &.poster-button--secondary:hover {
+    border-color: var(--poster-red);
+    background-color: #f0e5d5;
+    color: var(--poster-red-dark);
+  }
+
+  &.poster-card {
+    background-color: var(--poster-surface);
+    background-image: linear-gradient(145deg, #fffdf9, #f5ede2);
+    border-color: #d8cbb8;
+    border-radius: 0.8rem;
+    box-shadow: 0 9px 28px rgba(74, 48, 22, 0.07);
+  }
+
+  &.poster-card:hover {
+    border-color: #c88d77;
+    box-shadow: 0 13px 34px rgba(74, 48, 22, 0.11);
+  }
+
+  &.poster-art-frame {
+    background: #faf6ef;
+    border: 1px solid #dacdbc;
+    border-radius: 0.65rem;
+    box-shadow: 0 3px 10px rgba(80, 47, 18, 0.08);
+  }
+
+  &.section-heading__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  &.section-heading__title {
+    font-family: "Cinzel", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+    font-weight: 800;
+  }
+
+  &.section-heading__eyebrow::before,
+  &.section-heading__eyebrow::after {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background: var(--poster-red);
+    opacity: 0.55;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

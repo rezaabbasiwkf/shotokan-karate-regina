@@ -22,8 +22,8 @@ const featured = visibleCoachAchievements.filter((item) => item.featured).slice(
 export default function CoachAchievementsPage() {
   return <>
     <Navbar />
-    <main className="overflow-hidden bg-black pt-20">
-      <section className="relative min-h-[34rem] overflow-hidden border-b border-white/10">
+    <main className="poster-theme overflow-hidden bg-black pt-20">
+      <section className="poster-preserve relative min-h-[34rem] overflow-hidden border-b border-white/10">
         <Image src="/images/athlete-development.jpg" alt="Karate athlete preparing for championship competition" fill priority className="object-cover object-[center_38%]" sizes="100vw" />
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/85 to-black/40" />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30" />
